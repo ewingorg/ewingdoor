@@ -400,7 +400,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
             throw new IllegalArgumentException("responseData should not be null");
         try {
             String json = JsonUtil.tranBean2String(responseData).toString();
-
+            response.setContentType("text/json");
             if (isJsonpRequest()) {
                 String jsonpResut = "success_jsonpCallback(" + json + ")";
                 logger.debug(jsonpResut);
