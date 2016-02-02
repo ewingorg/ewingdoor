@@ -10,4 +10,10 @@
 		<action name="indexList" method="queryIndexProduct" class="com.ewing.busi.resource.action.WebResourceAction" />
 		<action name="detail" method="getProductDetail" class="com.ewing.busi.resource.action.WebResourceAction" />
 	</package>
+	
+	<!--  -->
+	<package name="address" extends="struts-default"> 
+		<action name="queryIndexAddress" method="queryIndexAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+		<action name="add" method="addAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+	</package>
 </struts>

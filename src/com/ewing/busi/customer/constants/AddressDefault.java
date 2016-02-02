@@ -1,20 +1,18 @@
-package com.ewing.common.constants;
+package com.ewing.busi.customer.constants;
 
 /**
- * 数据是否生效标识
+ * 客户订单状态
  */
-public enum IsEff {
+public enum AddressDefault {
 
-    
-    INEFFECTIVE('0', "失效"),
+    UN_DEFAULT('0', "不是默认"),
 
- 
-    EFFECTIVE('1', "生效");
+    DEFAULT('1', "默认");
 
     private char value;
     private String msg;
 
-    IsEff(char value, String msg) {
+    AddressDefault(char value, String msg) {
         this.value = value;
         this.msg = msg;
     }
