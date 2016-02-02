@@ -1,16 +1,6 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashMap;
-
-import org.junit.Test;
-import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
-
-import com.core.factory.SpringCtx;
-
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 
 public class JdbcTest {
 
