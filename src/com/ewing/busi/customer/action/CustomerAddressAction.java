@@ -6,8 +6,6 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
-import sun.swing.StringUIClientPropertyKey;
-
 import com.ewing.busi.customer.dto.AddressDetailDto;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
