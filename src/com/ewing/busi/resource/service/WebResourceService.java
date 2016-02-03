@@ -13,7 +13,6 @@ import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.dao.WebResourcePriceDao;
 import com.ewing.busi.resource.dao.WebResourceSpecDao;
-import com.ewing.busi.resource.dto.LightProductInfoReq;
 import com.ewing.busi.resource.dto.LightProductInfoResp;
 import com.ewing.busi.resource.dto.ProductDetailDto;
 import com.ewing.busi.resource.dto.ProductDetailResp;
@@ -21,6 +20,7 @@ import com.ewing.busi.resource.dto.ProductPriceDto;
 import com.ewing.busi.resource.dto.ProductSpecGroup;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.core.jdbc.BaseDao;
+import com.ewing.core.redis.RedisCache;
 
 /**
  * 资源服务类
@@ -54,7 +54,7 @@ public class WebResourceService extends BaseService {
      * 
      * @return
      */
-
+    @RedisCache(key = "lightProductList", keyParamNames = { "userId", "isHot" }, isList = true)
     public List<LightProductInfoResp> pageQueryHotResource(Integer userId, Integer isHot,
             Integer page, Integer pageSize) {
 
@@ -63,7 +63,7 @@ public class WebResourceService extends BaseService {
         for (WebResource webResource : list) {
             LightProductInfoResp lightProductInfo = new LightProductInfoResp();
             try {
-                BeanUtils.copyProperties(lightProductInfo, webResource); 
+                BeanUtils.copyProperties(lightProductInfo, webResource);
                 dtoList.add(lightProductInfo);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -80,7 +80,8 @@ public class WebResourceService extends BaseService {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public ProductDetailResp getProductDetail(Integer resourceId) { 
+    @RedisCache(key = "productDetail", keyParamNames = { "resourceId" })
+    public ProductDetailResp getProductDetail(Integer resourceId) {
         WebResource webresource = webResourceDao.findOne(resourceId);
         if (webresource == null)
             return null;

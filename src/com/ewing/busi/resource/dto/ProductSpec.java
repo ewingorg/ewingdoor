@@ -8,7 +8,12 @@ package com.ewing.busi.resource.dto;
  * @createDate 2016年1月26日
  * 
  */
-public class ProductSpec {
+public class ProductSpec implements java.io.Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 规格ID
      */

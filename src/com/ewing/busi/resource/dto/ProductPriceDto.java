@@ -8,7 +8,12 @@ package com.ewing.busi.resource.dto;
  * @createDate 2016年1月27日
  * 
  */
-public class ProductPriceDto {
+public class ProductPriceDto implements java.io.Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 
      */ 

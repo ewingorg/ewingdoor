@@ -1,6 +1,11 @@
 package com.ewing.busi.resource.dto;
 
-public class ProductDetailDto {
+public class ProductDetailDto implements java.io.Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     /**
      * 产品ID
      */

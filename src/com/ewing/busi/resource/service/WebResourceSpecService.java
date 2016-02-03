@@ -55,7 +55,7 @@ public class WebResourceSpecService {
                 group.setRootSpec(rootSpecDto);
                 for (WebResourceSpec childSpec : specList) {
                     if (!StringUtils.isEmpty(childSpec.getRootSpec())
-                            && childSpec.getRootSpec().equals(spec.getRootSpec())) {
+                            && childSpec.getRootSpec().equals(spec.getSpec())) {
                         ProductSpec childSpecDto = new ProductSpec();
                         BeanUtils.copyProperties(childSpecDto, childSpec);
                         group.addChildSpec(childSpecDto);
