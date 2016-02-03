@@ -21,6 +21,7 @@ import org.aspectj.lang.annotation.Aspect;
 
 import com.ewing.core.redis.RedisCache;
 import com.ewing.core.redis.RedisManage;
+import com.ewing.util.PropertyUtil;
 
 /**
  * redis的AOP拦截
@@ -29,12 +30,23 @@ import com.ewing.core.redis.RedisManage;
  */
 @Aspect
 public class RedisCacheAdvice {
-
+    /**
+     * 入参参数名称数组
+     */
     private String[] paramNames;
+    /**
+     * 缓存拦截开关
+     */
+    private final static boolean isCache = Boolean.valueOf(PropertyUtil
+            .getProperty("redis.aopcache.open"));
 
     @Around("execution(* com.ewing.busi.resource.service.*.*(..))  && @annotation(cache)")
     public Object aroundMethod(ProceedingJoinPoint pjd, RedisCache cache) throws Throwable {
-
+         
+        if (!isCache) {
+            return pjd.proceed();
+        }
+        
         if (cache != null && !StringUtils.isEmpty(cache.key())) {
             analyseMethodInfo(pjd);
             String key = cacheKey(pjd, cache);
