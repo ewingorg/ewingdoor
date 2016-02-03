@@ -26,9 +26,8 @@ public class WebResource implements java.io.Serializable {
 	private Integer stockNum;
 	private Integer brandId;
 	private Integer promotionType;
-	private Integer isOnline;
-	private Integer isShow;
-	private Integer isTop;
+	private Integer isOnline; 
+	private Integer isHot;
 	private Integer needCarry;
 	private String remark;
 	private String searchKeyword;
@@ -197,23 +196,17 @@ public class WebResource implements java.io.Serializable {
 		this.isOnline = isOnline;
 	}
 
-	public Integer getIsShow() {
-		return this.isShow;
-	}
+	 
 
-	public void setIsShow(Integer isShow) {
-		this.isShow = isShow;
-	}
+	public Integer getIsHot() {
+        return isHot;
+    }
 
-	public Integer getIsTop() {
-		return this.isTop;
-	}
+    public void setIsHot(Integer isHot) {
+        this.isHot = isHot;
+    }
 
-	public void setIsTop(Integer isTop) {
-		this.isTop = isTop;
-	}
-
-	public Integer getNeedCarry() {
+    public Integer getNeedCarry() {
 		return this.needCarry;
 	}
 
