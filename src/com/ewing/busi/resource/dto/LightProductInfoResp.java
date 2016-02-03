@@ -6,8 +6,12 @@ package com.ewing.busi.resource.dto;
  * @author tanson lam
  * @creation 2016年1月25日
  */
-public class LightProductInfoResp {
-    /**
+public class LightProductInfoResp implements java.io.Serializable {
+   /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+ /**
      * 产品ID
      */
     private Integer id;

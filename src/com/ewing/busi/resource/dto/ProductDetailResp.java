@@ -9,7 +9,11 @@ import java.util.List;
  * @createDate 2016年1月26日
  * 
  */
-public class ProductDetailResp {
+public class ProductDetailResp implements java.io.Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     /**
      * 产品详情
      */

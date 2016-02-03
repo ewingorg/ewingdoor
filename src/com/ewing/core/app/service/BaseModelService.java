@@ -11,13 +11,11 @@ import org.springframework.stereotype.Repository;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.core.jdbc.util.PageBean;
-import com.ewing.util.PageUtil;
 
 @Repository("baseModelService")
 public class BaseModelService {
     private final static String MYSQL_FORMAT_FUNCTION = "date_format";
     private final static String MYSQL_DATE_PATTERN = "%Y-%m-%d";
-    private final static String MYSQL_DATETIME_PATTERN = "%Y-%m-%d %T";
 
     @Resource
     public BaseDao baseDao;
@@ -38,12 +36,12 @@ public class BaseModelService {
         baseDao.delete(entity);
     }
 
-    public PageBean pageQuery(String condition, String orderBy, Integer pageSize, Integer page,
-            Class entityClass) {
+    public <T> PageBean<T> pageQuery(String condition, String orderBy, Integer pageSize,
+            Integer page, Class<T> entityClass) {
         return baseDao.pageQuery(condition, orderBy, pageSize, page, entityClass);
     }
 
-    public <T> PageBean executePageQuery(String sql, Integer pageSize, Integer page,
+    public <T> PageBean<T> executePageQuery(String sql, Integer pageSize, Integer page,
             Class<T> entityClass) throws DaoException {
         return baseDao.pageQuery(sql, pageSize, page, entityClass);
     }
