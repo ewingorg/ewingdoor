@@ -4,12 +4,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
-import antlr.StringUtils;
-
 import com.ewing.busi.base.service.BaseService;
-import com.ewing.busi.customer.dto.AddressDetailDto;
 import com.ewing.busi.customer.model.Customer;
-import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.util.BeanCopy;

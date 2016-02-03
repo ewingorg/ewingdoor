@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.dao.WebResourcePriceDao;
 import com.ewing.busi.resource.dao.WebResourceSpecDao;
@@ -29,7 +30,7 @@ import com.ewing.core.jdbc.BaseDao;
  * 
  */
 @Repository("webResourceService")
-public class WebResourceService {
+public class WebResourceService extends BaseService {
     @Resource
     public BaseDao baseDao;
     @Resource

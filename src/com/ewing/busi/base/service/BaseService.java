@@ -1,7 +1,11 @@
 package com.ewing.busi.base.service;
 
+import javax.annotation.Resource;
+
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.exception.BusinessException;
+import com.ewing.core.jdbc.BaseDao;
+import com.ewing.util.IntegerUtil;
 
 /**
  * 通过Service公共抽象类
@@ -11,6 +15,17 @@ import com.ewing.common.exception.BusinessException;
  */
 public abstract class BaseService {
 
+    @Resource
+    private BaseDao baseDao;
+    
+    public <T> T findById(Integer id,Class<T> clazz){
+        if(IntegerUtil.nullOrZero(id) || null == clazz){
+            return null;
+        }
+        
+        return baseDao.findOne(id, clazz);
+    }
+    
     protected static <T> boolean checkNotNull(T t) {
         return null != t ? true : false;
     }

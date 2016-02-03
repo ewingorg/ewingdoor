@@ -4,19 +4,15 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.base.service.BaseService;
-import com.ewing.busi.customer.constants.AddressDefault;
 import com.ewing.busi.customer.dao.CustomerAddressDao;
 import com.ewing.busi.customer.dto.AddressDetailDto;
-import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.util.BeanCopy;
-import com.ewing.util.DateUtil;
 import com.ewing.util.IntegerUtil;
 
 @Repository("customerAddressService")

@@ -6,7 +6,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
-import com.ewing.busi.order.model.OrderCart;
 import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.core.jdbc.BaseDao;
 

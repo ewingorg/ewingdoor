@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.customer.model.CustomerAddress;
-import com.ewing.busi.order.model.OrderCart;
 import com.ewing.core.jdbc.BaseDao;
 
 @Repository("customerAddressDao")

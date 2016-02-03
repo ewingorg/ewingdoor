@@ -37,7 +37,7 @@ public class OrderDetail implements java.io.Serializable {
     /**
      * 产品单价
      */
-    private int unitPrice;
+    private float unitPrice;
     /**
      * 运费
      */
@@ -134,11 +134,11 @@ public class OrderDetail implements java.io.Serializable {
         this.itemCount = itemCount;
     }
 
-    public int getUnitPrice() {
+    public float getUnitPrice() {
         return this.unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(float unitPrice) {
         this.unitPrice = unitPrice;
     }
 

@@ -1,13 +1,10 @@
 package com.ewing.busi.customer.action;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
-import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.model.Customer;
 import com.ewing.busi.customer.service.CustomerService;
 import com.ewing.core.app.action.base.BaseAction;
