@@ -40,7 +40,7 @@ public class RedisCacheAdvice {
     private final static boolean isCache = Boolean.valueOf(PropertyUtil
             .getProperty("redis.aopcache.open"));
 
-    @Around("execution(* com.ewing.busi.resource.service.*.*(..))  && @annotation(cache)")
+    @Around("execution(* com.ewing.busi.*.service.*.*(..))  && @annotation(cache)")
     public Object aroundMethod(ProceedingJoinPoint pjd, RedisCache cache) throws Throwable {
          
         if (!isCache) {
