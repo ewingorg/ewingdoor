@@ -15,17 +15,6 @@ import com.ewing.util.IntegerUtil;
  */
 public abstract class BaseService {
 
-    @Resource
-    private BaseDao baseDao;
-    
-    public <T> T findById(Integer id,Class<T> clazz){
-        if(IntegerUtil.nullOrZero(id) || null == clazz){
-            return null;
-        }
-        
-        return baseDao.findOne(id, clazz);
-    }
-    
     protected static <T> boolean checkNotNull(T t) {
         return null != t ? true : false;
     }

@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.ewing.busi.customer.constants.AddressDefault;
-import com.ewing.busi.customer.dto.AddressDetailDto;
+import com.ewing.busi.customer.dto.AddressAddDto;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.core.factory.SpringCtx;
@@ -21,7 +21,7 @@ public class CustomerAddressServiceTest {
                     .getByBeanName("customerAddressService");
             
             for(int i = 0; i<3; i++){
-            AddressDetailDto dto = new AddressDetailDto();
+            AddressAddDto dto = new AddressAddDto();
             dto.setCustomerId(10);
             dto.setProvince("广东省");
             dto.setCity("广州");
@@ -31,7 +31,7 @@ public class CustomerAddressServiceTest {
             dto.setIsDefault(AddressDefault.DEFAULT.getValue());
             dto.setIseff('1');
             
-            customerAddressService.add(dto);
+            customerAddressService.save(dto);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block

@@ -1,6 +1,15 @@
 package com.ewing.busi.customer.dto;
 
-public class LightAddressInfoResp implements java.io.Serializable  {
+import java.io.Serializable;
+
+/**
+ * 
+ * 
+ * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @since 2016年2月4日
+ *
+ */
+public class AddressAddDto implements Serializable{
 
     /**
      * 
@@ -13,9 +22,15 @@ public class LightAddressInfoResp implements java.io.Serializable  {
     private Integer id;
 
     /**
+     * 消费者ID
+     */
+    private int customerId;
+    
+    /**
      * 收件人
      */
     private String receiver;
+
     /**
      * 省份
      */
@@ -35,8 +50,6 @@ public class LightAddressInfoResp implements java.io.Serializable  {
      * 具体位置
      */
     private String address;
-    
-    private String postCode;
 
     /**
      * 电话号码
@@ -44,19 +57,21 @@ public class LightAddressInfoResp implements java.io.Serializable  {
     private String phone;
 
     /**
+     * 邮编
+     */
+    private String postCode;
+
+    /**
      * 是否默认 0:不是 1:是
      */
     private char isDefault;
 
+    /**
+     * 是否有效 0 无效 1有效
+     */
+    private char iseff;
+
     
-    public String getPostCode() {
-        return postCode;
-    }
-
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
-
     public String getReceiver() {
         return receiver;
     }
@@ -71,6 +86,14 @@ public class LightAddressInfoResp implements java.io.Serializable  {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 
     public String getProvince() {
@@ -113,6 +136,14 @@ public class LightAddressInfoResp implements java.io.Serializable  {
         this.phone = phone;
     }
 
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
     public char getIsDefault() {
         return isDefault;
     }
@@ -121,4 +152,11 @@ public class LightAddressInfoResp implements java.io.Serializable  {
         this.isDefault = isDefault;
     }
 
+    public char getIseff() {
+        return iseff;
+    }
+
+    public void setIseff(char iseff) {
+        this.iseff = iseff;
+    }
 }

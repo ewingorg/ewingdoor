@@ -9,6 +9,13 @@ import com.ewing.busi.customer.model.Customer;
 import com.ewing.busi.customer.service.CustomerService;
 import com.ewing.core.app.action.base.BaseAction;
 
+/**
+ * 客户信息相关的操作
+ * 
+ * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @since 2016年2月3日
+ *
+ */
 public class CustomerAction extends BaseAction {
 
     private static Logger logger = Logger.getLogger(CustomerAddressAction.class);

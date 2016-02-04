@@ -13,7 +13,9 @@
 	
 	<!--  -->
 	<package name="address" extends="struts-default"> 
-		<action name="queryIndexAddress" method="queryIndexAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
-		<action name="add" method="addAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+		<action name="index" method="queryIndexAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+		<action name="save" method="saveAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+		<action name="find" method="queryAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+		<action name="setDefault" method="setDefaultAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 	</package>
 </struts>

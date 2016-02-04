@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.customer.constants.AddressDefault;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.core.jdbc.BaseDao;
 
@@ -26,6 +27,13 @@ public class CustomerAddressDao {
         query.append(" order by last_update desc");
         
         return baseDao.find(query.toString(), CustomerAddress.class);
+    }
+
+    public CustomerAddress findDefaultAddress(Integer cusId) {
+        StringBuilder query = new StringBuilder();
+        query.append("is_default='").append(AddressDefault.DEFAULT.getValue()).append("'");
+        
+        return baseDao.findOne(query.toString(), CustomerAddress.class);
     }
 
 }

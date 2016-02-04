@@ -12,77 +12,77 @@ public class OrderRefund implements java.io.Serializable {
     /**
      * 
      */
-    public Integer id;
+    private Integer id;
     
     /**
      * 订单ID,表order主键
      */
-    public int orderId;
+    private int orderId;
     
     /**
      * 订单明细ID,表order_detail主键
      */
-    public int orderDetailId;
+    private int orderDetailId;
     
     /**
      * 退款类型 0:退货退款 1:仅退款
      */
-    public char type;
+    private char type;
     
     /**
      * 消费者ID
      */
-    public int customerId;
+    private int customerId;
     
     /**
      * 商户用户ID
      */
-    public int userId;
+    private int userId;
     
     /**
      * 资源id，表web_resource主键
      */
-    public int resourceId;
+    private int resourceId;
     
     /**
      * 退货原因
      */
-    public int reasonType;
+    private int reasonType;
     
     /**
      * 退货说明
      */
-    public int reason;
+    private int reason;
     
     /**
      * 物流号
      */
-    public int cargoNumber;
+    private int cargoNumber;
     
     /**
      * 退款金额
      */
-    public float refundMoney;
+    private float refundMoney;
     
     /**
      * 退款申请状态 0:发起退款 1:待商户确认 2:商户已经收货 3:已经退款 4:用户取消
      */
-    public char status;
+    private char status;
     
     /**
      * 是否生效 0:没生效 1:生效
      */
-    public char iseff;
+    private char iseff;
     
     /**
      * 
      */
-    public Date createTime;
+    private Date createTime;
     
     /**
      * 
      */
-    public Date lastUpdate;
+    private Date lastUpdate;
 
 
     public OrderRefund() {
