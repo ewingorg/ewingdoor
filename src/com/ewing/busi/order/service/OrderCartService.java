@@ -2,12 +2,10 @@ package com.ewing.busi.order.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -15,8 +13,6 @@ import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.dao.OrderCartDao;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.busi.order.model.OrderDetail;
-import com.ewing.busi.resource.dto.ProductDetailResp;
-import com.ewing.busi.resource.model.WebResource;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.util.IntegerUtil;

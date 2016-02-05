@@ -10,7 +10,7 @@ import java.util.Date;
 public class CustomerAddress implements java.io.Serializable {
 
     private Integer id;
-    private int customerId;
+    private Integer customerId;
     private String receiver;
     private String province;
     private String city;
@@ -33,7 +33,7 @@ public class CustomerAddress implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public CustomerAddress(int customerId, String receiver,String province, String city, String region,
+    public CustomerAddress(Integer customerId, String receiver,String province, String city, String region,
             String address, String phone, String postCode, Character isDefault, Character iseff,
             Date createTime, Date lastUpdate) {
         this.customerId = customerId;
@@ -67,11 +67,11 @@ public class CustomerAddress implements java.io.Serializable {
         this.id = id;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return this.customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 

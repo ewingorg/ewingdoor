@@ -37,6 +37,7 @@ public class Customer implements java.io.Serializable {
      * 是否生效 0:没生效 1:生效
      */
     private char iseff;
+    
     private Date createTime;
     private Date lastUpdate;
 

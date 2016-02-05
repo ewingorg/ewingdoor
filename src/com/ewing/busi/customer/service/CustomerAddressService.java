@@ -1,27 +1,23 @@
 package com.ewing.busi.customer.service;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.Validate;
-import org.hibernate.classic.Validatable;
 import org.springframework.stereotype.Repository;
 
-import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.customer.constants.AddressDefault;
 import com.ewing.busi.customer.dao.CustomerAddressDao;
 import com.ewing.busi.customer.dto.AddressAddDto;
 import com.ewing.busi.customer.dto.AddressDetailResp;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.model.CustomerAddress;
+import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
-import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.util.BeanCopy;
-import com.ewing.util.IntegerUtil;
 import com.ewing.util.JsonUtils;
 
 /**
@@ -64,14 +60,20 @@ public class CustomerAddressService {
 
         CustomerAddress address = null;
         try {
-            address = new CustomerAddress();
-            BeanCopy.copy(address, req, true);
-            
-            //如果存在id，则进行保存，否则进行update
-            if(null == address.getId()){
-                baseModelService.save(address);
-            }else{
+            // 如果存在id，则进行保存，否则进行update
+            if (null != req.getId()) {
+                address = baseModelService.findOne(req.getId(), CustomerAddress.class);
+                BeanCopy.copy(address, req, true);
                 baseModelService.update(address);
+            } else {
+                address = new CustomerAddress();
+                BeanCopy.copy(address, req, true);
+                
+                //@TODO设置默认的customerId
+                address.setCustomerId(10);
+                address.setIsDefault(AddressDefault.UN_DEFAULT.getValue());
+                address.setIseff(IsEff.EFFECTIVE.getValue());
+                baseModelService.save(address);
             }
         } catch (DaoException e) {
             e.printStackTrace();
@@ -118,7 +120,7 @@ public class CustomerAddressService {
         // 设置地址为默认
         CustomerAddress address = baseModelService.findOne(id, CustomerAddress.class);
         Validate.notNull(address, String.format("找不到对应的地址信息[id=%d]", id));
-        
+
         // 设置原来默认的地址为非默认
         CustomerAddress defAddress = findDefaultAddress(address.getCustomerId());
         if (null != defAddress) {
@@ -127,7 +129,7 @@ public class CustomerAddressService {
         }
         address.setIsDefault(AddressDefault.DEFAULT.getValue());
         baseModelService.update(address);
-        
+
     }
 
     public CustomerAddress findDefaultAddress(Integer cusId) {

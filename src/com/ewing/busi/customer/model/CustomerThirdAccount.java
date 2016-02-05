@@ -13,11 +13,11 @@ public class CustomerThirdAccount implements java.io.Serializable {
     /**
      * 消费者ID
      */
-    private int customerId;
+    private Integer customerId;
     /**
      * 第三方账号接入平台(1-微信,2-淘宝)
      */
-    private int thirdPlatform;
+    private Integer thirdPlatform;
     /**
      * 第三方账号ID
      */
@@ -36,14 +36,14 @@ public class CustomerThirdAccount implements java.io.Serializable {
     public CustomerThirdAccount() {
     }
 
-    public CustomerThirdAccount(int customerId, int thirdPlatform, String userId, Date lastUpdate) {
+    public CustomerThirdAccount(Integer customerId, Integer thirdPlatform, String userId, Date lastUpdate) {
         this.customerId = customerId;
         this.thirdPlatform = thirdPlatform;
         this.userId = userId;
         this.lastUpdate = lastUpdate;
     }
 
-    public CustomerThirdAccount(int customerId, int thirdPlatform, String userId, String nickName,
+    public CustomerThirdAccount(Integer customerId, Integer thirdPlatform, String userId, String nickName,
             String headIcon, Long createTime, Date lastUpdate) {
         this.customerId = customerId;
         this.thirdPlatform = thirdPlatform;
@@ -62,19 +62,19 @@ public class CustomerThirdAccount implements java.io.Serializable {
         this.id = id;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return this.customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public int getThirdPlatform() {
+    public Integer getThirdPlatform() {
         return this.thirdPlatform;
     }
 
-    public void setThirdPlatform(int thirdPlatform) {
+    public void setThirdPlatform(Integer thirdPlatform) {
         this.thirdPlatform = thirdPlatform;
     }
 
