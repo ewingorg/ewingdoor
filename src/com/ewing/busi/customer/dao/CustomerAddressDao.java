@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.customer.constants.AddressDefault;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.core.jdbc.BaseDao;
+import com.ewing.core.jdbc.util.PageBean;
+import com.ewing.util.PageUtil;
 
 @Repository("customerAddressDao")
 public class CustomerAddressDao {
@@ -20,13 +22,16 @@ public class CustomerAddressDao {
      * 根据客户id查询 购物车列表
      * @param cusId
      * @author Joeson
+     * @param pageSize 
+     * @param page 
      */
-    public List<CustomerAddress> queryByCusId(Integer cusId) {
+    public List<CustomerAddress> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
         StringBuilder query = new StringBuilder();
         query.append("customer_id=").append(cusId);
         query.append(" order by last_update desc");
         
-        return baseDao.find(query.toString(), CustomerAddress.class);
+        PageBean<CustomerAddress> pageBean = baseDao.pageQuery(query.toString(), pageSize, page, CustomerAddress.class);
+        return pageBean.getResult();
     }
 
     public CustomerAddress findDefaultAddress(Integer cusId) {

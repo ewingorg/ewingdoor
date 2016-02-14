@@ -1,5 +1,6 @@
 package com.ewing.busi.order.dao;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -7,7 +8,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.order.model.OrderInfo;
+import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
+import com.ewing.core.jdbc.util.PageBean;
+import com.ewing.util.PageUtil;
 
 @Repository("orderInfoDao")
 public class OrderInfoDao {
@@ -19,13 +23,21 @@ public class OrderInfoDao {
      * 根据客户id查询 订单列表
      * @param cusId
      * @author Joeson
+     * @param status 
      */
-    public List<OrderInfo> queryByCusId(Integer cusId) {
+    @SuppressWarnings("unchecked")
+    public List<OrderInfo> queryByCusId(Integer cusId, Character status, Integer page, Integer pageSize) {
         StringBuilder query = new StringBuilder();
         query.append("customer_id=").append(cusId);
+        query.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
+        if(null != status){
+            query.append(" and status =").append(status);
+        }
         query.append(" order by last_update desc");
+        query.append(" limit ").append(PageUtil.getLimit(page, pageSize) );
         
-        return baseDao.find(query.toString(), OrderInfo.class);
+        PageBean<OrderInfo> pageBean = baseDao.pageQuery(query.toString(), pageSize, page, OrderInfo.class);
+        return null != pageBean ? pageBean.getResult() : Collections.EMPTY_LIST;
     }
 
 }

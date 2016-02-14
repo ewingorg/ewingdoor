@@ -71,9 +71,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
                         RequestJson.class);
             else if (request.getMethod().equalsIgnoreCase("GET"))
                 requestJson = gson.fromJson(request.getParameter("param"), RequestJson.class);
-            Object newObject = clazz.newInstance();
-            BeanUtils.populate(newObject, (Map) requestJson.getData());
-            return (T) newObject;
+            if(null != requestJson.getData()){
+                return gson.fromJson(requestJson.getData().toString(), clazz);
+            }else{
+                return null;
+            }
         } catch (Exception e) {
             isError = true;
             throw e;

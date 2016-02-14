@@ -19,7 +19,6 @@ import com.ewing.core.app.action.base.BaseAction;
  * 
  * @author tangzz@ucweb.com
  * @createDate 2016年1月25日
- * 
  */
 public class WebResourceAction extends BaseAction {
     private static Logger logger = Logger.getLogger(WebResourceAction.class);

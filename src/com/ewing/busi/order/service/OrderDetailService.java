@@ -1,9 +1,21 @@
 package com.ewing.busi.order.service;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.stereotype.Repository;
+
 import com.ewing.busi.base.service.BaseService;
+import com.ewing.busi.order.dao.OrderDetailDao;
 import com.ewing.busi.order.model.OrderDetail;
 
+@Repository("orderDetailService")
 public class OrderDetailService extends BaseService {
+    
+    @Resource
+    private OrderDetailDao orderDetailDao;
 
     
     /**
@@ -18,5 +30,13 @@ public class OrderDetailService extends BaseService {
         float resourcePrice = detail.getUnitPrice() * detail.getItemCount();
         return resourcePrice + detail.getCargoPrice();
     }
-
+    
+    public List<OrderDetail> findByOrderId(Integer orderId){
+        if(null == orderId){
+            return Collections.emptyList();
+        }
+        
+        return orderDetailDao.findByOrderId(orderId);
+    }
+    
 }

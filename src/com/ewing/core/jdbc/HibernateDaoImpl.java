@@ -8,10 +8,12 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -111,6 +113,20 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
             logger.error(e, e);
         }
         return null;
+    }
+
+    /**
+     * @author Joeson
+     */
+    public <T> List<T> findMuti(List<Integer> idList, Class<T> entityClass) {
+        if (CollectionUtils.isEmpty(idList) || null == entityClass) {
+            return Collections.EMPTY_LIST;
+        }
+
+        List<T> list = find("id in (" + StringUtils.join(idList.toArray(), ",") + ")", entityClass);
+        if (CollectionUtils.isNotEmpty(list))
+            return list;
+        return Collections.EMPTY_LIST;
     }
 
     @Override
@@ -283,6 +299,18 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
     public void save(Object entity) {
         bulidEntityTime(entity, true);
         getHibernateTemplate().persist(entity);
+    }
+    
+    @Override
+    public void saveMuti(List<Object> entityList) {
+        if(CollectionUtils.isEmpty(entityList)){
+            return;
+        }
+        for(Object entity : entityList){
+            bulidEntityTime(entity, true);
+        }
+        
+        getHibernateTemplate().saveOrUpdateAll(entityList);
     }
 
     @Override

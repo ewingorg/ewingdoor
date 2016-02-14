@@ -11,11 +11,23 @@
 		<action name="detail" method="getProductDetail" class="com.ewing.busi.resource.action.WebResourceAction" />
 	</package>
 	
-	<!--  -->
 	<package name="address" extends="struts-default"> 
 		<action name="index" method="queryIndexAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 		<action name="save" method="saveAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 		<action name="find" method="queryAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 		<action name="setDefault" method="setDefaultAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
+	</package>
+	
+	<!--  -->
+	<package name="cart" extends="struts-default"> 
+		<action name="index" method="queryIndexCart" class="com.ewing.busi.order.action.OrderCartAction" />
+		<action name="balance" method="balanceCart" class="com.ewing.busi.order.action.OrderCartAction" />
+	</package>
+	
+	<!-- 订单 -->
+	<package name="order" extends="struts-default"> 
+		<action name="list" method="queryIndexOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
+		<action name="find" method="getById" class="com.ewing.busi.order.action.OrderInfoAction" />
+		<action name="confirm" method="confirmOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 	</package>
 </struts>

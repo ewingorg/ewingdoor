@@ -40,11 +40,15 @@ public class CustomerAddressService {
      * 
      * @param cusId
      * @author Joeson
+     * @param pageSize 
+     * @param page 
      */
-    public List<LightAddressInfoResp> queryByCusId(Integer cusId) {
+    public List<LightAddressInfoResp> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
         Validate.notNull(cusId, "cusId不能为空");
+        Validate.notNull(page, "page不能为空");
+        Validate.notNull(pageSize, "pageSize不能为空");
 
-        List<CustomerAddress> list = customerAddressDao.queryByCusId(cusId);
+        List<CustomerAddress> list = customerAddressDao.queryByCusId(cusId, page, pageSize);
         return BeanCopy.copy(list, LightAddressInfoResp.class);
     }
 

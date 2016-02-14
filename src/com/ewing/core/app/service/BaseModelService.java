@@ -27,6 +27,10 @@ public class BaseModelService {
     public void save(Object entity) throws DaoException {
         baseDao.save(entity);
     }
+    
+    public void saveMuti(List<Object> entityList) throws DaoException {
+        baseDao.saveMuti(entityList);
+    }
 
     public void update(Object entity) throws DaoException {
         baseDao.update(entity);

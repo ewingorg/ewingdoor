@@ -16,6 +16,8 @@ public interface BaseDao {
     public <T> T findOne(Integer id, Class<T> entityClass);
 
     public <T> T findOne(String condition, Class<T> entityClass);
+    
+    public <T> List<T> findMuti(List<Integer> idList, Class<T> entityClass);
 
     public <T> PageBean<T> pageQuery(String condition, String orderBy, Integer pageSize,
             Integer page, Class<T> entityClass);
@@ -29,6 +31,8 @@ public interface BaseDao {
     public <T> T queryObject(String sql, Class<T> queryClass);
 
     public void save(Object entity);
+    
+    public void saveMuti(List<Object> entityList);
 
     public void update(Object entity);
 

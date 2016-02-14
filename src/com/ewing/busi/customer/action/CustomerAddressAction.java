@@ -38,9 +38,14 @@ public class CustomerAddressAction extends BaseAction{
         try {
             LightAddressInfoReq req = getParamJson(LightAddressInfoReq.class);
             Integer cusId = req.getCusId();
+            Integer page = req.getPage();
+            Integer pageSize = req.getPageSize();
             checkRequired(cusId, "cusId");
+            checkRequired(page, "page");
+            checkRequired(pageSize, "pageSize");
+            
 
-            List<LightAddressInfoResp> list = customerAddressService.queryByCusId(cusId);
+            List<LightAddressInfoResp> list = customerAddressService.queryByCusId(cusId, page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

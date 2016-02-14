@@ -1,23 +1,20 @@
-package com.ewing.busi.customer.constants;
+package com.ewing.busi.order.constants;
 
 /**
  * 客户订单状态
  */
-public enum OrderState {
+public enum PayWay {
 
     
-    UN_COMMIT(0, "未提交"),
+    PAY_ONLINE(0, "在线付款"),
 
-    UN_PAY(1, "未付款"),
+    PAY_AFTER_RECEIVE(1, "货到付款");
     
-    UN_SEND(2, "待发货"),
-    
-    WAIT_RECEIVE(3, "待收货");
 
     private int value;
     private String msg;
 
-    OrderState(int value, String msg) {
+    PayWay(int value, String msg) {
         this.value = value;
         this.msg = msg;
     }

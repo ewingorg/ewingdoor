@@ -1,6 +1,6 @@
 package com.ewing.busi.order.model;
 
-// Generated 2016-2-2 11:30:39 by Hibernate Tools 3.4.0.CR1
+// Generated 2016-2-2 17:07:58 by Hibernate Tools 3.4.0.CR1
 
 import java.util.Date;
 
@@ -11,31 +11,31 @@ public class OrderDetail implements java.io.Serializable {
 
     private Integer id;
     /**
+     * 订单id
+     */
+    private Integer orderId;
+    /**
+     * 客户id
+     */
+    private Integer customerId;
+    /**
      * 流水号
      */
     private String bizId;
     /**
-     * 订单ID
+     * 商家id
      */
-    private int orderId;
-    /**
-     * 消费者ID
-     */
-    private int customerId;
-    /**
-     * 商户用户ID
-     */
-    private int userId;
+    private Integer userId;
     /**
      * 资源id，表web_resource主键
      */
-    private int resourceId;
+    private Integer resourceId;
     /**
      * 产品数量
      */
-    private int itemCount;
+    private Integer itemCount;
     /**
-     * 产品单价
+     * 产品单价s
      */
     private float unitPrice;
     /**
@@ -43,16 +43,13 @@ public class OrderDetail implements java.io.Serializable {
      */
     private float cargoPrice;
     /**
-     * 总费用
+     * 总价
      */
     private float totalPrice;
     /**
      * 购物状态 0:待付款 1:待发货 2:待收货
      */
     private char status;
-    /**
-     * 是否生效 0:没生效 1:生效
-     */
     private char iseff;
     private Date createTime;
     private Date lastUpdate;
@@ -60,8 +57,8 @@ public class OrderDetail implements java.io.Serializable {
     public OrderDetail() {
     }
 
-    public OrderDetail(int orderId, int customerId, int userId, int resourceId, int itemCount,
-            int unitPrice, float cargoPrice, float totalPrice, char status, char iseff,
+    public OrderDetail(Integer orderId, Integer customerId, Integer userId, Integer resourceId, Integer itemCount,
+            Integer unitPrice, float cargoPrice, float totalPrice, char status, char iseff,
             Date createTime, Date lastUpdate) {
         this.orderId = orderId;
         this.customerId = customerId;
@@ -94,43 +91,43 @@ public class OrderDetail implements java.io.Serializable {
         this.id = id;
     }
 
-    public int getOrderId() {
+    public Integer getOrderId() {
         return this.orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(Integer orderId) {
         this.orderId = orderId;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return this.customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return this.userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getResourceId() {
+    public Integer getResourceId() {
         return this.resourceId;
     }
 
-    public void setResourceId(int resourceId) {
+    public void setResourceId(Integer resourceId) {
         this.resourceId = resourceId;
     }
 
-    public int getItemCount() {
+    public Integer getItemCount() {
         return this.itemCount;
     }
 
-    public void setItemCount(int itemCount) {
+    public void setItemCount(Integer itemCount) {
         this.itemCount = itemCount;
     }
 
