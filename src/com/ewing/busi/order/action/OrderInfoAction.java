@@ -19,6 +19,7 @@ import com.ewing.busi.order.dto.OrderInfoDetailResp;
 import com.ewing.busi.order.service.OrderCartService;
 import com.ewing.busi.order.service.OrderInfoService;
 import com.ewing.busi.resource.action.WebResourceAction;
+import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.util.SystemPropertyUtil;
 import com.ewing.core.app.action.base.BaseAction;
 import com.google.common.collect.Maps;
@@ -113,5 +114,32 @@ public class OrderInfoAction extends BaseAction {
             outFailResult("内部异常");
         }
     }
+    
+    /**
+     * 关闭订单
+     * 
+     * @author Joeson
+     */
+    public void closeOrder(){
+        try {
+            OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
+            Integer orderId = req.getOrderId();
+            checkRequired(orderId, "orderId");
 
+            orderInfoService.cancelOrder(orderId);
+            outSucResult(ResponseCode.OK);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            outFailResult("内部异常");
+        }
+    }
+
+    /**
+     * 支付
+     * 
+     * @author Joeson
+     */
+    public void payOrder(){
+        
+    }
 }

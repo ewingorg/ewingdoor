@@ -49,5 +49,10 @@ public class ResponseCode {
      * URL请求、转换实体错误异常
      */
     public static final int BEAN_COVERT_ERROR = 5000005;
+    
+    /**
+     * 业务状态异常
+     */
+    public static final int BIZ_STATUS_ERROR = 5000006;
 
 }
