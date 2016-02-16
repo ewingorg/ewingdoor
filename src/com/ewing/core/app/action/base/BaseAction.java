@@ -178,19 +178,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
         return resultList;
     }
 
-    /**
-     * dao查询
-     * 
-     * @throws ActionException
-     * @throws DaoException
-     */
-    public List noMappedObjectQuery() throws ActionException, DaoException {
-        String sql = request.getParameter("sql");
-        List resultList = baseModelService.noMappedObjectQuery(sql);
-        request.setAttribute("resultList", resultList);
-        return resultList;
-
-    }
+    
 
     /**
      * dao缓存查询

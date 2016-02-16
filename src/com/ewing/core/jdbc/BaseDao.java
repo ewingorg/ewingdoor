@@ -40,6 +40,6 @@ public interface BaseDao {
 
     public void releaseConnectionSession(Session session);
 
-    public <T> List<T> noMappedObjectQuery(String sql);
+    public <T> List<T> noMappedObjectQuery(String sql, Class<T> beanClass);
 
 }

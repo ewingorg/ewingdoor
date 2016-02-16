@@ -23,6 +23,7 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
+import com.ewing.core.jdbc.util.BeanListProcessHandler;
 import com.ewing.core.jdbc.util.PageBean;
 import com.ewing.utils.PageUtil;
 
@@ -207,10 +208,9 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
     public Session getConnectionSession() {
         return this.getSession();
     }
-
+ 
     @Override
-    public List noMappedObjectQuery(String sql) {
-        List list;
+    public <T> List<T> noMappedObjectQuery(String sql, Class<T> beanClass) {
         Connection connection = null;
         Statement stmt = null;
         ResultSet rs = null;
@@ -220,22 +220,13 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
             connection = session.connection();
             stmt = connection.createStatement();
             rs = stmt.executeQuery(sql);
-            list = new ArrayList();
-            ResultSetMetaData md = rs.getMetaData();
-            int columnCount = md.getColumnCount(); // Map rowData;
-            while (rs.next()) { // rowData = new HashMap(columnCount);
-                Map rowData = new HashMap();
-                for (int i = 1; i <= columnCount; i++) {
-                    rowData.put(md.getColumnName(i), rs.getObject(i));
-                }
-                list.add(rowData);
-            }
+            BeanListProcessHandler beanListProcessHandler = new BeanListProcessHandler();
+            return beanListProcessHandler.toBeanList(rs, beanClass);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
             this.releaseSession(session);
         }
-        return list;
 
     }
 
