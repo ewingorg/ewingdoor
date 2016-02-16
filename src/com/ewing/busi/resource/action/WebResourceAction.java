@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
+import com.ewing.busi.customer.aop.CustomerLoginFilter;
 import com.ewing.busi.resource.dto.LightProductInfoReq;
 import com.ewing.busi.resource.dto.LightProductInfoResp;
 import com.ewing.busi.resource.dto.ProductDetailReq;
@@ -20,6 +21,7 @@ import com.ewing.core.app.action.base.BaseAction;
  * @author tangzz@ucweb.com
  * @createDate 2016年1月25日
  */
+
 public class WebResourceAction extends BaseAction {
     private static Logger logger = Logger.getLogger(WebResourceAction.class);
     @Resource
@@ -28,6 +30,7 @@ public class WebResourceAction extends BaseAction {
     /**
      * 获取首页产品列表
      */
+    @CustomerLoginFilter
     public void queryIndexProduct() {
 
         try {

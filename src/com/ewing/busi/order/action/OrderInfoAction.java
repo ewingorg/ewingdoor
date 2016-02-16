@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
+import com.ewing.busi.customer.aop.CustomerLoginFilter;
 import com.ewing.busi.order.constants.PayWay;
 import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
@@ -31,6 +32,7 @@ import com.google.common.collect.Maps;
  * @since 2016年2月2日
  *
  */
+
 public class OrderInfoAction extends BaseAction {
 
     private static Logger logger = Logger.getLogger(WebResourceAction.class);

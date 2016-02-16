@@ -21,6 +21,9 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import com.ewing.common.constants.AjaxRespCode;
+import com.ewing.core.app.control.SessionControl;
+import com.ewing.core.app.control.SessionException;
 import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.app.service.CacheModelService;
 import com.ewing.core.factory.SysParamFactory;
@@ -71,9 +74,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
                         RequestJson.class);
             else if (request.getMethod().equalsIgnoreCase("GET"))
                 requestJson = gson.fromJson(request.getParameter("param"), RequestJson.class);
-            if(null != requestJson.getData()){
+            if (null != requestJson.getData()) {
                 return gson.fromJson(requestJson.getData().toString(), clazz);
-            }else{
+            } else {
                 return null;
             }
         } catch (Exception e) {
@@ -107,9 +110,17 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
         }
     }
 
-    protected void outFailResult(String message) {
+    public void outFailResult(String message) {
         ResponseData resp = new ResponseData();
         resp.setRetinfo(message);
+        resp.setSuccess(false);
+        outResult(resp);
+    }
+
+    public void outFailResult(AjaxRespCode retCode) {
+        ResponseData resp = new ResponseData();
+        resp.setRetinfo(retCode.message);
+        resp.setRetCode(retCode.code.toString());
         resp.setSuccess(false);
         outResult(resp);
     }
@@ -141,6 +152,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
 
     public void setCondition(String condition) {
         this.condition = condition;
+    }
+
+    /**
+     * 获取登陆用户ID
+     * 
+     * @return
+     * @throws SessionException
+     */
+    public Integer getLoginUserId() throws SessionException {
+        return SessionControl.getUserId(request);
     }
 
     /**
@@ -379,7 +400,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
      * @param data
      * @param message
      */
-    protected <T> void outSucResult(T data) {
+    public <T> void outSucResult(T data) {
         ResponseData responseData = new ResponseData();
         responseData.setResult(data);
         responseData.setSuccess(true);

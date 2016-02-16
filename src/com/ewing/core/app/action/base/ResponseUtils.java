@@ -1,5 +1,7 @@
 package com.ewing.core.app.action.base;
 
+import com.ewing.common.constants.AjaxRespCode;
+
 /**
  * @author tanson lin
  * 
@@ -8,6 +10,21 @@ package com.ewing.core.app.action.base;
  */
 public class ResponseUtils {
 
+    
+    /**
+     * 成功
+     * 
+     * @param retInfo
+     * @return
+     */
+    public static ResponseData createByRespCode(AjaxRespCode respCode) {
+        ResponseData responseData = new ResponseData();
+        responseData.setSuccess(true);
+        responseData.setRetCode(respCode.code.toString());
+        responseData.setRetinfo(respCode.message);
+        return responseData;
+    }
+    
 	/**
 	 * 成功
 	 * 
