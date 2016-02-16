@@ -9,7 +9,7 @@ public class PageBean<T> implements Serializable {
     private static final long serialVersionUID = 1L;
     private static int DEFAULT_PAGE_SIZE = 30;
     private int pageSize = DEFAULT_PAGE_SIZE;
-    private long start;
+    private Integer page;
     private List<T> result;
     private int totalPageCount;
     private String pageUrl;
@@ -22,8 +22,8 @@ public class PageBean<T> implements Serializable {
         this.pageUrl = pageUrl;
     }
 
-    public PageBean(long start, int totalCount, int pageSize, List<T> data) {
-        this.start = start;
+    public PageBean(Integer page, int totalCount, int pageSize, List<T> data) {
+        this.page = page;
         this.totalPageCount = totalCount;
         this.pageSize = pageSize;
         this.result = data;
@@ -57,7 +57,7 @@ public class PageBean<T> implements Serializable {
     }
 
     public long getCurrentPageNo() {
-        return this.start / this.pageSize + 1L;
+        return this.page / this.pageSize + 1L;
     }
 
     public boolean hasPreviousPage() {

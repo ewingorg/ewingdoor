@@ -4,14 +4,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -24,8 +20,10 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.core.jdbc.util.BeanListProcessHandler;
+import com.ewing.core.jdbc.util.Count;
 import com.ewing.core.jdbc.util.PageBean;
 import com.ewing.utils.PageUtil;
+import com.ewing.utils.SqlUtil;
 
 @Repository("baseDao")
 public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
@@ -222,6 +220,57 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
             rs = stmt.executeQuery(sql);
             BeanListProcessHandler beanListProcessHandler = new BeanListProcessHandler();
             return beanListProcessHandler.toBeanList(rs, beanClass);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            this.releaseSession(session);
+        }
+
+    }
+    
+    @Override
+    public <T> PageBean<T> noMappedObjectPageQuery(String sql, Class<T> beanClass, Integer page,
+            Integer pageSize) {
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        Session session = null;
+        try {
+            final Integer limit = PageUtil.getLimit(page, pageSize);
+            final Integer start = PageUtil.getOffset(page, pageSize);
+            String pageSql = sql + " limit " + start + "," + limit;
+            session = this.getSession();
+            connection = session.connection();
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(pageSql);
+            BeanListProcessHandler beanListProcessHandler = new BeanListProcessHandler();
+            List<T> list = beanListProcessHandler.toBeanList(rs, beanClass);
+            Integer count = noMappedObjectCountQuery(sql);
+            return new PageBean(page, count, pageSize, list);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            this.releaseSession(session);
+        }
+
+    }
+
+    public Integer noMappedObjectCountQuery(String sql) {
+        Connection connection = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        Session session = null;
+        try {
+            String coutSql = SqlUtil.generateCountSql(sql);
+            session = this.getSession();
+            connection = session.connection();
+            stmt = connection.createStatement();
+            rs = stmt.executeQuery(coutSql);
+            BeanListProcessHandler beanListProcessHandler = new BeanListProcessHandler();
+            List<Count> count = beanListProcessHandler.toBeanList(rs, Count.class);
+            if (count == null || count.get(0) == null || count.get(0).getCount() == null)
+                return 0;
+            return count.get(0).getCount();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
