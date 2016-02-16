@@ -27,9 +27,8 @@ import com.google.common.collect.Maps;
 /**
  * 订单的相关操作
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月2日
- *
  */
 public class OrderInfoAction extends BaseAction {
 

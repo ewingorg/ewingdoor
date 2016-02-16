@@ -13,6 +13,12 @@ import com.ewing.busi.order.service.OrderCartService;
 import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.core.app.action.base.BaseAction;
 
+/**
+ * 购物车的相关操作
+ * 
+ * @author Joeson Chan<chenxuegui1234@163.com>
+ * @since 2016年2月16日
+ */
 public class OrderCartAction extends BaseAction{
     
     private static Logger logger = Logger.getLogger(WebResourceAction.class);
