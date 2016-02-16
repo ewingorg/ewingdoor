@@ -6,20 +6,19 @@ package com.ewing.common.constants;
 public enum IsEff {
 
     
-    INEFFECTIVE('0', "失效"),
+    INEFFECTIVE("0", "失效"),
 
- 
-    EFFECTIVE('1', "生效");
+    EFFECTIVE("1", "生效");
 
-    private char value;
+    private String value;
     private String msg;
 
-    IsEff(char value, String msg) {
+    IsEff(String value, String msg) {
         this.value = value;
         this.msg = msg;
     }
 
-    public char getValue() {
+    public String getValue() {
         return value;
     }
 

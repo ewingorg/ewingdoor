@@ -8,6 +8,7 @@ import com.ewing.busi.customer.constants.AddressDefault;
 import com.ewing.busi.customer.dto.AddressAddDto;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
+import com.ewing.common.constants.IsEff;
 import com.ewing.core.factory.SpringCtx;
 import com.ewing.utils.JsonUtils;
 
@@ -28,7 +29,7 @@ public class CustomerAddressServiceTest {
                 dto.setAddress("潭村");
                 dto.setPhone("1882641677" + i);
                 dto.setIsDefault(AddressDefault.DEFAULT.getValue());
-                dto.setIseff('1');
+                dto.setIseff(IsEff.EFFECTIVE.getValue());
 
                 customerAddressService.save(dto);
             }

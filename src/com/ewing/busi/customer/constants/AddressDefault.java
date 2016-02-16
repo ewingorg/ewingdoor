@@ -5,19 +5,19 @@ package com.ewing.busi.customer.constants;
  */
 public enum AddressDefault {
 
-    UN_DEFAULT('0', "不是默认"),
+    UN_DEFAULT("0", "不是默认"),
 
-    DEFAULT('1', "默认");
+    DEFAULT("1", "默认");
 
-    private char value;
+    private String value;
     private String msg;
 
-    AddressDefault(char value, String msg) {
+    AddressDefault(String value, String msg) {
         this.value = value;
         this.msg = msg;
     }
 
-    public char getValue() {
+    public String getValue() {
         return value;
     }
 

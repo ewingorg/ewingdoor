@@ -30,8 +30,6 @@ public class CustomerAddressAction extends BaseAction{
     @Resource
     private CustomerAddressService customerAddressService;
     
-    /********************@TODO 注意后期的判断是否是对应的客户 ********************/
-
     /**
      * 获取客户收货地址
      */

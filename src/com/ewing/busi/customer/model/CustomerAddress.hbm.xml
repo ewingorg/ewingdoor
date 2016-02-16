@@ -40,11 +40,11 @@
             <column name="post_code" length="15">
             </column>
         </property>
-        <property name="isDefault" type="java.lang.Character">
+        <property name="isDefault" type="string">
             <column name="is_default" length="1">
             </column>
         </property>
-        <property name="iseff" type="java.lang.Character">
+        <property name="iseff" type="string">
             <column name="iseff" length="1">
             </column>
         </property>

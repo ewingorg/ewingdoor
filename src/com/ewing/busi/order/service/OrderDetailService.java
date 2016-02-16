@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.dao.OrderDetailDao;
+import com.ewing.busi.order.dto.OrderInfoDetailResp;
 import com.ewing.busi.order.model.OrderDetail;
 
 @Repository("orderDetailService")
@@ -31,7 +32,7 @@ public class OrderDetailService extends BaseService {
         return resourcePrice + detail.getCargoPrice();
     }
     
-    public List<OrderDetail> findByOrderIdAndCusId(Integer orderId, Integer cusId){
+    public List<OrderInfoDetailResp> findByOrderIdAndCusId(Integer orderId, Integer cusId){
         if(null == orderId){
             return Collections.emptyList();
         }

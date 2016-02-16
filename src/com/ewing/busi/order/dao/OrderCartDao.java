@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.order.dto.LightOrderCartResp;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
@@ -24,18 +25,17 @@ public class OrderCartDao {
      * @author Joeson
      * @param pageSize 
      * @param page 
+     * @param clazz 
      */
-    public List<OrderCart> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
-        StringBuilder query = new StringBuilder();
-        query.append("customer_id=").append(cusId);
-        query.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
-        query.append(" order by last_update desc");
-        query.append(" limit ").append(PageUtil.getOffset(page, pageSize)).append(" , ").append(PageUtil.getLimit(page, pageSize));
+    public List<LightOrderCartResp> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
+        StringBuilder sql = new StringBuilder();
+        sql.append("select oc.id,oc.resource_id,oc.item_count,wr.unit_price,wr.name,wc.image_url from order_cart oc inner join web_resource wr on oc.resource_id = wr.id where 1=1 ");
+        sql.append(" and customer_id=").append(cusId);
+        sql.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
+        sql.append(" order by last_update desc");
+        sql.append(" limit ").append(PageUtil.getOffset(page, pageSize)).append(" , ").append(PageUtil.getLimit(page, pageSize));
         
-        return baseDao.find(query.toString(), OrderCart.class);
-        
-//        PageBean<OrderCart> pageBean =  baseDao.pageQuery(query.toString(), pageSize, page, OrderCart.class);
-//        return null!= pageBean ? pageBean.getResult() : Collections.EMPTY_LIST;
+        return baseDao.noMappedObjectQuery(sql.toString(), LightOrderCartResp.class);
     }
 
     public List<OrderCart> findByIdAndCusId(List<Integer> cartIdList, Integer cusId) {

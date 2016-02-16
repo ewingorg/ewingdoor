@@ -2,6 +2,8 @@ package com.ewing.busi.order.dto;
 
 import java.io.Serializable;
 
+import com.ewing.core.jdbc.annotation.Column;
+
 /**
  * 订单详情页请求参数
  * 
@@ -15,24 +17,29 @@ public class OrderInfoDetailResp implements Serializable {
      * 
      */
     private static final long serialVersionUID = 1L;
+    @Column(fieldName="id")
     private Integer id;
     /**
      * 订单id
      */
+    @Column(fieldName="order_id")
     private Integer orderId;
     /**
      * 资源id，表web_resource主键
      */
+    @Column(fieldName="resource_id")
     private Integer resourceId;
 
     /**
      * 产品名称
      */
+    @Column(fieldName="name")
     private String productName;
 
     /**
      * icon url
      */
+    @Column(fieldName="image_url")
     private String icon;
 
     /**

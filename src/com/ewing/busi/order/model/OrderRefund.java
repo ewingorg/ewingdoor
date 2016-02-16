@@ -20,8 +20,8 @@ public class OrderRefund implements java.io.Serializable {
     private Integer reason;
     private Integer cargoNumber;
     private float refundMoney;
-    private char status;
-    private char iseff;
+    private String status;
+    private String iseff;
     private Date createTime;
     private Date lastUpdate;
 
@@ -29,7 +29,7 @@ public class OrderRefund implements java.io.Serializable {
     }
 
     public OrderRefund(Integer orderId, Integer orderDetailId, char type, Integer customerId, Integer userId,
-            Integer resourceId, Integer reasonType, Integer reason, float refundMoney, char status, char iseff,
+            Integer resourceId, Integer reasonType, Integer reason, float refundMoney, String status, String iseff,
             Date createTime, Date lastUpdate) {
         this.orderId = orderId;
         this.orderDetailId = orderDetailId;
@@ -48,7 +48,7 @@ public class OrderRefund implements java.io.Serializable {
 
     public OrderRefund(Integer orderId, Integer orderDetailId, char type, Integer customerId, Integer userId,
             Integer resourceId, Integer reasonType, Integer reason, Integer cargoNumber, float refundMoney,
-            char status, char iseff, Date createTime, Date lastUpdate) {
+            String status, String iseff, Date createTime, Date lastUpdate) {
         this.orderId = orderId;
         this.orderDetailId = orderDetailId;
         this.type = type;
@@ -153,19 +153,19 @@ public class OrderRefund implements java.io.Serializable {
         this.refundMoney = refundMoney;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public char getIseff() {
+    public String getIseff() {
         return this.iseff;
     }
 
-    public void setIseff(char iseff) {
+    public void setIseff(String iseff) {
         this.iseff = iseff;
     }
 

@@ -39,12 +39,12 @@ public class OrderDetailView implements java.io.Serializable {
     /**
      * 购物状态 0:待付款 1:待发货 2:待收货
      */
-    private char status;
+    private String status;
 
     /**
      * 是否有效
      */
-    private char iseff;
+    private String iseff;
     /**
      * 铲平名称
      */
@@ -119,19 +119,19 @@ public class OrderDetailView implements java.io.Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public char getIseff() {
+    public String getIseff() {
         return iseff;
     }
 
-    public void setIseff(char iseff) {
+    public void setIseff(String iseff) {
         this.iseff = iseff;
     }
 

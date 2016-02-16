@@ -18,8 +18,8 @@ public class CustomerAddress implements java.io.Serializable {
     private String address;
     private String phone;
     private String postCode;
-    private Character isDefault;
-    private Character iseff;
+    private String isDefault;
+    private String iseff;
     private Date createTime;
     private Date lastUpdate;
 
@@ -34,7 +34,7 @@ public class CustomerAddress implements java.io.Serializable {
     }
 
     public CustomerAddress(Integer customerId, String receiver,String province, String city, String region,
-            String address, String phone, String postCode, Character isDefault, Character iseff,
+            String address, String phone, String postCode, String isDefault, String iseff,
             Date createTime, Date lastUpdate) {
         this.customerId = customerId;
         this.receiver = receiver;
@@ -123,19 +123,19 @@ public class CustomerAddress implements java.io.Serializable {
         this.postCode = postCode;
     }
 
-    public Character getIsDefault() {
+    public String getIsDefault() {
         return this.isDefault;
     }
 
-    public void setIsDefault(Character isDefault) {
+    public void setIsDefault(String isDefault) {
         this.isDefault = isDefault;
     }
 
-    public Character getIseff() {
+    public String getIseff() {
         return this.iseff;
     }
 
-    public void setIseff(Character iseff) {
+    public void setIseff(String iseff) {
         this.iseff = iseff;
     }
 

@@ -17,13 +17,11 @@ import com.ewing.busi.order.dto.SubmitCartReq.Item;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
-import com.ewing.busi.resource.model.WebResource;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
-import com.ewing.utils.BeanCopy;
 import com.ewing.utils.BizGenerator;
 import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
@@ -57,54 +55,16 @@ public class OrderCartService extends BaseService{
     public Object[] queryByCusId(Integer cusId, Integer page, Integer pageSize) {
         checkFalse(IntegerUtils.nullOrZero(cusId), "cusId不能为空");
         
-        List<OrderCart> list =  orderCartDao.queryByCusId(cusId, page, pageSize);
-        List<LightOrderCartResp> dtoList = Lists.newArrayList();
-        List<Integer> resIds = Lists.newArrayList();
-        for(OrderCart cart : list){
-            resIds.add(cart.getResourceId());
-        }
+        List<LightOrderCartResp> dtoList =  orderCartDao.queryByCusId(cusId, page, pageSize);
         
+        //@TODO 确定这里的总价是否需要计算运费
         float totalPrice = 0f;
-        List<WebResource> resList = baseDao.findMuti(resIds, WebResource.class);
-        for(OrderCart cart : list){
-            for(WebResource res : resList){
-                //单价、图片、商品名称等，要从web_resource拿比较好
-                if(res.getId().equals(cart.getResourceId())){
-                    LightOrderCartResp req = new LightOrderCartResp();
-                    BeanCopy.copy(req, cart, true);
-                    req.setUnitPrice(res.getPrice());
-                    req.setIcon(res.getImageUrl());
-                    req.setProductName(res.getName());
-                    dtoList.add(req);
-                    
-                    totalPrice = totalPrice + (req.getUnitPrice() * req.getItemCount());
-                }
-            }
+        for(LightOrderCartResp cart : dtoList){
+           totalPrice = totalPrice + (cart.getUnitPrice() * cart.getItemCount());
         }
         
         return new Object[]{dtoList, totalPrice};
     }
-    
-    /**
-     * 
-     * @param cartList
-     * @return
-     * @author Joeson
-     */
-//    public List<OrderDetail> toOrder(List<OrderCart> cartList){
-//        if(CollectionUtils.isEmpty(cartList)){
-//            return Collections.EMPTY_LIST;
-//        }
-//        
-//        List<OrderDetail> detailList = Lists.newArrayList();
-//        for(OrderCart cart : cartList)
-//        {
-//            //@TODO填写 bizId 以及 orderId
-//            detailList.add(toOrderDetail(cart, StringUtils.EMPTY, 0));
-//        }
-//        
-//        return detailList;
-//    }
     
     /**
      * 场景：客户在购物车中进行结算时候，购物车中的单的单件会转化为具体的对象

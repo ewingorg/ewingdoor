@@ -36,11 +36,11 @@
             <column name="total_price" precision="12" scale="0" not-null="true">
             </column>
         </property>
-        <property name="status" type="char">
+        <property name="status" type="string">
             <column name="status" length="1" not-null="true">
             </column>
         </property>
-        <property name="iseff" type="char">
+        <property name="iseff" type="string">
             <column name="iseff" length="1" not-null="true">
             </column>
         </property>

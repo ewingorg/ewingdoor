@@ -1,5 +1,7 @@
 package com.ewing.busi.order.dto;
 
+import com.ewing.core.jdbc.annotation.Column;
+
 // Generated 2016-2-2 17:07:58 by Hibernate Tools 3.4.0.CR1
 
 
@@ -13,25 +15,32 @@ public class LightOrderCartResp implements java.io.Serializable {
      */
     private static final long serialVersionUID = 1L;
 
+    @Column(fieldName="id")
     private Integer id;
+    
+    @Column(fieldName="resource_id")
     private Integer resourceId;
     /**
      * 数量
      */
+    @Column(fieldName="item_count")
     private Integer itemCount;
     /**
      * 单价
      */
+    @Column(fieldName="unit_price")
     private float unitPrice;
 
     /**
      * 商品名称
      */
+    @Column(fieldName="name")
     private String productName;
 
     /**
      * 头像
      */
+    @Column(fieldName="image_url")
     private String icon;
 
     public String getProductName() {

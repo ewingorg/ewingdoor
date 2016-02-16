@@ -37,7 +37,7 @@ public class OrderInfo implements java.io.Serializable {
     /**
      * 购物状态 0:待付款 1:待发货 2:待收货
      */
-    private char status;
+    private String status;
     /**
      * 收件人
      */
@@ -69,7 +69,7 @@ public class OrderInfo implements java.io.Serializable {
     /**
      * 是否生效
      */
-    private char iseff;
+    private String iseff;
     private Date createTime;
     private Date lastUpdate;
 
@@ -77,7 +77,7 @@ public class OrderInfo implements java.io.Serializable {
     }
 
     public OrderInfo(Integer customerId, Integer userId, String bizId,float productPrice, float cargoPrice,
-            float totalPrice, char status, String phone, char iseff, Date createTime,
+            float totalPrice, String status, String phone, String iseff, Date createTime,
             Date lastUpdate) {
         this.customerId = customerId;
         this.userId = userId;
@@ -93,8 +93,8 @@ public class OrderInfo implements java.io.Serializable {
     }
 
     public OrderInfo(Integer customerId, Integer userId, String bizId,float productPrice, float cargoPrice,
-            float totalPrice, char status, String receiver, String postCode, String province,
-            String city, String region, String address, String phone, char iseff, Date createTime,
+            float totalPrice, String status, String receiver, String postCode, String province,
+            String city, String region, String address, String phone, String iseff, Date createTime,
             Date lastUpdate) {
         this.customerId = customerId;
         this.userId = userId;
@@ -173,11 +173,11 @@ public class OrderInfo implements java.io.Serializable {
         this.totalPrice = totalPrice;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -237,11 +237,11 @@ public class OrderInfo implements java.io.Serializable {
         this.phone = phone;
     }
 
-    public char getIseff() {
+    public String getIseff() {
         return this.iseff;
     }
 
-    public void setIseff(char iseff) {
+    public void setIseff(String iseff) {
         this.iseff = iseff;
     }
 

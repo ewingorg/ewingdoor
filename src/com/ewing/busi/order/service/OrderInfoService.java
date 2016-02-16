@@ -83,19 +83,7 @@ public class OrderInfoService {
     public List<OrderInfoDetailResp> getByIdAndCusId(Integer orderId, Integer cusId) {
         Validate.notNull(orderId, "orderId不能为空");
 
-        List<OrderDetail> detailList = orderDetailService.findByOrderIdAndCusId(orderId, cusId);
-        List<OrderInfoDetailResp> dtoList = Lists.newArrayList();
-        for (OrderDetail detail : detailList) {
-            OrderInfoDetailResp dto = new OrderInfoDetailResp();
-            BeanCopy.copy(dto, detail, true);
-
-            WebResource resource = baseDao.findOne(detail.getResourceId(), WebResource.class);
-            dto.setProductName(resource.getName());
-            dto.setIcon(resource.getImageUrl());
-            dtoList.add(dto);
-        }
-
-        return dtoList;
+        return orderDetailService.findByOrderIdAndCusId(orderId, cusId);
     }
 
     /**

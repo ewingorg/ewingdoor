@@ -11,7 +11,7 @@ import com.ewing.utils.IntegerUtils;
 
 /**
  * 通过Service公共抽象类
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2015年10月23日
  *
  */

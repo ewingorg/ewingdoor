@@ -32,11 +32,11 @@ public class Customer implements java.io.Serializable {
     /**
      * 性别 0:男 1:女
      */
-    private char sex;
+    private String sex;
     /**
      * 是否生效 0:没生效 1:生效
      */
-    private char iseff;
+    private String iseff;
     
     private Date createTime;
     private Date lastUpdate;
@@ -44,7 +44,7 @@ public class Customer implements java.io.Serializable {
     public Customer() {
     }
 
-    public Customer(String name, String password, String phone, char sex, char iseff,
+    public Customer(String name, String password, String phone, String sex, String iseff,
             Date createTime, Date lastUpdate) {
         this.name = name;
         this.password = password;
@@ -55,8 +55,8 @@ public class Customer implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public Customer(String name, String password, String headIcon, String phone, char sex,
-            char iseff, Date createTime, Date lastUpdate) {
+    public Customer(String name, String password, String headIcon, String phone, String sex,
+            String iseff, Date createTime, Date lastUpdate) {
         this.name = name;
         this.password = password;
         this.headIcon = headIcon;
@@ -107,19 +107,19 @@ public class Customer implements java.io.Serializable {
         this.phone = phone;
     }
 
-    public char getSex() {
+    public String getSex() {
         return this.sex;
     }
 
-    public void setSex(char sex) {
+    public void setSex(String sex) {
         this.sex = sex;
     }
 
-    public char getIseff() {
+    public String getIseff() {
         return this.iseff;
     }
 
-    public void setIseff(char iseff) {
+    public void setIseff(String iseff) {
         this.iseff = iseff;
     }
 

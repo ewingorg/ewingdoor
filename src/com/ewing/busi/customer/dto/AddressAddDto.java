@@ -64,12 +64,12 @@ public class AddressAddDto implements Serializable{
     /**
      * 是否默认 0:不是 1:是
      */
-    private char isDefault;
+    private String isDefault;
 
     /**
      * 是否有效 0 无效 1有效
      */
-    private char iseff;
+    private String iseff;
 
     
     public String getReceiver() {
@@ -144,19 +144,19 @@ public class AddressAddDto implements Serializable{
         this.postCode = postCode;
     }
 
-    public char getIsDefault() {
+    public String getIsDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(char isDefault) {
+    public void setIsDefault(String isDefault) {
         this.isDefault = isDefault;
     }
 
-    public char getIseff() {
+    public String getIseff() {
         return iseff;
     }
 
-    public void setIseff(char iseff) {
+    public void setIseff(String iseff) {
         this.iseff = iseff;
     }
 }
