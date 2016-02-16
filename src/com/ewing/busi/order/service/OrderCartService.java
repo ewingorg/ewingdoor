@@ -22,9 +22,9 @@ import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
-import com.ewing.util.BeanCopy;
-import com.ewing.util.BizGenerator;
-import com.ewing.util.IntegerUtil;
+import com.ewing.utils.BeanCopy;
+import com.ewing.utils.BizGenerator;
+import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
 
 @Repository("orderCartService")
@@ -53,7 +53,7 @@ public class OrderCartService extends BaseService{
      * @param page 
      */
     public Object[] queryByCusId(Integer cusId, Integer page, Integer pageSize) {
-        checkFalse(IntegerUtil.nullOrZero(cusId), "cusId不能为空");
+        checkFalse(IntegerUtils.nullOrZero(cusId), "cusId不能为空");
         
         List<OrderCart> list =  orderCartDao.queryByCusId(cusId, page, pageSize);
         List<LightOrderCartResp> dtoList = Lists.newArrayList();

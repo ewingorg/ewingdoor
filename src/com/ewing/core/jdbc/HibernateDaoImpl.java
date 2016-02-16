@@ -24,7 +24,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.core.jdbc.util.PageBean;
-import com.ewing.util.PageUtil;
+import com.ewing.utils.PageUtil;
 
 @Repository("baseDao")
 public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {

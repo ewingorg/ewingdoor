@@ -25,7 +25,7 @@ import com.ewing.common.exception.BusinessException;
 import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
-import com.ewing.util.BeanCopy;
+import com.ewing.utils.BeanCopy;
 import com.google.common.collect.Lists;
 
 @Repository("orderInfoService")

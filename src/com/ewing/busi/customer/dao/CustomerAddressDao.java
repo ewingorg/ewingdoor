@@ -10,7 +10,7 @@ import com.ewing.busi.customer.constants.AddressDefault;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.util.PageBean;
-import com.ewing.util.PageUtil;
+import com.ewing.utils.PageUtil;
 
 @Repository("customerAddressDao")
 public class CustomerAddressDao {

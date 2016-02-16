@@ -16,7 +16,7 @@ import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.util.Hashing;
 import redis.clients.util.Sharded;
 
-import com.ewing.util.PropertyUtil;
+import com.ewing.utils.PropertyUtil;
 
 /**
  * redis工具类

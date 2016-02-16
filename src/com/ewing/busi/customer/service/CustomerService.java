@@ -8,7 +8,7 @@ import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.customer.model.Customer;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
-import com.ewing.util.BeanCopy;
+import com.ewing.utils.BeanCopy;
 
 @Repository("customerService")
 public class CustomerService extends BaseService {

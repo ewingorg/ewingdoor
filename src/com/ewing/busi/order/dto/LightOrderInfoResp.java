@@ -7,8 +7,8 @@ import java.util.List;
 import com.ewing.busi.order.constants.OrderStatus;
 import com.ewing.busi.order.model.OrderDetailView;
 import com.ewing.busi.order.model.OrderInfo;
-import com.ewing.common.util.SystemPropertyUtil;
-import com.ewing.util.BeanCopy;
+import com.ewing.common.utils.SystemPropertyUtils;
+import com.ewing.utils.BeanCopy;
 import com.google.common.collect.Lists;
 
 /**
@@ -184,7 +184,7 @@ public class LightOrderInfoResp implements java.io.Serializable {
         BeanCopy.copy(this, order, true);
         this.setProductCount(viewList.size());
         this.setStatusStr(OrderStatus.getMsg(order.getStatus()));
-        this.setShopName(SystemPropertyUtil.getShopName());
+        this.setShopName(SystemPropertyUtils.getShopName());
         
         for(OrderDetailView view : viewList){
             DetailDto detailDto = new DetailDto();

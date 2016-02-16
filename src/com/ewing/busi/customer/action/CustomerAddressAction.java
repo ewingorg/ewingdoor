@@ -13,7 +13,7 @@ import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.service.CustomerAddressService;
 import com.ewing.core.app.action.base.BaseAction;
-import com.ewing.util.StringUtil;
+import com.ewing.utils.StringUtil;
 
 /**
  * 客户收获地址相关的操作

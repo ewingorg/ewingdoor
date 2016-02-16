@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.ewing.busi.order.dto.LightOrderInfoResp;
 import com.ewing.core.factory.SpringCtx;
-import com.ewing.util.JsonUtils;
+import com.ewing.utils.JsonUtils;
 
 public class OrderInfoServiceTest {
 

@@ -28,8 +28,8 @@ import com.ewing.core.jdbc.DaoException;
 import com.ewing.core.jdbc.util.PageBean;
 import com.ewing.core.json.JsonUtil;
 import com.ewing.core.template.FreeMarkerTool;
-import com.ewing.util.DataFormat;
-import com.ewing.util.StringUtil;
+import com.ewing.utils.DataFormat;
+import com.ewing.utils.StringUtil;
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.core.jdbc.util.PageBean;
-import com.ewing.util.PageUtil;
+import com.ewing.utils.PageUtil;
 import com.googlecode.ehcache.annotations.Cacheable;
 
 @Repository("cacheModelService")

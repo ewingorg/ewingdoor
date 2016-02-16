@@ -17,8 +17,8 @@ import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.DaoException;
-import com.ewing.util.BeanCopy;
-import com.ewing.util.JsonUtils;
+import com.ewing.utils.BeanCopy;
+import com.ewing.utils.JsonUtils;
 
 /**
  * 

@@ -21,7 +21,7 @@ import org.aspectj.lang.annotation.Aspect;
 
 import com.ewing.core.redis.RedisCache;
 import com.ewing.core.redis.RedisManage;
-import com.ewing.util.PropertyUtil;
+import com.ewing.utils.PropertyUtil;
 
 /**
  * redis的AOP拦截

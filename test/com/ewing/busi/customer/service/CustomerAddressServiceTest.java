@@ -9,7 +9,7 @@ import com.ewing.busi.customer.dto.AddressAddDto;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.core.factory.SpringCtx;
-import com.ewing.util.JsonUtils;
+import com.ewing.utils.JsonUtils;
 
 public class CustomerAddressServiceTest {
 

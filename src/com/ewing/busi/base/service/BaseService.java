@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.exception.BusinessException;
 import com.ewing.core.jdbc.BaseDao;
-import com.ewing.util.IntegerUtil;
+import com.ewing.utils.IntegerUtils;
 
 /**
  * 通过Service公共抽象类

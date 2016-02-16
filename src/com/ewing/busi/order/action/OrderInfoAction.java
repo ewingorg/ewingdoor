@@ -20,7 +20,7 @@ import com.ewing.busi.order.service.OrderCartService;
 import com.ewing.busi.order.service.OrderInfoService;
 import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.common.constants.ResponseCode;
-import com.ewing.common.util.SystemPropertyUtil;
+import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
 import com.google.common.collect.Maps;
 
@@ -58,7 +58,7 @@ public class OrderInfoAction extends BaseAction {
                     pageSize);
             Map<String, Object> map = Maps.newHashMap();
             map.put("list", list);
-            map.put("shopName", SystemPropertyUtil.getShopName());
+            map.put("shopName", SystemPropertyUtils.getShopName());
             outSucResult(map);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -82,7 +82,7 @@ public class OrderInfoAction extends BaseAction {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("list", list);
             map.put("payWay", PayWay.values());
-            map.put("shopName", SystemPropertyUtil.getShopName());
+            map.put("shopName", SystemPropertyUtils.getShopName());
             outSucResult(map);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

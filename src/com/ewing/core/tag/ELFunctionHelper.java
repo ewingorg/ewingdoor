@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ewing.util.CommonUtil;
+import com.ewing.utils.CommonUtil;
 
 /**
  * EL函数的代理转调<br>

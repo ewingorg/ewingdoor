@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
-import com.ewing.util.PageUtil;
+import com.ewing.utils.PageUtil;
 
 @Repository("orderCartDao")
 public class OrderCartDao {

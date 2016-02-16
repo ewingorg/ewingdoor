@@ -11,7 +11,7 @@ import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.util.PageBean;
-import com.ewing.util.PageUtil;
+import com.ewing.utils.PageUtil;
 
 @Repository("orderInfoDao")
 public class OrderInfoDao {
