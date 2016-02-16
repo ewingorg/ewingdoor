@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.model.Customer;
 import com.ewing.busi.customer.service.CustomerService;
+import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.core.app.action.base.BaseAction;
 
 /**
@@ -18,6 +19,7 @@ import com.ewing.core.app.action.base.BaseAction;
  */
 public class CustomerAction extends BaseAction {
 
+   
     private static Logger logger = Logger.getLogger(CustomerAddressAction.class);
 
     @Resource

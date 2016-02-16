@@ -13,9 +13,11 @@
  		   http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd"
 	default-autowire="byName" default-lazy-init="true">
 	<!-- 设置AOP -->
-	<aop:aspectj-autoproxy />
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
 	<!-- cache AOP -->
 	<bean class="com.ewing.core.aop.RedisCacheAdvice"></bean>
+    <!-- 消费者登陆验证 AOP -->
+	<bean class="com.ewing.busi.customer.aop.CustomerValidateLoginAdvice"></bean>
 	<ehcache:annotation-driven />
 	<ehcache:config cache-manager="cacheManager">
 		<ehcache:evict-expired-elements

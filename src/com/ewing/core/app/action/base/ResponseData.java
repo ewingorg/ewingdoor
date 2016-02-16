@@ -9,11 +9,20 @@ package com.ewing.core.app.action.base;
 public class ResponseData {
 	private Boolean success;
 	private String retinfo;
+	private String retCode;
 	private Integer totalProperty;
 	private String page;
 	private Object result;
 
-	public ResponseData() {
+	public String getRetCode() {
+        return retCode;
+    }
+
+    public void setRetCode(String retCode) {
+        this.retCode = retCode;
+    }
+
+    public ResponseData() {
 
 	}
 
