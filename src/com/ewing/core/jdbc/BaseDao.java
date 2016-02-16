@@ -41,5 +41,8 @@ public interface BaseDao {
     public void releaseConnectionSession(Session session);
 
     public <T> List<T> noMappedObjectQuery(String sql, Class<T> beanClass);
+    
+    public <T> PageBean<T> noMappedObjectPageQuery(String sql, Class<T> beanClass, Integer page,
+            Integer pageSize);
 
 }
