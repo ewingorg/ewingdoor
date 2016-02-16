@@ -4,16 +4,18 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
+import com.ewing.busi.customer.aop.CustomerLoginFilter;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.model.Customer;
 import com.ewing.busi.customer.service.CustomerService;
 import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.core.app.action.base.BaseAction;
+import com.ewing.utils.IntegerUtils;
 
 /**
  * 客户信息相关的操作
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月3日
  *
  */
@@ -30,11 +32,13 @@ public class CustomerAction extends BaseAction {
      * 
      * @author Joeson
      */
+    @CustomerLoginFilter
     public void queryById() {
         try {
             LightAddressInfoReq req = getParamJson(LightAddressInfoReq.class);
             Integer cusId = req.getCusId();
             checkRequired(cusId, "cusId");
+            isTrue(IntegerUtils.equals(cusId, getLoginUserId()), "非法操作");
 
             Customer customer = customerService.queryById(cusId);
             outSucResult(customer);
@@ -66,9 +70,11 @@ public class CustomerAction extends BaseAction {
      * 
      * @author Joeson
      */
+    @CustomerLoginFilter
     public void updateCustomer() {
         try {
             Customer customer = getParamJson(Customer.class);
+            isTrue(IntegerUtils.equals(customer.getId(), getLoginUserId()), "非法操作");
 
             customerService.update(customer);
             outSucResult(customer);

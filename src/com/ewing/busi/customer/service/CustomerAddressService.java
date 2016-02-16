@@ -18,11 +18,12 @@ import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.utils.BeanCopy;
+import com.ewing.utils.IntegerUtils;
 import com.ewing.utils.JsonUtils;
 
 /**
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月3日
  *
  */
@@ -92,18 +93,16 @@ public class CustomerAddressService {
      * 
      * @author Joeson
      */
-    public AddressDetailResp findById(Integer id) {
+    public AddressDetailResp findById(Integer id, Integer cusId) {
         Validate.notNull(id, "id不能为空");
 
         try {
-            CustomerAddress address = baseModelService.findOne(id, CustomerAddress.class);
+            CustomerAddress address = customerAddressDao.findByIdAndCusId(id, cusId);
             AddressDetailResp resp = new AddressDetailResp();
-            BeanUtils.copyProperties(resp, address);
+            BeanCopy.copy(resp, address, true);
 
             JsonUtils.toJson(resp);
             return resp;
-        } catch (DaoException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

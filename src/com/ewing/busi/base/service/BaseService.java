@@ -4,6 +4,8 @@ import javax.annotation.Resource;
 
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.exception.BusinessException;
+import com.ewing.core.app.control.SessionControl;
+import com.ewing.core.app.control.SessionException;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.utils.IntegerUtils;
 
@@ -48,5 +50,6 @@ public abstract class BaseService {
             throw new BusinessException(ResponseCode.INTERNAL_ERROR, msg);
         }
     }
-
+    
+    
 }

@@ -15,7 +15,7 @@ import com.ewing.core.jdbc.util.PageBean;
 /**
  * 用户地址相关的操作
  * 
- * @author chenxuegui.cxg@alibaba-inc.com
+ * @author Joeson<chenxuegui1234@163.com>
  * @createDate 2016年1月29日
  */
 @Repository("webResourceDao")

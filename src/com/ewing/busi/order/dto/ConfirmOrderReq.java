@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 提交购物车请求参数
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月6日
  *
  */

@@ -31,12 +31,12 @@ public class OrderDetailService extends BaseService {
         return resourcePrice + detail.getCargoPrice();
     }
     
-    public List<OrderDetail> findByOrderId(Integer orderId){
+    public List<OrderDetail> findByOrderIdAndCusId(Integer orderId, Integer cusId){
         if(null == orderId){
             return Collections.emptyList();
         }
         
-        return orderDetailDao.findByOrderId(orderId);
+        return orderDetailDao.findByOrderIdAndCusId(orderId, cusId);
     }
     
 }

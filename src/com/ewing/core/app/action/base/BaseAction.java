@@ -109,6 +109,22 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
             outResult(resp);
         }
     }
+    
+    /**
+     * false时候错误返回
+     * @param exp
+     * @param msg
+     * @author Joeson
+     */
+    protected void isTrue(boolean exp, String msg){
+        if (!exp) {
+            ResponseData resp = new ResponseData();
+            resp.setRetinfo(msg);
+            resp.setSuccess(false);
+            outResult(resp);
+        }
+    }
+    
 
     public void outFailResult(String message) {
         ResponseData resp = new ResponseData();

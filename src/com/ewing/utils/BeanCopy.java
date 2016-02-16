@@ -60,6 +60,10 @@ public class BeanCopy {
      * @author Joeson
      */
     public static void copy(Object dest, Object orig, boolean ignoreNull) {
+        if(null == dest || null == orig){
+            return;
+        }
+        
         Class destClz = dest.getClass();
         Class origClz = orig.getClass();
 

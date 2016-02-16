@@ -23,6 +23,7 @@ import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
+import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Maps;
 
 /**
@@ -43,11 +44,13 @@ public class OrderInfoAction extends BaseAction {
     /**
      * 获取首页产品列表
      */
+    @CustomerLoginFilter
     public void queryIndexOrder() {
 
         try {
             LightOrderInfoReq request = getParamJson(LightOrderInfoReq.class);
             Integer cusId = request.getCusId();
+            isTrue(IntegerUtils.equals(cusId, getLoginUserId()), "非法操作");
             Character status = request.getStatus();
             Integer page = request.getPage();
             Integer pageSize = request.getPageSize();
@@ -79,7 +82,7 @@ public class OrderInfoAction extends BaseAction {
             checkRequired(orderId, "orderId");
 
             // @TODO 抽取dto对象
-            List<OrderInfoDetailResp> list = orderInfoService.getById(orderId);
+            List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId, getLoginUserId());
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("list", list);
             map.put("payWay", PayWay.values());

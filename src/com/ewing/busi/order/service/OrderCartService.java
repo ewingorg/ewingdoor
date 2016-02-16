@@ -1,6 +1,7 @@
 package com.ewing.busi.order.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -26,6 +27,7 @@ import com.ewing.utils.BeanCopy;
 import com.ewing.utils.BizGenerator;
 import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Repository("orderCartService")
 public class OrderCartService extends BaseService{
@@ -143,11 +145,21 @@ public class OrderCartService extends BaseService{
 
     /**
      * 进行购物车结算，返回订单id
+     * @param cusId 客户id
      */
-    public Integer balanceCart(SubmitCartReq req) {
+    public Integer balanceCart(SubmitCartReq req, Integer cusId) {
         Validate.notNull(req, "req不能为空");
         
+        Map<Integer,Item> map = Maps.newHashMap();
+        List<Integer> cartIdList = Lists.newArrayList();
         List<Item> list = req.getList();
+        for(Item item : list){
+            cartIdList.add(item.getId());
+            map.put(item.getId(), item);
+        }
+        
+        //找到对应的购物车信息
+        List<OrderCart> cartList = orderCartDao.findByIdAndCusId(cartIdList, cusId);
         String bizId = BizGenerator.generateBizNum();
         List<Object> detailList = Lists.newArrayList();
         float totalPrice = 0f;
@@ -165,8 +177,9 @@ public class OrderCartService extends BaseService{
         
         baseDao.save(orderInfo);
         
-        for(Item item : list){
-            OrderCart cart = baseDao.findOne(item.getId(), OrderCart.class);
+        for(OrderCart cart : cartList){
+            Item item = map.get(cart.getId());
+            
             cart.setIseff(IsEff.INEFFECTIVE.getValue());
             baseDao.update(cart);
             

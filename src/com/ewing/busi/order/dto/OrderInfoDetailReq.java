@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 订单详情页请求参数
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月8日
  *
  */

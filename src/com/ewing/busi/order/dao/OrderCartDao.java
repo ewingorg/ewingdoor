@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.order.model.OrderCart;
@@ -35,6 +36,13 @@ public class OrderCartDao {
         
 //        PageBean<OrderCart> pageBean =  baseDao.pageQuery(query.toString(), pageSize, page, OrderCart.class);
 //        return null!= pageBean ? pageBean.getResult() : Collections.EMPTY_LIST;
+    }
+
+    public List<OrderCart> findByIdAndCusId(List<Integer> cartIdList, Integer cusId) {
+        StringBuilder query = new StringBuilder();
+        query.append(" id in (").append(StringUtils.join(cartIdList.toArray(), ",")).append(")");
+        query.append(" and customer_id = ").append(cusId);
+        return baseDao.find(query.toString(), OrderCart.class);
     }
 
 }

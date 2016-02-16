@@ -3,7 +3,7 @@ package com.ewing.busi.order.dto;
 /**
  * 订单列表的入参
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月13日
  *
  */

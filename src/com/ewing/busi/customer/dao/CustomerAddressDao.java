@@ -41,4 +41,12 @@ public class CustomerAddressDao {
         return baseDao.findOne(query.toString(), CustomerAddress.class);
     }
 
+    public CustomerAddress findByIdAndCusId(Integer id, Integer cusId) {
+        StringBuilder query = new StringBuilder();
+        query.append(" id='").append(id);
+        query.append(" and customer_id = ").append(cusId);
+        
+        return baseDao.findOne(query.toString(), CustomerAddress.class);
+    }
+
 }
