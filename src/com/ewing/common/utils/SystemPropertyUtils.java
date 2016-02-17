@@ -15,6 +15,8 @@ public class SystemPropertyUtils {
 
     private static Logger logger = Logger.getLogger(SystemPropertyUtils.class);
 
+    private final static boolean CUSTOMER_LOGIN_VALIDATE = Boolean.valueOf(PropertyUtil
+            .getProperty("customer.validatelogin.open"));
     /**
      * 获取商店名称
      * 
@@ -24,6 +26,14 @@ public class SystemPropertyUtils {
         String shopName = PropertyUtil.getProperty("system.shop.name");
 
         return StringUtils.isNotEmpty(shopName) ? shopName : StringUtils.EMPTY;
+    }
+    
+    /**
+     * 是否验证登陆状态
+     * @author Joeson
+     */
+    public static boolean isCustomerLoginValidate(){
+        return CUSTOMER_LOGIN_VALIDATE;
     }
     
     

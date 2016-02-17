@@ -50,7 +50,9 @@ public class OrderInfoAction extends BaseAction {
         try {
             LightOrderInfoReq request = getParamJson(LightOrderInfoReq.class);
             Integer cusId = request.getCusId();
-            isTrue(IntegerUtils.equals(cusId, getLoginUserId()), "非法操作");
+            if (SystemPropertyUtils.isCustomerLoginValidate()) {
+                isTrue(IntegerUtils.equals(cusId, getLoginUserId()), "非法操作");
+            }
             Character status = request.getStatus();
             Integer page = request.getPage();
             Integer pageSize = request.getPageSize();
@@ -82,7 +84,8 @@ public class OrderInfoAction extends BaseAction {
             checkRequired(orderId, "orderId");
 
             // @TODO 抽取dto对象
-            List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId, getLoginUserId());
+            List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId,
+                    getLoginUserId());
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("list", list);
             map.put("payWay", PayWay.values());
@@ -118,13 +121,13 @@ public class OrderInfoAction extends BaseAction {
             outFailResult("内部异常");
         }
     }
-    
+
     /**
      * 关闭订单
      * 
      * @author Joeson
      */
-    public void closeOrder(){
+    public void closeOrder() {
         try {
             OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
             Integer orderId = req.getOrderId();
@@ -143,7 +146,7 @@ public class OrderInfoAction extends BaseAction {
      * 
      * @author Joeson
      */
-    public void payOrder(){
-        
+    public void payOrder() {
+
     }
 }

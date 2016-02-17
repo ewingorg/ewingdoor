@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import com.ewing.common.constants.AjaxRespCode;
+import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
 import com.ewing.utils.PropertyUtil;
 
@@ -20,13 +21,11 @@ import com.ewing.utils.PropertyUtil;
 @Aspect
 public class CustomerValidateLoginAdvice {
 
-    private final static boolean isOpen = Boolean.valueOf(PropertyUtil
-            .getProperty("customer.validatelogin.open"));
-
     @Around("execution(* com.ewing.busi.*.action.*.*(..))  && @annotation(filter)")
     public Object aroundMethod(ProceedingJoinPoint pjd, CustomerLoginFilter filter)
             throws Throwable {
-        if (!isOpen || !(pjd.getTarget() instanceof BaseAction) || filter == null)
+        if (!SystemPropertyUtils.isCustomerLoginValidate()
+                || !(pjd.getTarget() instanceof BaseAction) || filter == null)
             return pjd.proceed();
 
         Method getLoginUserIdMethod = pjd.getTarget().getClass().getMethod("getLoginUserId");
