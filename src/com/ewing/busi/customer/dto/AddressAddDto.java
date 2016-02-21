@@ -24,7 +24,7 @@ public class AddressAddDto implements Serializable{
     /**
      * 消费者ID
      */
-    private int customerId;
+    private Integer customerId;
     
     /**
      * 收件人
@@ -88,11 +88,11 @@ public class AddressAddDto implements Serializable{
         this.id = id;
     }
 
-    public int getCustomerId() {
+    public Integer getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Integer customerId) {
         this.customerId = customerId;
     }
 

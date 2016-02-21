@@ -13,6 +13,7 @@ import com.ewing.busi.customer.dto.AddressDetailResp;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.service.CustomerAddressService;
+import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
 import com.ewing.utils.IntegerUtils;
 import com.ewing.utils.StringUtil;
@@ -33,21 +34,18 @@ public class CustomerAddressAction extends BaseAction{
     /**
      * 获取客户收货地址
      */
-    @CustomerLoginFilter
+//    @CustomerLoginFilter
     public void queryIndexAddress() {
 
         try {
             LightAddressInfoReq req = getParamJson(LightAddressInfoReq.class);
-            Integer cusId = req.getCusId();
             Integer page = req.getPage();
             Integer pageSize = req.getPageSize();
-            checkRequired(cusId, "cusId");
-            isTrue(IntegerUtils.equals(cusId, getLoginUserId()), "非法操作");
             checkRequired(page, "page");
             checkRequired(pageSize, "pageSize");
             
 
-            List<LightAddressInfoResp> list = customerAddressService.queryByCusId(cusId, page, pageSize);
+            List<LightAddressInfoResp> list = customerAddressService.queryByCusId(getLoginUserId(), page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -60,7 +58,7 @@ public class CustomerAddressAction extends BaseAction{
      * 
      * @author Joeson
      */
-    @CustomerLoginFilter
+//    @CustomerLoginFilter
     public void queryAddress(){
         try {
             AddressDetailReq req = getParamJson(AddressDetailReq.class);
@@ -111,5 +109,22 @@ public class CustomerAddressAction extends BaseAction{
             logger.error(e.getMessage(), e);
         }
     }
+    
+    /**
+     * 删除地址
+     * 
+     * @author Joeson
+     */
+    public void delAddress(){
+        try {
+            AddressDetailReq req = getParamJson(AddressDetailReq.class);
+            Integer id = req.getId();
+            checkRequired(id, "id");
 
+            customerAddressService.delAddress(id, getLoginUserId());
+            outSucResult(StringUtil.EMPTY);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
 }

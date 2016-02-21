@@ -9,14 +9,9 @@ package com.ewing.busi.order.dto;
  */
 public class LightOrderInfoReq {
     /**
-     * 客户Id
-     */
-    private Integer cusId;
-    
-    /**
      * 状态  0:待付款 1:待发货 2:待收货',
      */
-    private Character status;
+    private String status;
     
     /**
      * page
@@ -31,11 +26,11 @@ public class LightOrderInfoReq {
     
     
 
-    public Character getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Character status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -54,14 +49,5 @@ public class LightOrderInfoReq {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
-
-    public Integer getCusId() {
-        return cusId;
-    }
-
-    public void setCusId(Integer cusId) {
-        this.cusId = cusId;
-    }
-
     
 }

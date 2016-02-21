@@ -14,6 +14,7 @@ import com.ewing.busi.resource.dto.ProductDetailResp;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.common.constants.IsHot;
 import com.ewing.core.app.action.base.BaseAction;
+import com.ewing.utils.IntegerUtils;
 
 /**
  * 产品控制类，提供产品相关数据
@@ -30,7 +31,7 @@ public class WebResourceAction extends BaseAction {
     /**
      * 获取首页产品列表
      */
-    @CustomerLoginFilter
+//    @CustomerLoginFilter
     public void queryIndexProduct() {
 
         try {
@@ -39,6 +40,7 @@ public class WebResourceAction extends BaseAction {
             Integer page = request.getPage();
             Integer pageSize = request.getPageSize();
             Integer userId = request.getUserId();
+            isTrue(IntegerUtils.equals(userId, getLoginUserId()), "非法操作");
             checkRequired(isHot, "isHot");
             checkRequired(page, "page");
             checkRequired(pageSize, "pageSize");
@@ -50,6 +52,7 @@ public class WebResourceAction extends BaseAction {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
+        
     }
 
     /**

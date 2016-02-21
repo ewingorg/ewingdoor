@@ -10,6 +10,9 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import com.ewing.busi.customer.aop.CustomerLoginFilter;
+import com.ewing.busi.customer.dao.CustomerAddressDao;
+import com.ewing.busi.customer.model.CustomerAddress;
+import com.ewing.busi.customer.service.CustomerAddressService;
 import com.ewing.busi.order.constants.PayWay;
 import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
@@ -24,6 +27,7 @@ import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
 import com.ewing.utils.IntegerUtils;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -40,27 +44,25 @@ public class OrderInfoAction extends BaseAction {
     private OrderCartService orderCartService;
     @Resource
     private OrderInfoService orderInfoService;
+    @Resource
+    private CustomerAddressService customerAddressService;
+    @Resource
+    private CustomerAddressDao customerAddressDao;
+    
 
     /**
      * 获取首页产品列表
      */
-    @CustomerLoginFilter
+//    @CustomerLoginFilter
     public void queryIndexOrder() {
 
         try {
             LightOrderInfoReq request = getParamJson(LightOrderInfoReq.class);
-            Integer cusId = request.getCusId();
-            if (SystemPropertyUtils.isCustomerLoginValidate()) {
-                isTrue(IntegerUtils.equals(cusId, getLoginUserId()), "非法操作");
-            }
-            Character status = request.getStatus();
+            String status = request.getStatus();
             Integer page = request.getPage();
             Integer pageSize = request.getPageSize();
 
-            checkRequired(cusId, "cusId");
-
-            // @TODO 抽取dto对象
-            List<LightOrderInfoResp> list = orderInfoService.queryByCusId(cusId, status, page,
+            List<LightOrderInfoResp> list = orderInfoService.queryByCusId(getLoginUserId(), status, page,
                     pageSize);
             Map<String, Object> map = Maps.newHashMap();
             map.put("list", list);
@@ -86,10 +88,13 @@ public class OrderInfoAction extends BaseAction {
             // @TODO 抽取dto对象
             List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId,
                     getLoginUserId());
+            CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginUserId());
+            List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginUserId());
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("list", list);
-            map.put("payWay", PayWay.values());
-            map.put("shopName", SystemPropertyUtils.getShopName());
+            map.put("addrList", addrList);
+            map.put("payWay", PayWay.PAY_AFTER_RECEIVE);
+            map.put("defaultAddr", defaultAddr);
             outSucResult(map);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

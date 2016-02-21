@@ -1,11 +1,13 @@
 package com.ewing.busi.customer.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.Validate;
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.customer.constants.AddressDefault;
@@ -16,6 +18,7 @@ import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
+import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.utils.BeanCopy;
 import com.ewing.utils.IntegerUtils;
@@ -34,6 +37,9 @@ public class CustomerAddressService {
     private BaseModelService baseModelService;
     @Resource
     private CustomerAddressDao customerAddressDao;
+    
+    @Resource 
+    private BaseDao baseDao;
 
     /***** 检查是否当前开发者 *************/
     /**
@@ -139,5 +145,28 @@ public class CustomerAddressService {
         Validate.notNull(cusId, "客户id不能为空");
 
         return customerAddressDao.findDefaultAddress(cusId);
+    }
+
+    /**
+     * 删除地址
+     * @author Joeson
+     * @throws DaoException 
+     */
+    public void delAddress(Integer id, Integer cusId) throws DaoException {
+        Validate.notNull(id, "id不能为空");
+        
+        CustomerAddress address = customerAddressDao.findByIdAndCusId(id, cusId);
+        Validate.notNull(address, "address不能为空");
+        
+        address.setIseff(IsEff.INEFFECTIVE.getValue());
+        baseDao.update(address);
+    }
+
+    public List<CustomerAddress> queryByCusId(Integer cusId) {
+        if(IntegerUtils.nullOrZero(cusId)){
+            return Collections.EMPTY_LIST;
+        }
+        
+        return customerAddressDao.queryByCusId(cusId);
     }
 }

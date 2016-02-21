@@ -28,8 +28,8 @@ public class LightOrderCartResp implements java.io.Serializable {
     /**
      * 单价
      */
-    @Column(fieldName="unit_price")
-    private float unitPrice;
+    @Column(fieldName="price")
+    private String unitPrice;
 
     /**
      * 商品名称
@@ -75,11 +75,11 @@ public class LightOrderCartResp implements java.io.Serializable {
         this.itemCount = itemCount;
     }
 
-    public float getUnitPrice() {
+    public String getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(float unitPrice) {
+    public void setUnitPrice(String unitPrice) {
         this.unitPrice = unitPrice;
     }
 

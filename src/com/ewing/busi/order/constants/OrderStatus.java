@@ -1,6 +1,5 @@
 package com.ewing.busi.order.constants;
 
-import org.apache.commons.lang.CharUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 

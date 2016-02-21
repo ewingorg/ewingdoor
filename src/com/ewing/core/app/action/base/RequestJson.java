@@ -1,8 +1,10 @@
 package com.ewing.core.app.action.base;
 
-public class RequestJson {
+import java.io.Serializable;
+
+public class RequestJson<T> implements Serializable {
     public String id;
-    public Object data;
+    public T data;
     public String sign;
     public String format;
     public String v;
@@ -15,11 +17,11 @@ public class RequestJson {
         this.id = id;
     }
 
-    public Object getData() {
+    public T getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(T data) {
         this.data = data;
     }
 

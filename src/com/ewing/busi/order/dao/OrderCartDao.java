@@ -29,10 +29,10 @@ public class OrderCartDao {
      */
     public List<LightOrderCartResp> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
         StringBuilder sql = new StringBuilder();
-        sql.append("select oc.id,oc.resource_id,oc.item_count,wr.unit_price,wr.name,wc.image_url from order_cart oc inner join web_resource wr on oc.resource_id = wr.id where 1=1 ");
-        sql.append(" and customer_id=").append(cusId);
-        sql.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
-        sql.append(" order by last_update desc");
+        sql.append("select oc.id,oc.resource_id,oc.item_count,wr.price,wr.name,wr.image_url from order_cart oc inner join web_resource wr on oc.resource_id = wr.id where 1=1 ");
+        sql.append(" and oc.customer_id=").append(cusId);
+        sql.append(" and oc.iseff = ").append(IsEff.EFFECTIVE.getValue());
+        sql.append(" order by oc.last_update desc");
         sql.append(" limit ").append(PageUtil.getOffset(page, pageSize)).append(" , ").append(PageUtil.getLimit(page, pageSize));
         
         return baseDao.noMappedObjectQuery(sql.toString(), LightOrderCartResp.class);

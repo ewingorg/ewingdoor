@@ -23,142 +23,137 @@ import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.utils.BizGenerator;
+import com.ewing.utils.FloatUtils;
 import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Repository("orderCartService")
-public class OrderCartService extends BaseService{
+public class OrderCartService extends BaseService {
 
     @Resource
     private BaseDao baseDao;
-    
+
     @Resource
     private OrderCartDao orderCartDao;
-    
+
     @Resource
     private WebResourceService webResourceService;
-    
+
     @Resource
-    private OrderDetailService orderDetailService; 
-    
+    private OrderDetailService orderDetailService;
+
     @Resource
     BaseModelService baseModelService;
-    
+
     /**
      * 根据客户id查询 购物车列表
+     * 
      * @param cusId
      * @author Joeson
-     * @param pageSize 
-     * @param page 
+     * @param pageSize
+     * @param page
      */
-    public Object[] queryByCusId(Integer cusId, Integer page, Integer pageSize) {
+    public List<LightOrderCartResp> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
         checkFalse(IntegerUtils.nullOrZero(cusId), "cusId不能为空");
-        
-        List<LightOrderCartResp> dtoList =  orderCartDao.queryByCusId(cusId, page, pageSize);
-        
-        //@TODO 确定这里的总价是否需要计算运费
-        float totalPrice = 0f;
-        for(LightOrderCartResp cart : dtoList){
-           totalPrice = totalPrice + (cart.getUnitPrice() * cart.getItemCount());
-        }
-        
-        return new Object[]{dtoList, totalPrice};
+
+        return orderCartDao.queryByCusId(cusId, page, pageSize);
     }
-    
+
     /**
-     * 场景：客户在购物车中进行结算时候，购物车中的单的单件会转化为具体的对象
-     * 将购物车对象 转化为 订单详情对象，
+     * 场景：客户在购物车中进行结算时候，购物车中的单的单件会转化为具体的对象 将购物车对象 转化为 订单详情对象，
+     * 
      * @param cart
      * @param bizId
      * @param orderId
      * @author Joeson
-     * @param orderId 
+     * @param orderId
      */
-    private OrderDetail toOrderDetail(OrderCart cart, String bizId,Integer itemCount, Integer orderId){
-        if(null == cart){
+    private OrderDetail toOrderDetail(OrderCart cart, String bizId, Integer itemCount,
+            Integer orderId) {
+        if (null == cart) {
             return null;
         }
-        
+
         OrderDetail detail = new OrderDetail();
+        detail.setOrderId(orderId);
         detail.setCustomerId(cart.getCustomerId());
+        detail.setBizId(bizId);
         detail.setUserId(cart.getUserId());
         detail.setResourceId(cart.getResourceId());
         detail.setItemCount(itemCount);
         detail.setUnitPrice(cart.getUnitPrice());
-        detail.setIseff(cart.getIseff());
+        detail.setCargoPrice(cart.getItemCount());
         detail.setOrderId(orderId);
         detail.setTotalPrice(orderDetailService.analysyTotal(detail));
-        detail.setBizId(bizId);
+        detail.setStatus(OrderStatus.WAIT_PAY.getValue());
+        detail.setIseff(cart.getIseff());
 
-        //@TODO设置物流信息
-//        WebResource resource = webResourceService.findById(detail.getResourceId(), WebResource.class);
-//        if(null != resource){
-//            detail.setCargoPrice(resource.get);
-//        }
+        // @TODO设置物流信息
+        // WebResource resource = webResourceService.findById(detail.getResourceId(), WebResource.class);
+        // if(null != resource){
+        // detail.setCargoPrice(resource.get);
+        // }
 
-        //计算总价
-        detail.setTotalPrice(orderDetailService.analysyTotal(detail));
-        
         return detail;
     }
 
     /**
      * 进行购物车结算，返回订单id
+     * 
      * @param cusId 客户id
      */
     public Integer balanceCart(SubmitCartReq req, Integer cusId) {
         Validate.notNull(req, "req不能为空");
-        
-        Map<Integer,Item> map = Maps.newHashMap();
+
+        Map<Integer, Item> map = Maps.newHashMap();
         List<Integer> cartIdList = Lists.newArrayList();
         List<Item> list = req.getList();
-        for(Item item : list){
+        for (Item item : list) {
             cartIdList.add(item.getId());
             map.put(item.getId(), item);
         }
-        
-        //找到对应的购物车信息
+
+        // 找到对应的购物车信息
         List<OrderCart> cartList = orderCartDao.findByIdAndCusId(cartIdList, cusId);
         String bizId = BizGenerator.generateBizNum();
         List<Object> detailList = Lists.newArrayList();
         float totalPrice = 0f;
-        
+
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setCustomerId(10);
         orderInfo.setUserId(0);
         orderInfo.setBizId(bizId);
-        orderInfo.setProductPrice(0f);
         orderInfo.setCargoPrice(0f);
         orderInfo.setTotalPrice(0f);
         orderInfo.setStatus(OrderStatus.WAIT_PAY.getValue());
         orderInfo.setPhone("");
         orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
-        
+
         baseDao.save(orderInfo);
-        
-        for(OrderCart cart : cartList){
+
+        for (OrderCart cart : cartList) {
             Item item = map.get(cart.getId());
-            
+
             cart.setIseff(IsEff.INEFFECTIVE.getValue());
             baseDao.update(cart);
-            
+
             OrderDetail detail = toOrderDetail(cart, bizId, item.getItemCount(), orderInfo.getId());
             detailList.add(detail);
-            
+
             totalPrice = totalPrice + detail.getTotalPrice();
         }
-        
+
         try {
             baseModelService.saveMuti(detailList);
         } catch (DaoException e) {
             e.printStackTrace();
         }
-        
-        //设置总价
-        orderInfo.setTotalPrice(totalPrice);
+
+        // 设置总价
+        orderInfo.setProductPrice(totalPrice);
         baseDao.update(orderInfo);
-        
+
         return orderInfo.getId();
     }
 }

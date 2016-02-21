@@ -52,9 +52,7 @@
 		<property name="hibernateProperties" ref="hibernateProperties" />
 		<property name="mappingLocations">
 			<list>
-				<value>classpath:com/ewing/busi/resource/model/*.hbm.xml</value> 
-				<value>classpath:com/ewing/busi/customer/model/*.hbm.xml</value> 
-				<value>classpath:com/ewing/busi/order/model/*.hbm.xml</value> 
+				<value>classpath:com/ewing/busi/*/model/*.hbm.xml</value> 
 			</list>
 
 		</property>

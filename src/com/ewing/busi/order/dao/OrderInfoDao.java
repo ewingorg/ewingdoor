@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.order.model.OrderInfo;
@@ -21,22 +22,24 @@ public class OrderInfoDao {
 
     /**
      * 根据客户id查询 订单列表
+     * 
      * @param cusId
      * @author Joeson
-     * @param status 
+     * @param status
      */
     @SuppressWarnings("unchecked")
-    public List<OrderInfo> queryByCusId(Integer cusId, Character status, Integer page, Integer pageSize) {
+    public List<OrderInfo> queryByCusId(Integer cusId, String status, Integer page, Integer pageSize) {
         StringBuilder query = new StringBuilder();
         query.append("customer_id=").append(cusId);
         query.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
-        if(null != status){
-            query.append(" and status =").append(status);
+        if (StringUtils.isNotEmpty(status)) {
+            query.append(" and status = '").append(status).append("'");
         }
         query.append(" order by last_update desc");
-        query.append(" limit ").append(PageUtil.getLimit(page, pageSize) );
-        
-        PageBean<OrderInfo> pageBean = baseDao.pageQuery(query.toString(), pageSize, page, OrderInfo.class);
+        query.append(" limit ").append(PageUtil.getLimit(page, pageSize));
+
+        PageBean<OrderInfo> pageBean = baseDao.pageQuery(query.toString(), pageSize, page,
+                OrderInfo.class);
         return null != pageBean ? pageBean.getResult() : Collections.EMPTY_LIST;
     }
 

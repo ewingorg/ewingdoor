@@ -1,9 +1,7 @@
 package com.ewing.utils;
 
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-
-
-
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -285,6 +283,34 @@ public class JsonUtils {
         return t;
     }
     
+    public static <U,T> U toObject(String json, Class<U> clazz1, Class<T> clazz2) {
+        Gson gson = new Gson();
+        Type objectType = type(clazz1, clazz2);
+        return gson.fromJson(json, objectType);
+    }
+
+    /*public String toJson(Class<T> clazz) {
+        Gson gson = new Gson();
+        Type objectType = type(CommonJson.class, clazz);
+        return gson.toJson(this, objectType);
+    }*/
+
+    static ParameterizedType type(final Class raw, final Type... args) {
+        return new ParameterizedType() {
+            public Type getRawType() {
+                return raw;
+            }
+
+            public Type[] getActualTypeArguments() {
+                return args;
+            }
+
+            public Type getOwnerType() {
+                return null;
+            }
+        };
+    }
+    
     public static String toJson(Object t) {
         if (null == t) {
             return StringUtils.EMPTY;
@@ -293,8 +319,5 @@ public class JsonUtils {
         Gson gson = new Gson();
         return gson.toJson(t);
     }
-    
-   
-    
     
 }

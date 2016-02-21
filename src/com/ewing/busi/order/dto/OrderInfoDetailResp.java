@@ -17,55 +17,63 @@ public class OrderInfoDetailResp implements Serializable {
      * 
      */
     private static final long serialVersionUID = 1L;
-    @Column(fieldName="id")
+    @Column(fieldName = "id")
     private Integer id;
     /**
      * 订单id
      */
-    @Column(fieldName="order_id")
+    @Column(fieldName = "order_id")
     private Integer orderId;
     /**
      * 资源id，表web_resource主键
      */
-    @Column(fieldName="resource_id")
+    @Column(fieldName = "resource_id")
     private Integer resourceId;
 
     /**
      * 产品名称
      */
-    @Column(fieldName="name")
+    @Column(fieldName = "name")
     private String productName;
 
     /**
      * icon url
      */
-    @Column(fieldName="image_url")
+    @Column(fieldName = "image_url")
     private String icon;
 
     /**
      * 产品数量
      */
+    @Column(fieldName = "item_count")
     private Integer itemCount;
 
     /**
      * 产品单价
      */
-    private float unitPrice;
+    @Column(fieldName = "unit_price")
+    private String unitPrice;
 
     /**
      * 运费
      */
-    private float cargoPrice;
+    @Column(fieldName = "cargo_price")
+    private String cargoPrice;
 
     /**
      * 总价
      */
-    private float totalPrice;
+    @Column(fieldName = "total_price")
+    private String totalPrice;
 
     /**
      * 购物状态 0:待付款 1:待发货 2:待收货
      */
-    private char status;
+    @Column(fieldName = "status")
+    private String status;
+
+    @Column(fieldName = "shop_name")
+    private String shopName = "海鲜街";
 
     public Integer getId() {
         return id;
@@ -81,6 +89,14 @@ public class OrderInfoDetailResp implements Serializable {
 
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
+    }
+    
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public Integer getResourceId() {
@@ -115,35 +131,35 @@ public class OrderInfoDetailResp implements Serializable {
         this.itemCount = itemCount;
     }
 
-    public float getUnitPrice() {
+    public String getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(float unitPrice) {
+    public void setUnitPrice(String unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public float getCargoPrice() {
+    public String getCargoPrice() {
         return cargoPrice;
     }
 
-    public void setCargoPrice(float cargoPrice) {
+    public void setCargoPrice(String cargoPrice) {
         this.cargoPrice = cargoPrice;
     }
 
-    public float getTotalPrice() {
+    public String getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
+    public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
     }
 
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

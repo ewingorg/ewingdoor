@@ -15,6 +15,7 @@ public class OrderCart implements java.io.Serializable {
     private Integer resourceId;
     private Integer itemCount;
     private float unitPrice;
+    private float cargoPrice;
     private float totalPrice;
     private String iseff;
     private Date createTime;
@@ -23,17 +24,27 @@ public class OrderCart implements java.io.Serializable {
     public OrderCart() {
     }
 
-    public OrderCart(Integer customerId, Integer userId, Integer resourceId, Integer itemCount, float unitPrice,
+    public OrderCart(Integer customerId, Integer userId, Integer resourceId, Integer itemCount, float unitPrice,float cargoPrice,
             float totalPrice, String iseff, Date createTime, Date lastUpdate) {
         this.customerId = customerId;
         this.userId = userId;
         this.resourceId = resourceId;
         this.itemCount = itemCount;
         this.unitPrice = unitPrice;
+        this.cargoPrice = cargoPrice;
         this.totalPrice = totalPrice;
         this.iseff = iseff;
         this.createTime = createTime;
         this.lastUpdate = lastUpdate;
+    }
+
+    
+    public float getCargoPrice() {
+        return cargoPrice;
+    }
+
+    public void setCargoPrice(float cargoPrice) {
+        this.cargoPrice = cargoPrice;
     }
 
     public Integer getId() {

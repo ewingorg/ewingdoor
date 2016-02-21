@@ -28,6 +28,10 @@
             <column name="unit_price" precision="12" scale="0" not-null="true">
             </column>
         </property>
+        <property name="cargoPrice" type="float">
+            <column name="cargo_price" precision="12" scale="0" not-null="true">
+            </column>
+        </property>
         <property name="totalPrice" type="float">
             <column name="total_price" precision="12" scale="0" not-null="true">
             </column>

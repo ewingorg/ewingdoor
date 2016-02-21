@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -22,6 +21,7 @@ import org.apache.struts2.interceptor.ServletResponseAware;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import com.ewing.common.constants.AjaxRespCode;
+import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.control.SessionControl;
 import com.ewing.core.app.control.SessionException;
 import com.ewing.core.app.service.BaseModelService;
@@ -32,6 +32,7 @@ import com.ewing.core.jdbc.util.PageBean;
 import com.ewing.core.json.JsonUtil;
 import com.ewing.core.template.FreeMarkerTool;
 import com.ewing.utils.DataFormat;
+import com.ewing.utils.JsonUtils;
 import com.ewing.utils.StringUtil;
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
@@ -66,16 +67,16 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     }
 
     protected <T> T getParamJson(Class<T> clazz) throws Exception {
-        RequestJson requestJson = null;
+        RequestJson<T> requestJson = null;
         boolean isError = false;
         try {
             if (request.getMethod().equalsIgnoreCase("POST"))
-                requestJson = gson.fromJson(IOUtils.toString(request.getInputStream()),
-                        RequestJson.class);
-            else if (request.getMethod().equalsIgnoreCase("GET"))
-                requestJson = gson.fromJson(request.getParameter("param"), RequestJson.class);
-            if (null != requestJson.getData()) {
-                return gson.fromJson(requestJson.getData().toString(), clazz);
+                requestJson = JsonUtils.toObject(IOUtils.toString(request.getInputStream()), RequestJson.class, clazz);
+            else if (request.getMethod().equalsIgnoreCase("GET")){
+                requestJson = JsonUtils.toObject(request.getParameter("param"), RequestJson.class, clazz);
+            }
+            if (null != requestJson) {
+                return requestJson.getData();
             } else {
                 return null;
             }
@@ -87,7 +88,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
                 outFailResult("json格式错误。");
         }
     }
-
+    
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
         try {
@@ -109,14 +110,15 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
             outResult(resp);
         }
     }
-    
+
     /**
      * false时候错误返回
+     * 
      * @param exp
      * @param msg
      * @author Joeson
      */
-    protected void isTrue(boolean exp, String msg){
+    protected void isTrue(boolean exp, String msg) {
         if (!exp) {
             ResponseData resp = new ResponseData();
             resp.setRetinfo(msg);
@@ -124,7 +126,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
             outResult(resp);
         }
     }
-    
 
     public void outFailResult(String message) {
         ResponseData resp = new ResponseData();
@@ -177,7 +178,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
      * @throws SessionException
      */
     public Integer getLoginUserId() throws SessionException {
-        return SessionControl.getUserId(request);
+        // 测试使用用10
+        return SystemPropertyUtils.isCustomerLoginValidate() ? SessionControl.getUserId(request)
+                : 10;
     }
 
     /**
@@ -193,8 +196,6 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
         request.setAttribute("resultList", resultList);
         return resultList;
     }
-
-    
 
     /**
      * dao缓存查询

@@ -3,6 +3,8 @@ package com.ewing.busi.order.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 /**
  * 提交购物车请求参数
  * 
@@ -17,12 +19,20 @@ public class SubmitCartReq implements Serializable {
      */
     private static final long serialVersionUID = 1L;
     
+    public SubmitCartReq(){
+        this.list = Lists.newArrayList();
+    }
+    
     private List<Item> list;
     
     public class Item{
         private Integer id;
 
         private Integer itemCount;
+        
+        public Item(){
+            
+        }
 
         public Integer getId() {
             return id;
@@ -48,6 +58,8 @@ public class SubmitCartReq implements Serializable {
     public void setList(List<Item> list) {
         this.list = list;
     }
+    
+    
     
     
     

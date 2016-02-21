@@ -5,7 +5,6 @@ package com.ewing.busi.order.dto;
 import java.util.List;
 
 import com.ewing.busi.order.constants.OrderStatus;
-import com.ewing.busi.order.model.OrderDetailView;
 import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.utils.BeanCopy;
@@ -29,7 +28,7 @@ public class LightOrderInfoResp implements java.io.Serializable {
     /**
      * 购物状态 0:待付款 1:待发货 2:待收货
      */
-    private char status;
+    private String status;
     /**
      * 购物状态 0:待付款 1:待发货 2:待收货
      */
@@ -49,11 +48,11 @@ public class LightOrderInfoResp implements java.io.Serializable {
     
     
     
-    public char getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(char status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -106,6 +105,10 @@ public class LightOrderInfoResp implements java.io.Serializable {
     }
 
     public class DetailDto{
+        /**
+         * 资源Id
+         */
+        private Integer resourceId;
         
         /**
          * icon图片
@@ -120,7 +123,7 @@ public class LightOrderInfoResp implements java.io.Serializable {
         /**
          * 单价
          */
-        private float unitPrice;
+        private String unitPrice;
         
         /**
          * 数量
@@ -131,6 +134,15 @@ public class LightOrderInfoResp implements java.io.Serializable {
          * 规格
          */
         private String standard;
+
+        
+        public Integer getResourceId() {
+            return resourceId;
+        }
+
+        public void setResourceId(Integer resourceId) {
+            this.resourceId = resourceId;
+        }
 
         public String getIcon() {
             return icon;
@@ -148,11 +160,11 @@ public class LightOrderInfoResp implements java.io.Serializable {
             this.productName = productName;
         }
 
-        public float getUnitPrice() {
+        public String getUnitPrice() {
             return unitPrice;
         }
 
-        public void setUnitPrice(float unitPrice) {
+        public void setUnitPrice(String unitPrice) {
             this.unitPrice = unitPrice;
         }
 
@@ -179,16 +191,17 @@ public class LightOrderInfoResp implements java.io.Serializable {
         this.list = Lists.newArrayList();
     }
 
-    public LightOrderInfoResp(OrderInfo order, List<OrderDetailView> viewList) {
+    public LightOrderInfoResp(OrderInfo order, List<OrderInfoDetailResp> dtoList) {
         this();
         BeanCopy.copy(this, order, true);
-        this.setProductCount(viewList.size());
+        this.setProductCount(dtoList.size());
+        this.setStatus(order.getStatus());
         this.setStatusStr(OrderStatus.getMsg(order.getStatus()));
         this.setShopName(SystemPropertyUtils.getShopName());
         
-        for(OrderDetailView view : viewList){
+        for(OrderInfoDetailResp dto : dtoList){
             DetailDto detailDto = new DetailDto();
-            BeanCopy.copy(detailDto, view, true);
+            BeanCopy.copy(detailDto, dto, true);
             this.getList().add(detailDto);
         }
     }
