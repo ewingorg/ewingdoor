@@ -132,11 +132,11 @@ public class OrderInfoService {
         Validate.notNull(order, "order不能为空");
         //如果状态不为待付款或已收货，不能关闭订单
         if (!(ObjectUtils.equals(order.getStatus(), OrderStatus.WAIT_PAY.getValue()) || ObjectUtils
-                .equals(order.getStatus(), OrderStatus.RECEIVEED.getValue()))) {
+                .equals(order.getStatus(), OrderStatus.FINISHED.getValue()))) {
             throw new BusinessException(ResponseCode.BIZ_STATUS_ERROR, "当前状态不能关闭订单");
         }
 
-        order.setIseff(IsEff.INEFFECTIVE.getValue());
+        order.setStatus(OrderStatus.CLOSED.getValue());
         baseDao.update(order);
 
         return;

@@ -12,8 +12,8 @@ import com.ewing.utils.HttpUtils;
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月21日
  */
-@Repository("expressService")
-public class ExpressService {
+@Repository("expressApiService")
+public class ExpressApiService {
 
     /**
      * 请求url

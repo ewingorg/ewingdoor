@@ -13,8 +13,12 @@ public enum OrderStatus {
     WAIT_SEND("1", "待发货"),
 
     WAIT_RECEIVE("2", "待收货"),
-
-    RECEIVEED("3", "已收货");
+    
+    REFUND("3", "退款中"),
+    
+    FINISHED("4", "已完成"),
+    
+    CLOSED("5", "已关闭");
 
     private String value;
     private String msg;
