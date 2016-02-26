@@ -31,7 +31,7 @@ public class WebResourceAction extends BaseAction {
     /**
      * 获取首页产品列表
      */
-//    @CustomerLoginFilter
+    // @CustomerLoginFilter
     public void queryIndexProduct() {
 
         try {
@@ -39,20 +39,17 @@ public class WebResourceAction extends BaseAction {
             Integer isHot = request.getIsHot();
             Integer page = request.getPage();
             Integer pageSize = request.getPageSize();
-            Integer userId = request.getUserId();
-            isTrue(IntegerUtils.equals(userId, getLoginUserId()), "非法操作");
             checkRequired(isHot, "isHot");
             checkRequired(page, "page");
             checkRequired(pageSize, "pageSize");
-            checkRequired(userId, "userId");
 
-            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(userId, IsHot
-                    .fromValue(isHot).getValue(), page, pageSize);
+            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(
+                    getLoginUserId(), IsHot.fromValue(isHot).getValue(), page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-        
+
     }
 
     /**

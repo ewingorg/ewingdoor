@@ -32,4 +32,10 @@
 		<action name="find" method="getById" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="confirm" method="confirmOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 	</package>
+	
+	<!-- 收藏夾 -->
+	<package name="collect" extends="struts-default"> 
+		<action name="queryCollectIndex" method="queryIndex" class="com.ewing.busi.collect.action.CustomerCollectAction" />
+		<action name="addCollect" method="addColect" class="com.ewing.busi.collect.action.CustomerCollectAction" />
+	</package>
 </struts>

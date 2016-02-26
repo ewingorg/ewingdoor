@@ -1,6 +1,8 @@
 package com.ewing.busi.collect.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -40,8 +42,10 @@ public class CustomerCollectAction extends BaseAction{
             checkRequired(req.getPage(), "page");
             checkRequired(req.getPageSize(), "pageSize");
             
-            List<LightCollectResp> dto = customerCollectService.findByCusId(getLoginUserId(), req.getPage(), req.getPageSize());
-            outSucResult(dto);
+            List<LightCollectResp> list = customerCollectService.findByCusId(getLoginUserId(), req.getPage(), req.getPageSize());
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("list", list);
+            outSucResult(map);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             outFailResult("内部异常");

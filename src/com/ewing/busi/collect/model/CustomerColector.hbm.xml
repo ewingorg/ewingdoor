@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-2-2 17:07:58 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.ewing.busi.order.model.OrderCart" table="order_cart" catalog="ewing">
+    <class name="com.ewing.busi.collect.model.CustomerCollect" table="customer_collect" catalog="ewing">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />

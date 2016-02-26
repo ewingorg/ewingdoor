@@ -12,38 +12,64 @@ public class LightCollectResp {
     /**
      * 客户Id
      */
-    @Column(fieldName="id")
+    @Column(fieldName = "id")
     private Integer id;
-    
+
     /**
      * 资源id
      */
-    @Column(fieldName="resource_id")
+    @Column(fieldName = "resource_id")
     private Integer resourceId;
-    
+
+    /**
+     * 商品名称
+     */
+    @Column(fieldName = "name")
+    private String productName;
     /**
      * 单价
      */
-    @Column(fieldName="unit_price")
+    @Column(fieldName = "price")
     private String unitPrice;
-    
+
+    /**
+     * 数量
+     */
+    @Column(fieldName = "stock_num")
+    private String stockNum;
     /**
      * 商品头像
      */
-    @Column(fieldName="image_url")
+    @Column(fieldName = "image_url")
     private String icon;
-    
+
     /**
      * page
      */
-    @Column(fieldName="page")
+    @Column(fieldName = "page")
     private Integer page;
-    
+
     /**
      * pageSize
      */
-    @Column(fieldName="pageSize")
+    @Column(fieldName = "pageSize")
     private Integer pageSize;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getStockNum() {
+        return stockNum;
+    }
+
+    public void setStockNum(String stockNum) {
+        this.stockNum = stockNum;
+    }
 
     public Integer getId() {
         return id;
@@ -92,5 +118,5 @@ public class LightCollectResp {
     public void setPageSize(Integer pageSize) {
         this.pageSize = pageSize;
     }
-    
+
 }

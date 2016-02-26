@@ -32,13 +32,13 @@ public class CustomerCollectDao {
     public List<LightCollectResp> findByCusId(Integer cusId, Integer page,Integer pageSize){
         Validate.notNull(cusId, "客户id不能为空");
         
-        StringBuilder sql = new StringBuilder("select cc.id,cc.resource_id,wr.image_url,wr.unit_price,wr.image_url from customer_collect cc inner join web_resource wr on cc.resource_id = wr.id where 1=1 ");
-        sql.append(" customer_id=").append(cusId);
+        StringBuilder sql = new StringBuilder("select cc.id,cc.resource_id,wr.image_url,wr.price,wr.image_url,wr.stock_num,wr.name from customer_collect cc inner join web_resource wr on cc.resource_id = wr.id where 1=1 ");
+        sql.append(" and customer_id=").append(cusId);
         
         PageBean<LightCollectResp> pageBean = baseDao.noMappedObjectPageQuery(sql.toString(), LightCollectResp.class, page, pageSize);
         return pageBean.getResult();
     }
-    
+
     public CustomerCollect findByCusIdAndResId(Integer cusId,Integer resId){
         Validate.notNull(cusId, "客户id不能为空");
         Validate.notNull(resId, "资源id不能为空");
@@ -48,6 +48,5 @@ public class CustomerCollectDao {
         query.append(" and resource_id = ").append(resId);
         
         return baseDao.findOne(query.toString(), CustomerCollect.class);
-                
     }
 }
