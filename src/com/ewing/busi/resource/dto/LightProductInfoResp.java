@@ -1,5 +1,7 @@
 package com.ewing.busi.resource.dto;
 
+import com.ewing.utils.FileUrlUtil;
+
 /**
  * 轻量级的产品信息，产品列表使用
  * 
@@ -7,11 +9,11 @@ package com.ewing.busi.resource.dto;
  * @creation 2016年1月25日
  */
 public class LightProductInfoResp implements java.io.Serializable {
-   /**
+    /**
      * 
      */
     private static final long serialVersionUID = 1L;
- /**
+    /**
      * 产品ID
      */
     private Integer id;

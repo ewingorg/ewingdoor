@@ -24,7 +24,7 @@ public class CustomerValidateLoginAdvice {
     @Around("execution(* com.ewing.busi.*.action.*.*(..))  && @annotation(filter)")
     public Object aroundMethod(ProceedingJoinPoint pjd, CustomerLoginFilter filter)
             throws Throwable {
-        if (!SystemPropertyUtils.isCustomerLoginValidate()
+        if (!SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE
                 || !(pjd.getTarget() instanceof BaseAction) || filter == null)
             return pjd.proceed();
 

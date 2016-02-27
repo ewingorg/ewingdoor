@@ -1,6 +1,8 @@
 package com.ewing.busi.resource.dto;
 
-public class ProductDetailDto implements java.io.Serializable{
+import com.ewing.utils.FileUrlUtil;
+
+public class ProductDetailDto implements java.io.Serializable {
     /**
      * 
      */

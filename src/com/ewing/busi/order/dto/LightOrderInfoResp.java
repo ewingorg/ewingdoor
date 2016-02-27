@@ -197,7 +197,7 @@ public class LightOrderInfoResp implements java.io.Serializable {
         this.setProductCount(dtoList.size());
         this.setStatus(order.getStatus());
         this.setStatusStr(OrderStatus.getMsg(order.getStatus()));
-        this.setShopName(SystemPropertyUtils.getShopName());
+        this.setShopName(SystemPropertyUtils.SHOP_NAME);
         
         for(OrderInfoDetailResp dto : dtoList){
             DetailDto detailDto = new DetailDto();
