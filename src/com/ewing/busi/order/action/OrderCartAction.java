@@ -42,7 +42,7 @@ public class OrderCartAction extends BaseAction {
 
       // @TODO 抽取dto对象
       List<LightOrderCartResp> list =
-          orderCartService.queryByCusId(getLoginUserId(), page, pageSize);
+          orderCartService.queryByCusId(getLoginCusId(), page, pageSize);
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list", list);
       outSucResult(map);
@@ -64,7 +64,7 @@ public class OrderCartAction extends BaseAction {
       checkRequired(req, "req");
 
       // @TODO 抽取dto对象
-      Integer orderId = orderCartService.balanceCart(req, getLoginUserId());
+      Integer orderId = orderCartService.balanceCart(req, getLoginCusId());
       outSucResult(orderId);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
@@ -86,7 +86,7 @@ public class OrderCartAction extends BaseAction {
       checkRequired(resourceId, "resourceId");
       checkRequired(count, "count");
 
-      orderCartService.addCart(getLoginUserId(), resourceId, count);
+      orderCartService.addCart(getLoginCusId(), resourceId, count);
       outSucResult(AjaxRespCode.CODE_SUC);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

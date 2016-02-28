@@ -62,7 +62,7 @@ public class OrderInfoAction extends BaseAction {
             Integer page = request.getPage();
             Integer pageSize = request.getPageSize();
 
-            List<LightOrderInfoResp> list = orderInfoService.queryByCusId(getLoginUserId(), status, page,
+            List<LightOrderInfoResp> list = orderInfoService.queryByCusId(getLoginCusId(), status, page,
                     pageSize);
             Map<String, Object> map = Maps.newHashMap();
             map.put("list", list);
@@ -87,9 +87,9 @@ public class OrderInfoAction extends BaseAction {
 
             // @TODO 抽取dto对象
             List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId,
-                    getLoginUserId());
-            CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginUserId());
-            List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginUserId());
+                getLoginCusId());
+            CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginCusId());
+            List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginCusId());
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("list", list);
             map.put("addrList", addrList);

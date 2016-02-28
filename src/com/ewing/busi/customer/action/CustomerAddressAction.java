@@ -42,7 +42,7 @@ public class CustomerAddressAction extends BaseAction{
             checkRequired(pageSize, "pageSize");
             
 
-            List<LightAddressInfoResp> list = customerAddressService.queryByCusId(getLoginUserId(), page, pageSize);
+            List<LightAddressInfoResp> list = customerAddressService.queryByCusId(getLoginCusId(), page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -62,7 +62,7 @@ public class CustomerAddressAction extends BaseAction{
             Integer id = req.getId();
             checkRequired(id, "id不能为空");
 
-            AddressDetailResp resp = customerAddressService.findById(id, getLoginUserId());
+            AddressDetailResp resp = customerAddressService.findById(id, getLoginCusId());
             outSucResult(resp);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -118,7 +118,7 @@ public class CustomerAddressAction extends BaseAction{
             Integer id = req.getId();
             checkRequired(id, "id");
 
-            customerAddressService.delAddress(id, getLoginUserId());
+            customerAddressService.delAddress(id, getLoginCusId());
             outSucResult(StringUtil.EMPTY);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

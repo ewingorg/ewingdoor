@@ -42,7 +42,7 @@ public class CustomerCollectAction extends BaseAction{
             checkRequired(req.getPage(), "page");
             checkRequired(req.getPageSize(), "pageSize");
             
-            List<LightCollectResp> list = customerCollectService.findByCusId(getLoginUserId(), req.getPage(), req.getPageSize());
+            List<LightCollectResp> list = customerCollectService.findByCusId(getLoginCusId(), req.getPage(), req.getPageSize());
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("list", list);
             outSucResult(map);
@@ -62,7 +62,7 @@ public class CustomerCollectAction extends BaseAction{
             AddCollectReq req = getParamJson(AddCollectReq.class);
             checkRequired(req.getResId(), "resource_id");
             
-            customerCollectService.addCollect(getLoginUserId(), req.getResId());
+            customerCollectService.addCollect(getLoginCusId(), req.getResId());
             outSucResult(AjaxRespCode.CODE_SUC);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

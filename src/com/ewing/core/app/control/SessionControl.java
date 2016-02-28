@@ -8,13 +8,13 @@ public class SessionControl {
     private final static String USER_INFO_SESSION = "USER_INFO_SESSION";
 
     /**
-     * 获取登陆用户ID
+     * 获取登陆客户ID
      * 
      * @param request
      * @return
      * @throws SessionException
      */
-    public static Integer getUserId(HttpServletRequest request) throws SessionException {
+    public static Integer getCusId(HttpServletRequest request) throws SessionException {
         return getUserInfo(request).getId();
     }
 

@@ -171,16 +171,27 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     public void setCondition(String condition) {
         this.condition = condition;
     }
-
+    
     /**
-     * 获取登陆用户ID
+     * @FIXME
+     * 获取商家id
+     * 
+     * @return
+     * @author Joeson
+     */
+    public Integer getUserId(){
+      return 1;
+    }
+    
+    /**
+     * 获取登陆客户ID
      * 
      * @return
      * @throws SessionException
      */
-    public Integer getLoginUserId() throws SessionException {
+    public Integer getLoginCusId() throws SessionException {
         // 测试使用用10
-        return SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? SessionControl.getUserId(request) : 10;
+        return SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? SessionControl.getCusId(request) : 10;
     }
 
     /**

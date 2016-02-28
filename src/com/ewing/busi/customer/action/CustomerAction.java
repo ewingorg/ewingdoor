@@ -37,7 +37,7 @@ public class CustomerAction extends BaseAction {
             Integer cusId = req.getCusId();
             checkRequired(cusId, "cusId");
             isTrue(IntegerUtils.equals(cusId,
-                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginUserId() : cusId), "非法操作");
+                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginCusId() : cusId), "非法操作");
 
             Customer customer = customerService.queryById(cusId);
             outSucResult(customer);
@@ -75,7 +75,7 @@ public class CustomerAction extends BaseAction {
             Customer customer = getParamJson(Customer.class);
             isTrue(IntegerUtils.equals(
                     customer.getId(),
-                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginUserId() : customer
+                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginCusId() : customer
                             .getId()), "非法操作");
             customerService.update(customer);
             outSucResult(customer);
