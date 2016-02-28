@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.collect.dto.LightCollectResp;
 import com.ewing.busi.collect.model.CustomerCollect;
+import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.util.PageBean;
 
@@ -46,6 +47,7 @@ public class CustomerCollectDao {
         StringBuilder query = new StringBuilder();
         query.append(" customer_id = ").append(cusId);
         query.append(" and resource_id = ").append(resId);
+        query.append(" and iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
         
         return baseDao.findOne(query.toString(), CustomerCollect.class);
     }

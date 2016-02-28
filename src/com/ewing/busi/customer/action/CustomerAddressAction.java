@@ -6,16 +6,13 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
-import com.ewing.busi.customer.aop.CustomerLoginFilter;
 import com.ewing.busi.customer.dto.AddressAddDto;
 import com.ewing.busi.customer.dto.AddressDetailReq;
 import com.ewing.busi.customer.dto.AddressDetailResp;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.service.CustomerAddressService;
-import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
-import com.ewing.utils.IntegerUtils;
 import com.ewing.utils.StringUtil;
 
 /**

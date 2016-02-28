@@ -22,5 +22,9 @@ public class FloatUtils {
             return 0f;
         }
     }
+    
+    public static float toFloat(Float value){
+      return null == value ? 0f : value;
+    }
 
 }

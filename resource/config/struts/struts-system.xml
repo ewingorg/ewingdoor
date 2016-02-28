@@ -19,13 +19,12 @@
 		<action name="delAddress" method="delAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 	</package>
 	
-	<!--  -->
-	<package name="cart" extends="struts-default"> 
+	<package name="cart" extends="struts-default" > 
 		<action name="index" method="queryIndexCart" class="com.ewing.busi.order.action.OrderCartAction" />
 		<action name="balance" method="balanceCart" class="com.ewing.busi.order.action.OrderCartAction" />
+		<action name="putCart" method="addCart" class="com.ewing.busi.order.action.OrderCartAction" />
 	</package>
 	
-	<!-- 订单 -->
 	<package name="order" extends="struts-default"> 
 		<action name="close" method="closeOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="list" method="queryIndexOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
@@ -33,7 +32,6 @@
 		<action name="confirm" method="confirmOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 	</package>
 	
-	<!-- 收藏夾 -->
 	<package name="collect" extends="struts-default"> 
 		<action name="queryCollectIndex" method="queryIndex" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 		<action name="addCollect" method="addColect" class="com.ewing.busi.collect.action.CustomerCollectAction" />

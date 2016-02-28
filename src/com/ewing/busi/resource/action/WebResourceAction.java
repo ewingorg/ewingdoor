@@ -59,7 +59,7 @@ public class WebResourceAction extends BaseAction {
         try {
             ProductDetailReq request = getParamJson(ProductDetailReq.class);
             Integer pId = request.getpId();
-            ProductDetailResp productDetailResp = webResourceService.getProductDetail(pId);
+            ProductDetailResp productDetailResp = webResourceService.getProductDetail(getLoginUserId(), pId);
             outSucResult(productDetailResp);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.resource.dto.ProductDetailDto;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.common.constants.IsEff;
 import com.ewing.common.constants.IsOnline;

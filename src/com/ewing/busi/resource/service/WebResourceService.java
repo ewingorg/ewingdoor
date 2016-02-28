@@ -10,6 +10,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.base.service.BaseService;
+import com.ewing.busi.collect.model.CustomerCollect;
+import com.ewing.busi.collect.service.CustomerCollectService;
 import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.dao.WebResourcePriceDao;
 import com.ewing.busi.resource.dao.WebResourceSpecDao;
@@ -43,7 +45,9 @@ public class WebResourceService extends BaseService {
     private WebResourceSpecService webResourceSpecService;
     @Resource
     private WebResourcePriceService webResourcePriceService;
-
+    @Resource
+    private CustomerCollectService customerCollectService;
+    
     /**
      * 获取资源信息，支持分页获取数据
      * 
@@ -81,10 +85,12 @@ public class WebResourceService extends BaseService {
      * @throws IllegalAccessException
      */
     @RedisCache(key = "productDetail", keyParamNames = { "resourceId" })
-    public ProductDetailResp getProductDetail(Integer resourceId) {
+    public ProductDetailResp getProductDetail(Integer cusId, Integer resourceId) {
         WebResource webresource = webResourceDao.findOne(resourceId);
         if (webresource == null)
             return null;
+        
+        CustomerCollect collect = customerCollectService.findByCusIdAndResId(cusId, resourceId);
         ProductDetailResp detailResponse = new ProductDetailResp();
         ProductDetailDto productDetail = new ProductDetailDto();
         List<ProductSpecGroup> specList = webResourceSpecService.getConfigureSpecs(resourceId);
@@ -94,9 +100,11 @@ public class WebResourceService extends BaseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        productDetail.setIsCollect(null != collect ? 1 : 0);
         detailResponse.setProductDetail(productDetail);
         detailResponse.setPriceList(priceList);
         detailResponse.setSpecList(specList);
+        
         return detailResponse;
     }
 

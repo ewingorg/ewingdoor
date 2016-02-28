@@ -13,6 +13,7 @@ import com.ewing.busi.collect.dto.LightCollectResp;
 import com.ewing.busi.collect.model.CustomerCollect;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
+import com.ewing.utils.IntegerUtils;
 
 /**
  * 
@@ -54,6 +55,14 @@ public class CustomerCollectService {
             collect.setIseff(IsEff.EFFECTIVE.getValue());
             baseDao.save(collect);
         }
+    }
+
+    public CustomerCollect findByCusIdAndResId(Integer cusId, Integer resourceId) {
+      if(IntegerUtils.nullOrZero(cusId) || IntegerUtils.nullOrZero(resourceId)){
+        return null;
+      }
+      
+      return customerCollectDao.findByCusIdAndResId(cusId, resourceId);
     }
 
 }

@@ -45,4 +45,19 @@ public class OrderCartDao {
         return baseDao.find(query.toString(), OrderCart.class);
     }
 
+    /**
+     * 根据客户id和资源id查找
+     * @param cusId
+     * @param resourceId
+     * @return
+     * @author Joeson
+     */
+    public OrderCart findByCusIdAndResId(Integer cusId, Integer resourceId) {
+      StringBuilder query = new StringBuilder();
+      query.append(" customer_id = ").append(cusId);
+      query.append(" and resource_id = ").append(resourceId);
+      query.append(" and iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
+      return baseDao.findOne(query.toString(), OrderCart.class);
+    }
+
 }

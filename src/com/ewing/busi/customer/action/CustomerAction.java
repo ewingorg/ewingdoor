@@ -4,11 +4,9 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
-import com.ewing.busi.customer.aop.CustomerLoginFilter;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.model.Customer;
 import com.ewing.busi.customer.service.CustomerService;
-import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
 import com.ewing.utils.IntegerUtils;
