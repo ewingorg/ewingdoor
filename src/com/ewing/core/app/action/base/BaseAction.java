@@ -29,7 +29,6 @@ import com.ewing.core.app.service.CacheModelService;
 import com.ewing.core.factory.SysParamFactory;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.core.jdbc.util.PageBean;
-import com.ewing.core.json.JsonUtil;
 import com.ewing.core.template.FreeMarkerTool;
 import com.ewing.utils.DataFormat;
 import com.ewing.utils.JsonUtils;
@@ -71,9 +70,11 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
         boolean isError = false;
         try {
             if (request.getMethod().equalsIgnoreCase("POST"))
-                requestJson = JsonUtils.toObject(IOUtils.toString(request.getInputStream()), RequestJson.class, clazz);
-            else if (request.getMethod().equalsIgnoreCase("GET")){
-                requestJson = JsonUtils.toObject(request.getParameter("param"), RequestJson.class, clazz);
+                requestJson = JsonUtils.toObject(IOUtils.toString(request.getInputStream()),
+                        RequestJson.class, clazz);
+            else if (request.getMethod().equalsIgnoreCase("GET")) {
+                requestJson = JsonUtils.toObject(request.getParameter("param"), RequestJson.class,
+                        clazz);
             }
             if (null != requestJson) {
                 return requestJson.getData();
@@ -88,7 +89,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
                 outFailResult("json格式错误。");
         }
     }
-    
+
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
         try {
@@ -179,8 +180,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
      */
     public Integer getLoginUserId() throws SessionException {
         // 测试使用用10
-        return SystemPropertyUtils.isCustomerLoginValidate() ? SessionControl.getUserId(request)
-                : 10;
+        return SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? SessionControl.getUserId(request) : 10;
     }
 
     /**
@@ -426,8 +426,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     public void outResult(ResponseData responseData) {
         if (responseData == null)
             throw new IllegalArgumentException("responseData should not be null");
-        try {
-            String json = JsonUtil.tranBean2String(responseData).toString();
+        try {  
+            String json =  gson.toJson(responseData);
             response.setContentType("text/json");
             if (isJsonpRequest()) {
                 String jsonpResut = "success_jsonpCallback(" + json + ")";

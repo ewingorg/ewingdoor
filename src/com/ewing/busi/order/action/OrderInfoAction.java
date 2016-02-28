@@ -66,7 +66,7 @@ public class OrderInfoAction extends BaseAction {
                     pageSize);
             Map<String, Object> map = Maps.newHashMap();
             map.put("list", list);
-            map.put("shopName", SystemPropertyUtils.getShopName());
+            map.put("shopName", SystemPropertyUtils.SHOP_NAME);
             outSucResult(map);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

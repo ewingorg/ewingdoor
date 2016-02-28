@@ -1,290 +1,287 @@
 package com.ewing.busi.resource.dto;
 
-import com.ewing.core.jdbc.annotation.Column;
+import com.ewing.utils.FileUrlUtil;
 
 public class ProductDetailDto implements java.io.Serializable {
-  /**
+    /**
      * 
      */
-  private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-  /**
-   * 产品ID
-   */
-  @Column(fieldName="id")
-  private Integer id;
+    /**
+     * 产品ID
+     */
+    private Integer id;
 
-  /**
-   * 用户ID
-   */
-  @Column(fieldName="user_id")
-  private Integer userId;
+    /**
+     * 用户ID
+     */
 
-  /**
-   * 资源名称
-   */
-  @Column(fieldName="name")
-  private String name;
+    private Integer userId;
 
-  /**
-   * 模板id，web_template的主键
-   */
-  @Column(fieldName="template_id")
-  private Integer templateId;
+    /**
+     * 资源名称
+     */
 
-  /**
-   * 资源分类id，category的主键
-   */
-  @Column(fieldName="category_id")
-  private Integer categoryId;
+    private String name;
 
-  /**
-   * 资源标签id，多个标签以","分隔
-   */
-  @Column(fieldName="tag_id")
-  private String tagId;
+    /**
+     * 模板id，web_template的主键
+     */
 
-  /**
-   * 菜单图片链接
-   */
-  @Column(fieldName="image_url")
-  private String imageUrl;
+    private Integer templateId;
 
-  /**
-   * 简单描述
-   */
-  @Column(fieldName="short_desc")
-  private String shortDesc;
+    /**
+     * 资源分类id，category的主键
+     */
 
-  /**
-   * 详细描述
-   */
-  @Column(fieldName="long_desc")
-  private String longDesc;
+    private Integer categoryId;
 
-  /**
-   * 产品成本价
-   */
-  @Column(fieldName="cost")
-  private Float cost;
+    /**
+     * 资源标签id，多个标签以","分隔
+     */
 
-  /**
-   * 产品价格
-   */
-  @Column(fieldName="price")
-  private Float price;
+    private String tagId;
 
-  /**
-   * 产品单位
-   */
-  @Column(fieldName="unit")
-  private String unit;
+    /**
+     * 菜单图片链接
+     */
 
-  /**
-   * 产品重量
-   */
-  @Column(fieldName="weight")
-  private String weight;
+    private String imageUrl;
 
-  /**
-   * 赠送积分
-   */
-  @Column(fieldName="gift_score")
-  private String giftScore;
+    /**
+     * 简单描述
+     */
 
-  /**
-   * 库存
-   */
-  @Column(fieldName="stock_num")
-  private Integer stockNum;
+    private String shortDesc;
 
-  /**
-   * 品牌ID
-   */
-  @Column(fieldName="brand_id")
-  private Integer brandId;
+    /**
+     * 详细描述
+     */
 
-  /**
-   * 是否热门推荐
-   */
-  @Column(fieldName="is_hot")
-  private Integer isHot;
+    private String longDesc;
 
-  /**
-   * 是否上架 0:发布中 1:上架 2:下架
-   */
-  @Column(fieldName="is_online")
-  private Integer isOnline;
-  /**
-   * 是否需要物流 0:否 1:是
-   */
-  @Column(fieldName="need_carry")
-  private Integer needCarry;
+    /**
+     * 产品成本价
+     */
 
-  /**
-   * 是否收藏 1 收藏 0 没有收藏
-   */
-  @Column(fieldName="is_collect")
-  private Integer isCollect;
+    private Float cost;
 
+    /**
+     * 产品价格
+     */
 
-  public Integer getIsCollect() {
-    return isCollect;
-  }
+    private Float price;
 
-  public void setIsCollect(Integer isCollect) {
-    this.isCollect = isCollect;
-  }
+    /**
+     * 产品单位
+     */
 
-  public Integer getId() {
-    return id;
-  }
+    private String unit;
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    /**
+     * 产品重量
+     */
 
-  public Integer getUserId() {
-    return userId;
-  }
+    private String weight;
 
-  public void setUserId(Integer userId) {
-    this.userId = userId;
-  }
+    /**
+     * 赠送积分
+     */
 
-  public String getName() {
-    return name;
-  }
+    private String giftScore;
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    /**
+     * 库存
+     */
 
-  public Integer getTemplateId() {
-    return templateId;
-  }
+    private Integer stockNum;
 
-  public void setTemplateId(Integer templateId) {
-    this.templateId = templateId;
-  }
+    /**
+     * 品牌ID
+     */
 
-  public Integer getCategoryId() {
-    return categoryId;
-  }
+    private Integer brandId;
 
-  public void setCategoryId(Integer categoryId) {
-    this.categoryId = categoryId;
-  }
+    /**
+     * 是否热门推荐
+     */
 
-  public String getTagId() {
-    return tagId;
-  }
+    private Integer isHot;
+    /**
+     * 是否上架 0:发布中 1:上架 2:下架
+     */
 
-  public void setTagId(String tagId) {
-    this.tagId = tagId;
-  }
+    private Integer isOnline;
 
-  public String getImageUrl() {
-    return imageUrl;
-  }
+    /**
+     * 是否需要物流 0:否 1:是
+     */
+    private Integer needCarry;
 
-  public void setImageUrl(String imageUrl) {
-    this.imageUrl = imageUrl;
-  }
+    /**
+     * 是否收藏
+     */
+    private Integer isCollect;
+    public Integer getId() {
+        return id;
+    }
 
-  public String getShortDesc() {
-    return shortDesc;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  public void setShortDesc(String shortDesc) {
-    this.shortDesc = shortDesc;
-  }
+    public Integer getUserId() {
+        return userId;
+    }
 
-  public String getLongDesc() {
-    return longDesc;
-  }
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
-  public void setLongDesc(String longDesc) {
-    this.longDesc = longDesc;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public Float getCost() {
-    return cost;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setCost(Float cost) {
-    this.cost = cost;
-  }
+    public Integer getTemplateId() {
+        return templateId;
+    }
 
-  public Float getPrice() {
-    return price;
-  }
+    public void setTemplateId(Integer templateId) {
+        this.templateId = templateId;
+    }
 
-  public void setPrice(Float price) {
-    this.price = price;
-  }
+    public Integer getCategoryId() {
+        return categoryId;
+    }
 
-  public String getUnit() {
-    return unit;
-  }
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
-  public void setUnit(String unit) {
-    this.unit = unit;
-  }
+    public String getTagId() {
+        return tagId;
+    }
 
-  public String getWeight() {
-    return weight;
-  }
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
+    }
 
-  public void setWeight(String weight) {
-    this.weight = weight;
-  }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-  public String getGiftScore() {
-    return giftScore;
-  }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-  public void setGiftScore(String giftScore) {
-    this.giftScore = giftScore;
-  }
+    public String getShortDesc() {
+        return shortDesc;
+    }
 
-  public Integer getStockNum() {
-    return stockNum;
-  }
+    public void setShortDesc(String shortDesc) {
+        this.shortDesc = shortDesc;
+    }
 
-  public void setStockNum(Integer stockNum) {
-    this.stockNum = stockNum;
-  }
+    public String getLongDesc() {
+        return longDesc;
+    }
 
-  public Integer getBrandId() {
-    return brandId;
-  }
+    public void setLongDesc(String longDesc) {
+        this.longDesc = longDesc;
+    }
 
-  public void setBrandId(Integer brandId) {
-    this.brandId = brandId;
-  }
+    public Float getCost() {
+        return cost;
+    }
 
-  public Integer getIsHot() {
-    return isHot;
-  }
+    public void setCost(Float cost) {
+        this.cost = cost;
+    }
 
-  public void setIsHot(Integer isHot) {
-    this.isHot = isHot;
-  }
+    public Float getPrice() {
+        return price;
+    }
 
-  public Integer getIsOnline() {
-    return isOnline;
-  }
+    public void setPrice(Float price) {
+        this.price = price;
+    }
 
-  public void setIsOnline(Integer isOnline) {
-    this.isOnline = isOnline;
-  }
+    public String getUnit() {
+        return unit;
+    }
 
-  public Integer getNeedCarry() {
-    return needCarry;
-  }
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
-  public void setNeedCarry(Integer needCarry) {
-    this.needCarry = needCarry;
-  }
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getGiftScore() {
+        return giftScore;
+    }
+
+    public void setGiftScore(String giftScore) {
+        this.giftScore = giftScore;
+    }
+
+    public Integer getStockNum() {
+        return stockNum;
+    }
+
+    public void setStockNum(Integer stockNum) {
+        this.stockNum = stockNum;
+    }
+
+    public Integer getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Integer brandId) {
+        this.brandId = brandId;
+    }
+
+    public Integer getIsHot() {
+        return isHot;
+    }
+
+    public void setIsHot(Integer isHot) {
+        this.isHot = isHot;
+    }
+
+    public Integer getIsOnline() {
+        return isOnline;
+    }
+
+    public void setIsOnline(Integer isOnline) {
+        this.isOnline = isOnline;
+    }
+
+    public Integer getNeedCarry() {
+        return needCarry;
+    }
+
+    public void setNeedCarry(Integer needCarry) {
+        this.needCarry = needCarry;
+    }
+
+    public Integer getIsCollect() {
+      return isCollect;
+    }
+
+    public void setIsCollect(Integer isCollect) {
+      this.isCollect = isCollect;
+    }
+    
+    
 }

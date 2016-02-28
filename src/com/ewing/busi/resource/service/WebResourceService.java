@@ -23,6 +23,7 @@ import com.ewing.busi.resource.dto.ProductSpecGroup;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.redis.RedisCache;
+import com.ewing.utils.FileUrlUtil;
 
 /**
  * 资源服务类
@@ -68,6 +69,8 @@ public class WebResourceService extends BaseService {
             LightProductInfoResp lightProductInfo = new LightProductInfoResp();
             try {
                 BeanUtils.copyProperties(lightProductInfo, webResource);
+                lightProductInfo.setImageUrl(FileUrlUtil.convertImgUrl(lightProductInfo
+                        .getImageUrl()));
                 dtoList.add(lightProductInfo);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -97,6 +100,7 @@ public class WebResourceService extends BaseService {
         List<ProductPriceDto> priceList = webResourcePriceService.findByResourceId(resourceId);
         try {
             BeanUtils.copyProperties(productDetail, webresource);
+            productDetail.setImageUrl(FileUrlUtil.convertImgUrl(productDetail.getImageUrl()));
         } catch (Exception e) {
             e.printStackTrace();
         }

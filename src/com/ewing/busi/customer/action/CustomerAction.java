@@ -16,7 +16,7 @@ import com.ewing.utils.IntegerUtils;
  * 
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月3日
- *
+ * 
  */
 public class CustomerAction extends BaseAction {
 
@@ -37,8 +37,7 @@ public class CustomerAction extends BaseAction {
             Integer cusId = req.getCusId();
             checkRequired(cusId, "cusId");
             isTrue(IntegerUtils.equals(cusId,
-                    SystemPropertyUtils.isCustomerLoginValidate() ? getLoginUserId() : cusId),
-                    "非法操作");
+                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginUserId() : cusId), "非法操作");
 
             Customer customer = customerService.queryById(cusId);
             outSucResult(customer);
@@ -74,8 +73,10 @@ public class CustomerAction extends BaseAction {
     public void updateCustomer() {
         try {
             Customer customer = getParamJson(Customer.class);
-            isTrue(IntegerUtils.equals(customer.getId(), SystemPropertyUtils
-                    .isCustomerLoginValidate() ? getLoginUserId() : customer.getId()), "非法操作");
+            isTrue(IntegerUtils.equals(
+                    customer.getId(),
+                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginUserId() : customer
+                            .getId()), "非法操作");
             customerService.update(customer);
             outSucResult(customer);
         } catch (Exception e) {
