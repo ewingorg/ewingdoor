@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.resource.spi.IllegalStateException;
 
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Repository;
@@ -26,7 +25,6 @@ import com.ewing.core.app.service.BaseModelService;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.jdbc.DaoException;
 import com.ewing.utils.BizGenerator;
-import com.ewing.utils.FloatUtils;
 import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -174,11 +172,10 @@ public class OrderCartService extends BaseService {
    * @param cusId 客户id
    * @param resourceId 资源id
    * @param count 购物车数量
-   * @author Joeson
-   * @throws IllegalStateException
+   * @author Joeson 
    */
   public void addCart(Integer cusId, Integer resourceId, Integer count)
-      throws IllegalStateException {
+      throws Exception {
     Validate.notNull(cusId, "cusId不能为空");
     Validate.notNull(resourceId, "resourceId不能为空");
     // 默认count只添加一个
@@ -186,7 +183,7 @@ public class OrderCartService extends BaseService {
 
     WebResource resource = baseDao.findOne(resourceId, WebResource.class);
     if (null == resource) {
-      throw new IllegalStateException(String.format("没有找到对应的资源[id=%d]", resourceId));
+      throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
     }
 
     OrderCart cart = new OrderCart();

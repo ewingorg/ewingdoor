@@ -48,13 +48,8 @@ public class WebResourceAction extends BaseAction {
             checkRequired(pageSize, "pageSize");
 
             List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(
-                getLoginCusId(), IsHot.fromValue(isHot).getValue(), page, pageSize);
-            List<LightCategoryResp> categoryList = webCategoryService.queryByUserId(getUserId());
-            
-            Map<String,Object> map = new HashMap<String,Object>();
-            map.put("list", list);
-            map.put("categoryList", categoryList);
-            outSucResult(map);
+                    getLoginCusId(), IsHot.fromValue(isHot).getValue(), page, pageSize); 
+            outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
@@ -68,7 +63,8 @@ public class WebResourceAction extends BaseAction {
         try {
             ProductDetailReq request = getParamJson(ProductDetailReq.class);
             Integer pId = request.getpId();
-            ProductDetailResp productDetailResp = webResourceService.getProductDetail(getLoginCusId(), pId);
+            ProductDetailResp productDetailResp = webResourceService.getProductDetail(
+                    getLoginCusId(), pId);
             outSucResult(productDetailResp);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
