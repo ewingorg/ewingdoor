@@ -25,7 +25,6 @@ public class FileUrlUtil {
         if (StringUtils.isEmpty(SystemPropertyUtils.RESOURCE_WEBSTIE))
             return relativePath;
         else
-            return (SystemPropertyUtils.RESOURCE_WEBSTIE + "/" + relativePath)
-                    .replaceAll("//", "/");
+            return SystemPropertyUtils.RESOURCE_WEBSTIE + relativePath;
     }
 }
