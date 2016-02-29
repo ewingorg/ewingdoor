@@ -7,6 +7,10 @@ public class LightProductInfoReq extends PageRequest {
      * 是否热门
      */
     private Integer isHot;
+    /**
+     * 商户ID
+     */
+    private Integer userId;
 
     public Integer getIsHot() {
         return isHot;
@@ -14,6 +18,14 @@ public class LightProductInfoReq extends PageRequest {
 
     public void setIsHot(Integer isHot) {
         this.isHot = isHot;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
 }

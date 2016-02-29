@@ -9,6 +9,7 @@
 	<package name="product" extends="struts-default"> 
 		<action name="indexList" method="queryIndexProduct" class="com.ewing.busi.resource.action.WebResourceAction" />
 		<action name="detail" method="getProductDetail" class="com.ewing.busi.resource.action.WebResourceAction" />
+		<action name="category" method="getProductCategory" class="com.ewing.busi.resource.action.WebResourceAction" />
 	</package>
 	
 	<package name="address" extends="struts-default"> 

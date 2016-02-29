@@ -8,7 +8,8 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
-import com.ewing.busi.resource.dto.LightCategoryResp;
+import com.ewing.busi.resource.dto.CategoryReq;
+import com.ewing.busi.resource.dto.CategoryResp;
 import com.ewing.busi.resource.dto.LightProductInfoReq;
 import com.ewing.busi.resource.dto.LightProductInfoResp;
 import com.ewing.busi.resource.dto.ProductDetailReq;
@@ -17,6 +18,7 @@ import com.ewing.busi.resource.service.WebCategoryService;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.common.constants.IsHot;
 import com.ewing.core.app.action.base.BaseAction;
+import com.ewing.core.redis.RedisCache;
 
 /**
  * 产品控制类，提供产品相关数据
@@ -35,20 +37,19 @@ public class WebResourceAction extends BaseAction {
     /**
      * 获取首页产品列表
      */
-    // @CustomerLoginFilter
     public void queryIndexProduct() {
 
         try {
-            LightProductInfoReq request = getParamJson(LightProductInfoReq.class);
-            Integer isHot = request.getIsHot();
-            Integer page = request.getPage();
-            Integer pageSize = request.getPageSize();
+            LightProductInfoReq req = getParamJson(LightProductInfoReq.class);
+            Integer isHot = req.getIsHot();
+            Integer page = req.getPage();
+            Integer pageSize = req.getPageSize();
+            Integer userId = req.getUserId();
             checkRequired(isHot, "isHot");
             checkRequired(page, "page");
             checkRequired(pageSize, "pageSize");
-
-            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(
-                    getLoginCusId(), IsHot.fromValue(isHot).getValue(), page, pageSize); 
+            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(userId, IsHot
+                    .fromValue(isHot).getValue(), page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
@@ -61,11 +62,24 @@ public class WebResourceAction extends BaseAction {
      */
     public void getProductDetail() {
         try {
-            ProductDetailReq request = getParamJson(ProductDetailReq.class);
-            Integer pId = request.getpId();
+            ProductDetailReq req = getParamJson(ProductDetailReq.class);
+            Integer pId = req.getpId();
             ProductDetailResp productDetailResp = webResourceService.getProductDetail(
                     getLoginCusId(), pId);
             outSucResult(productDetailResp);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 查询商店分类
+     */ 
+    public void getProductCategory() {
+        try {
+            CategoryReq req = getParamJson(CategoryReq.class);
+            List<CategoryResp> list = webCategoryService.queryShopCategory(req.getUserId());
+            outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
