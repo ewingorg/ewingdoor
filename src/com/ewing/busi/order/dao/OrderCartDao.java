@@ -29,7 +29,10 @@ public class OrderCartDao {
      */
     public List<LightOrderCartResp> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
         StringBuilder sql = new StringBuilder();
-        sql.append("select oc.id,oc.resource_id,oc.item_count,wr.price,wr.name,wr.image_url from order_cart oc inner join web_resource wr on oc.resource_id = wr.id where 1=1 ");
+        sql.append("select oc.id,oc.resource_id,oc.item_count,wrp.price,wr.name,wr.image_url from order_cart oc "
+            + "inner join web_resource wr on oc.resource_id = wr.id "
+            + "inner join web_resource_price wrp on oc.price_id = wrp.id "
+            + "where 1=1 ");
         sql.append(" and oc.customer_id=").append(cusId);
         sql.append(" and oc.iseff = ").append(IsEff.EFFECTIVE.getValue());
         sql.append(" order by oc.last_update desc");

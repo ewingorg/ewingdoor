@@ -38,9 +38,6 @@ public class CustomerAddressService {
     @Resource
     private CustomerAddressDao customerAddressDao;
     
-    @Resource 
-    private BaseDao baseDao;
-
     /***** 检查是否当前开发者 *************/
     /**
      * 根据客户id查询 购物车列表
@@ -159,7 +156,7 @@ public class CustomerAddressService {
         Validate.notNull(address, "address不能为空");
         
         address.setIseff(IsEff.INEFFECTIVE.getValue());
-        baseDao.update(address);
+        baseModelService.update(address);
     }
 
     public List<CustomerAddress> queryByCusId(Integer cusId) {

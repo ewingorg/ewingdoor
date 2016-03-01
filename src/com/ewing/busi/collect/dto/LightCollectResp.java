@@ -1,5 +1,7 @@
 package com.ewing.busi.collect.dto;
 
+import java.io.Serializable;
+
 import com.ewing.core.jdbc.annotation.Column;
 
 /**
@@ -8,7 +10,12 @@ import com.ewing.core.jdbc.annotation.Column;
  * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
  * @since 2016年2月23日
  */
-public class LightCollectResp {
+public class LightCollectResp implements Serializable{
+    /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
     /**
      * 客户Id
      */
@@ -37,6 +44,7 @@ public class LightCollectResp {
      */
     @Column(fieldName = "stock_num")
     private String stockNum;
+    
     /**
      * 商品头像
      */

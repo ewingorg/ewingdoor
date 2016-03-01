@@ -6,12 +6,14 @@
 
 <struts>
 
+	<!-- 产品 -->
 	<package name="product" extends="struts-default"> 
 		<action name="indexList" method="queryIndexProduct" class="com.ewing.busi.resource.action.WebResourceAction" />
 		<action name="detail" method="getProductDetail" class="com.ewing.busi.resource.action.WebResourceAction" />
 		<action name="category" method="getProductCategory" class="com.ewing.busi.resource.action.WebResourceAction" />
 	</package>
 	
+	<!-- 地址 -->
 	<package name="address" extends="struts-default"> 
 		<action name="addrIndex" method="queryIndexAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 		<action name="saveAddr" method="saveAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
@@ -20,19 +22,23 @@
 		<action name="delAddress" method="delAddress" class="com.ewing.busi.customer.action.CustomerAddressAction" />
 	</package>
 	
+	<!-- 购物车 -->
 	<package name="cart" extends="struts-default" > 
 		<action name="index" method="queryIndexCart" class="com.ewing.busi.order.action.OrderCartAction" />
 		<action name="balance" method="balanceCart" class="com.ewing.busi.order.action.OrderCartAction" />
-		<action name="putCart" method="addCart" class="com.ewing.busi.order.action.OrderCartAction" />
+		<action name="addCart" method="addCart" class="com.ewing.busi.order.action.OrderCartAction" />
 	</package>
 	
+	<!-- 订单 -->
 	<package name="order" extends="struts-default"> 
 		<action name="close" method="closeOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="list" method="queryIndexOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="find" method="getById" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="confirm" method="confirmOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
+		<action name="addOrder" method="addOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 	</package>
 	
+	<!-- 收藏 -->
 	<package name="collect" extends="struts-default"> 
 		<action name="queryCollectIndex" method="queryIndex" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 		<action name="addCollect" method="addColect" class="com.ewing.busi.collect.action.CustomerCollectAction" />

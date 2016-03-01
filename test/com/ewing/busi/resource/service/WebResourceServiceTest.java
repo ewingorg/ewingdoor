@@ -21,7 +21,7 @@ public class WebResourceServiceTest {
         try {
             WebResourceService webResourceService = (WebResourceService) SpringCtx
                     .getByBeanName("webResourceService");
-            ProductDetailResp resp = webResourceService.getProductDetail(8);
+            ProductDetailResp resp = webResourceService.getProductDetail(10, 8);
             System.out.println(resp);
         } catch (Exception e) {
             // TODO Auto-generated catch block

@@ -1,6 +1,5 @@
 package com.ewing.busi.resource.dto;
 
-import com.ewing.utils.FileUrlUtil;
 
 public class ProductDetailDto implements java.io.Serializable {
     /**
@@ -94,24 +93,20 @@ public class ProductDetailDto implements java.io.Serializable {
     /**
      * 库存
      */
-
     private Integer stockNum;
 
     /**
      * 品牌ID
      */
-
     private Integer brandId;
 
     /**
      * 是否热门推荐
      */
-
     private Integer isHot;
     /**
      * 是否上架 0:发布中 1:上架 2:下架
      */
-
     private Integer isOnline;
 
     /**
@@ -120,9 +115,24 @@ public class ProductDetailDto implements java.io.Serializable {
     private Integer needCarry;
 
     /**
-     * 是否收藏
+     * 是否收藏 0 没有收藏 1 收藏     
      */
     private Integer isCollect;
+    
+    /**
+     * 价格范围(eg:两个50-100，一个50)
+     */
+    private String priceRange;
+    
+    
+    public String getPriceRange() {
+      return priceRange;
+    }
+
+    public void setPriceRange(String priceRange) {
+      this.priceRange = priceRange;
+    }
+
     public Integer getId() {
         return id;
     }

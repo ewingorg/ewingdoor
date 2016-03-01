@@ -30,6 +30,11 @@ public class OrderDetail implements java.io.Serializable {
      * 资源id，表web_resource主键
      */
     private Integer resourceId;
+    
+    /**
+     * 对应web_resource_price的id
+     */
+    private Integer priceId; 
     /**
      * 产品数量
      */
@@ -74,7 +79,16 @@ public class OrderDetail implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
+
     
+    public Integer getPriceId() {
+      return priceId;
+    }
+
+    public void setPriceId(Integer priceId) {
+      this.priceId = priceId;
+    }
+
     public String getBizId() {
         return bizId;
     }

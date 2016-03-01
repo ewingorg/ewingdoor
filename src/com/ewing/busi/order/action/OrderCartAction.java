@@ -40,7 +40,6 @@ public class OrderCartAction extends BaseAction {
       checkRequired(page, "page");
       checkRequired(pageSize, "pageSize");
 
-      // @TODO 抽取dto对象
       List<LightOrderCartResp> list =
           orderCartService.queryByCusId(getLoginCusId(), page, pageSize);
       Map<String, Object> map = new HashMap<String, Object>();
@@ -82,11 +81,13 @@ public class OrderCartAction extends BaseAction {
     try {
       AddCartReq req = getParamJson(AddCartReq.class);
       Integer resourceId = req.getResourceId();
+      Integer priceId = req.getPriceId();
       Integer count = req.getCount();
       checkRequired(resourceId, "resourceId");
+      checkRequired(priceId, "priceId");
       checkRequired(count, "count");
 
-      orderCartService.addCart(getLoginCusId(), resourceId, count);
+      orderCartService.addCart(getLoginCusId(), resourceId, priceId, count);
       outSucResult(AjaxRespCode.CODE_SUC);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

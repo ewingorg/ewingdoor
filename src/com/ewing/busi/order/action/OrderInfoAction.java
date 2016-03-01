@@ -14,6 +14,7 @@ import com.ewing.busi.customer.dao.CustomerAddressDao;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.busi.customer.service.CustomerAddressService;
 import com.ewing.busi.order.constants.PayWay;
+import com.ewing.busi.order.dto.AddOrdeReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
 import com.ewing.busi.order.dto.LightOrderInfoReq;
@@ -39,119 +40,132 @@ import com.google.common.collect.Maps;
 
 public class OrderInfoAction extends BaseAction {
 
-    private static Logger logger = Logger.getLogger(WebResourceAction.class);
-    @Resource
-    private OrderCartService orderCartService;
-    @Resource
-    private OrderInfoService orderInfoService;
-    @Resource
-    private CustomerAddressService customerAddressService;
-    @Resource
-    private CustomerAddressDao customerAddressDao;
-    
+  private static Logger logger = Logger.getLogger(WebResourceAction.class);
+  @Resource
+  private OrderCartService orderCartService;
+  @Resource
+  private OrderInfoService orderInfoService;
+  @Resource
+  private CustomerAddressService customerAddressService;
+  @Resource
+  private CustomerAddressDao customerAddressDao;
 
-    /**
-     * 获取首页产品列表
-     */
-//    @CustomerLoginFilter
-    public void queryIndexOrder() {
 
-        try {
-            LightOrderInfoReq request = getParamJson(LightOrderInfoReq.class);
-            String status = request.getStatus();
-            Integer page = request.getPage();
-            Integer pageSize = request.getPageSize();
+  /**
+   * 获取首页产品列表
+   */
+  // @CustomerLoginFilter
+  public void queryIndexOrder() {
+    try {
+      LightOrderInfoReq request = getParamJson(LightOrderInfoReq.class);
+      String status = request.getStatus();
+      Integer page = request.getPage();
+      Integer pageSize = request.getPageSize();
 
-            List<LightOrderInfoResp> list = orderInfoService.queryByCusId(getLoginCusId(), status, page,
-                    pageSize);
-            Map<String, Object> map = Maps.newHashMap();
-            map.put("list", list);
-            map.put("shopName", SystemPropertyUtils.SHOP_NAME);
-            outSucResult(map);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            outFailResult("内部异常");
-        }
+      List<LightOrderInfoResp> list =
+          orderInfoService.queryByCusId(getLoginCusId(), status, page, pageSize);
+      Map<String, Object> map = Maps.newHashMap();
+      map.put("list", list);
+      map.put("shopName", SystemPropertyUtils.SHOP_NAME);
+      outSucResult(map);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
     }
+  }
 
-    /**
-     * 根据id查找detail
-     * 
-     * @author Joeson
-     */
-    public void getById() {
-        try {
-            OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
-            Integer orderId = req.getOrderId();
-            checkRequired(orderId, "orderId");
+  /**
+   * 根据id查找detail
+   * 
+   * @author Joeson
+   */
+  public void getById() {
+    try {
+      OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
+      Integer orderId = req.getOrderId();
+      checkRequired(orderId, "orderId");
 
-            // @TODO 抽取dto对象
-            List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId,
-                getLoginCusId());
-            CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginCusId());
-            List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginCusId());
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("list", list);
-            map.put("addrList", addrList);
-            map.put("payWay", PayWay.PAY_AFTER_RECEIVE);
-            map.put("defaultAddr", defaultAddr);
-            outSucResult(map);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            outFailResult("内部异常");
-        }
+      List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId, getLoginCusId());
+      CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginCusId());
+      List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginCusId());
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("list", list);
+      map.put("addrList", addrList);
+      map.put("payWay", PayWay.PAY_AFTER_RECEIVE);
+      map.put("defaultAddr", defaultAddr);
+      outSucResult(map);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
     }
+  }
 
-    /**
-     * 确认订单
-     * 
-     * @author Joeson
-     */
-    public void confirmOrder() {
-        try {
-            ConfirmOrderReq req = getParamJson(ConfirmOrderReq.class);
-            List<Item> list = new ArrayList<Item>();
-            checkRequired(list, "list");
+  /**
+   * 确认订单
+   * 
+   * @author Joeson
+   */
+  public void confirmOrder() {
+    try {
+      ConfirmOrderReq req = getParamJson(ConfirmOrderReq.class);
+      List<Item> list = new ArrayList<Item>();
+      checkRequired(list, "list");
 
-            orderInfoService.confirmOrder(req);
-            // @TODO 抽取dto对象
-            // List<OrderInfoDetailResp> list = orderInfoService.getById(orderId);
-            // Map<String, Object> map = new HashMap<String, Object>();
-            // map.put("list", list);
-            // map.put("payWay", PayWay.values());
-            // map.put("shopName", SystemPropertyUtil.getShopName());
-            // outSucResult(map);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            outFailResult("内部异常");
-        }
+      orderInfoService.confirmOrder(req);
+      // @TODO 抽取dto对象
+      // List<OrderInfoDetailResp> list = orderInfoService.getById(orderId);
+      // Map<String, Object> map = new HashMap<String, Object>();
+      // map.put("list", list);
+      // map.put("payWay", PayWay.values());
+      // map.put("shopName", SystemPropertyUtil.getShopName());
+      // outSucResult(map);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
     }
+  }
 
-    /**
-     * 关闭订单
-     * 
-     * @author Joeson
-     */
-    public void closeOrder() {
-        try {
-            OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
-            Integer orderId = req.getOrderId();
-            checkRequired(orderId, "orderId");
+  /**
+   * 关闭订单
+   * 
+   * @author Joeson
+   */
+  public void closeOrder() {
+    try {
+      OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
+      Integer orderId = req.getOrderId();
+      checkRequired(orderId, "orderId");
 
-            orderInfoService.cancelOrder(orderId);
-            outSucResult(ResponseCode.OK);
-        } catch (Exception e) {
-            logger.error(e.getMessage(), e);
-            outFailResult("内部异常");
-        }
+      orderInfoService.cancelOrder(orderId);
+      outSucResult(ResponseCode.OK);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
     }
+  }
 
-    /**
-     * 支付
-     * 
-     * @author Joeson
-     */
-    public void payOrder() {
+  public void addOrder() {
+    try {
+      AddOrdeReq req = getParamJson(AddOrdeReq.class);
+      checkRequired(req, "入参不能为空");
 
+      // @FIXME userId
+      Integer orderId = orderInfoService.addOrder(0, getLoginCusId(), req);
+      Map<String, Object> map = Maps.newHashMap();
+      map.put("orderId", orderId);
+      outSucResult(map);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
     }
+  }
+
+  /**
+   * 支付
+   * 
+   * @author Joeson
+   */
+  public void payOrder() {
+
+  }
 }

@@ -26,6 +26,19 @@ public class ProductDetailResp implements java.io.Serializable{
      * 产品价格
      */
     private List<ProductPriceDto> priceList;
+    
+    /**
+     * 价格范围
+     */
+    private String priceRange;
+    
+    public String getPriceRange() {
+      return priceRange;
+    }
+
+    public void setPriceRange(String priceRange) {
+      this.priceRange = priceRange;
+    }
 
     public ProductDetailDto getProductDetail() {
         return productDetail;

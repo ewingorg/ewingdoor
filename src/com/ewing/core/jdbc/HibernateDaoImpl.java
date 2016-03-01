@@ -342,7 +342,7 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
     }
     
     @Override
-    public void saveMuti(List<Object> entityList) {
+    public <T> void saveMuti(List<T> entityList) {
         if(CollectionUtils.isEmpty(entityList)){
             return;
         }

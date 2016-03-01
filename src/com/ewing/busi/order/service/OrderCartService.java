@@ -15,10 +15,12 @@ import com.ewing.busi.order.dao.OrderCartDao;
 import com.ewing.busi.order.dto.LightOrderCartResp;
 import com.ewing.busi.order.dto.SubmitCartReq;
 import com.ewing.busi.order.dto.SubmitCartReq.Item;
+import com.ewing.busi.order.helper.OrderHelper;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.busi.resource.model.WebResource;
+import com.ewing.busi.resource.model.WebResourcePrice;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.app.service.BaseModelService;
@@ -70,44 +72,6 @@ public class OrderCartService extends BaseService {
   }
 
   /**
-   * 场景：客户在购物车中进行结算时候，购物车中的单的单件会转化为具体的对象 将购物车对象 转化为 订单详情对象，
-   * 
-   * @param cart
-   * @param bizId
-   * @param orderId
-   * @author Joeson
-   * @param orderId
-   */
-  private OrderDetail toOrderDetail(OrderCart cart, String bizId, Integer itemCount, Integer orderId) {
-    if (null == cart) {
-      return null;
-    }
-
-    OrderDetail detail = new OrderDetail();
-    detail.setOrderId(orderId);
-    detail.setCustomerId(cart.getCustomerId());
-    detail.setBizId(bizId);
-    detail.setUserId(cart.getUserId());
-    detail.setResourceId(cart.getResourceId());
-    detail.setItemCount(itemCount);
-    detail.setUnitPrice(cart.getUnitPrice());
-    detail.setCargoPrice(cart.getItemCount());
-    detail.setOrderId(orderId);
-    detail.setTotalPrice(orderDetailService.analysyTotal(detail));
-    detail.setStatus(OrderStatus.WAIT_PAY.getValue());
-    detail.setIseff(cart.getIseff());
-
-    // @TODO设置物流信息
-    // WebResource resource = webResourceService.findById(detail.getResourceId(),
-    // WebResource.class);
-    // if(null != resource){
-    // detail.setCargoPrice(resource.get);
-    // }
-
-    return detail;
-  }
-
-  /**
    * 进行购物车结算，返回订单id
    * 
    * @param cusId 客户id
@@ -130,15 +94,13 @@ public class OrderCartService extends BaseService {
     float totalPrice = 0f;
 
     OrderInfo orderInfo = new OrderInfo();
-    orderInfo.setCustomerId(10);
+    orderInfo.setCustomerId(cusId);
     orderInfo.setUserId(0);
     orderInfo.setBizId(bizId);
     orderInfo.setCargoPrice(0f);
     orderInfo.setTotalPrice(0f);
     orderInfo.setStatus(OrderStatus.WAIT_PAY.getValue());
-    orderInfo.setPhone("");
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
-
     baseDao.save(orderInfo);
 
     for (OrderCart cart : cartList) {
@@ -147,7 +109,7 @@ public class OrderCartService extends BaseService {
       cart.setIseff(IsEff.INEFFECTIVE.getValue());
       baseDao.update(cart);
 
-      OrderDetail detail = toOrderDetail(cart, bizId, item.getItemCount(), orderInfo.getId());
+      OrderDetail detail = OrderHelper.initOrderDetail(cart, bizId, item.getItemCount(), orderInfo.getId());
       detailList.add(detail);
 
       totalPrice = totalPrice + detail.getTotalPrice();
@@ -173,10 +135,12 @@ public class OrderCartService extends BaseService {
    * @param resourceId 资源id
    * @param count 购物车数量
    * @author Joeson 
+   * @param count2 
    */
-  public void addCart(Integer cusId, Integer resourceId, Integer count)
+  public void addCart(Integer cusId, Integer resourceId, Integer priceId, Integer count)
       throws Exception {
     Validate.notNull(cusId, "cusId不能为空");
+    Validate.notNull(priceId, "priceId不能为空");
     Validate.notNull(resourceId, "resourceId不能为空");
     // 默认count只添加一个
     count = null == count ? 1 : count;
@@ -185,13 +149,18 @@ public class OrderCartService extends BaseService {
     if (null == resource) {
       throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
     }
+    WebResourcePrice price = baseDao.findOne(priceId, WebResourcePrice.class);
+    if(null == price || price.getResourceId() != resourceId){
+      throw new Exception(String.format("价格异常[id=%d]", priceId));
+    }
 
     OrderCart cart = new OrderCart();
     cart.setCustomerId(cusId);
     cart.setUserId(resource.getUserId());
     cart.setResourceId(resourceId);
+    cart.setPriceId(priceId);
     cart.setItemCount(count);
-    cart.setUnitPrice(resource.getPrice());
+    cart.setUnitPrice(price.getPrice());
     // cart.setCargoPrice(resource.get);运费
     cart.setTotalPrice(analyseTotal(cart));
     cart.setIseff(IsEff.EFFECTIVE.getValue());

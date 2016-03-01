@@ -25,9 +25,23 @@ public class AddCartReq implements Serializable {
     private Integer resourceId;
     
     /**
+     * web_resouce_price 表的id
+     */
+    private Integer priceId;
+    
+    /**
      * 数量
      */
     private Integer count;
+
+    
+    public Integer getPriceId() {
+      return priceId;
+    }
+
+    public void setPriceId(Integer priceId) {
+      this.priceId = priceId;
+    }
 
     public Integer getResourceId() {
       return resourceId;

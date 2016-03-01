@@ -32,7 +32,7 @@ public interface BaseDao {
 
     public void save(Object entity);
     
-    public void saveMuti(List<Object> entityList);
+    public <T> void saveMuti(List<T> entityList);
 
     public void update(Object entity);
 

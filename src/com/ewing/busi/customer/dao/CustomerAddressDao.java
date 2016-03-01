@@ -61,12 +61,14 @@ public class CustomerAddressDao {
      */
     public CustomerAddress findDefaultAddress(Integer cusId) {
         StringBuilder query = new StringBuilder();
-        query.append("is_default='").append(AddressDefault.DEFAULT.getValue()).append("'");
+        query.append(" customer_id = ").append(cusId);
+        query.append(" and is_default='").append(AddressDefault.DEFAULT.getValue()).append("'");
         query.append(" and iseff='").append(IsEff.EFFECTIVE.getValue()).append("'");
 
         CustomerAddress defaultAddr = baseDao.findOne(query.toString(), CustomerAddress.class);
         if (null == defaultAddr) {
             query.setLength(0);
+            query.append(" iseff='").append(IsEff.EFFECTIVE.getValue()).append("'");
             query.append(" order by last_update desc");
             defaultAddr = baseDao.findOne(query.toString(), CustomerAddress.class);
         }

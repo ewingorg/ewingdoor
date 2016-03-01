@@ -96,8 +96,11 @@ public class WebResourceService extends BaseService {
         CustomerCollect collect = customerCollectService.findByCusIdAndResId(cusId, resourceId);
         ProductDetailResp detailResponse = new ProductDetailResp();
         ProductDetailDto productDetail = new ProductDetailDto();
+        //获取属性列表
         List<ProductSpecGroup> specList = webResourceSpecService.getConfigureSpecs(resourceId);
         List<ProductPriceDto> priceList = webResourcePriceService.findByResourceId(resourceId);
+        productDetail.setPriceRange(webResourcePriceService.getPriceRange(priceList));//设置价格范围
+        productDetail.setIsCollect(null != collect ? 1 : 0);
         try {
             BeanUtils.copyProperties(productDetail, webresource);
             productDetail.setImageUrl(FileUrlUtil.convertImgUrl(productDetail.getImageUrl()));

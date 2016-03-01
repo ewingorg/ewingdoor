@@ -19,7 +19,9 @@ public class OrderDetailDao {
 
     public List<OrderInfoDetailResp> findByOrderIdAndCusId(Integer orderId, Integer cusId) {
         StringBuilder sql = new StringBuilder();
-        sql.append("select od.id,od.order_id,od.resource_id,wr.name,wr.image_url,od.item_count,od.unit_price,od.cargo_price,od.total_price,od.status from order_detail od inner join web_resource wr on od.resource_id = wr.id where 1=1");
+        sql.append("select od.id,od.order_id,od.resource_id,wr.name,wr.image_url,od.item_count,od.unit_price,od.cargo_price,od.total_price,od.status from order_detail od "
+            + "inner join web_resource wr on od.resource_id = wr.id"
+            + " where 1=1");
         sql.append(" and od.order_id = ").append(orderId);
         sql.append(" and od.customer_id = ").append(cusId);
         sql.append(" and od.iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");

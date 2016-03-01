@@ -19,19 +19,6 @@ public class OrderDetailService extends BaseService {
     private OrderDetailDao orderDetailDao;
 
     
-    /**
-     * 结算一个订单详情的总价
-     * @author Joeson
-     */
-    public float analysyTotal(OrderDetail detail) {
-        if (null == detail) {
-            return 0f;
-        }
-
-        float resourcePrice = detail.getUnitPrice() * detail.getItemCount();
-        return resourcePrice + detail.getCargoPrice();
-    }
-    
     public List<OrderInfoDetailResp> findByOrderIdAndCusId(Integer orderId, Integer cusId){
         if(null == orderId){
             return Collections.emptyList();

@@ -7,12 +7,16 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.dao.WebResourcePriceDao;
 import com.ewing.busi.resource.dto.ProductPriceDto;
 import com.ewing.busi.resource.model.WebResourcePrice;
+import com.ewing.utils.FloatUtils;
 
 /**
  * 资源价格服务类
@@ -37,19 +41,55 @@ public class WebResourcePriceService {
     public  List<ProductPriceDto> findByResourceId(Integer resourceId) {
         List<WebResourcePrice> list = webResourcePriceDao.findByResourceId(resourceId);
         List<ProductPriceDto> dtoList = new ArrayList<ProductPriceDto>();
+        
         for (WebResourcePrice model : list) {
             ProductPriceDto dto = new ProductPriceDto();
             try {
                 BeanUtils.copyProperties(dto, model);
                 dtoList.add(dto);
             } catch (IllegalAccessException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }
         return dtoList;
     }
+    
+    /**
+     * 获取价格区间(eg:两个50-100，一个50)
+     * @return
+     * @author Joeson
+     */
+    public String getPriceRange(List<ProductPriceDto> dtoList){
+      if(CollectionUtils.isEmpty(dtoList)){
+        return StringUtils.EMPTY;
+      }
+      
+      Float minPrice = Float.MAX_VALUE;
+      Float maxPrice = Float.MIN_VALUE;
+      
+      //@FIXME float类型比较方法
+      for(ProductPriceDto dto : dtoList){
+        if(minPrice > dto.getPrice()){
+          minPrice = dto.getPrice();
+        }
+        if(maxPrice < dto.getPrice()){
+          maxPrice = dto.getPrice();
+        }
+      }
+      
+      if(minPrice == maxPrice){
+        return minPrice.toString();
+      }else{
+        return minPrice + "-" + maxPrice;
+      }
+    }
+    
+    public static void main(String[] args) {
+      
+      System.out.println(Float.MIN_VALUE);
+    }
+    
+    
 }
