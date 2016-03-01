@@ -12,16 +12,13 @@ import com.ewing.busi.collect.dto.AddCollectReq;
 import com.ewing.busi.collect.dto.LightCollectReq;
 import com.ewing.busi.collect.dto.LightCollectResp;
 import com.ewing.busi.collect.service.CustomerCollectService;
-import com.ewing.busi.customer.model.Customer;
-import com.ewing.busi.order.dto.LightOrderCartResp;
-import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.common.constants.AjaxRespCode;
 import com.ewing.core.app.action.base.BaseAction;
 
 /**
  * 
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月23日
  */
 public class CustomerCollectAction extends BaseAction{

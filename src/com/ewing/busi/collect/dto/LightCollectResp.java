@@ -7,7 +7,7 @@ import com.ewing.core.jdbc.annotation.Column;
 /**
  * 收藏夹列表展示dto
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月23日
  */
 public class LightCollectResp implements Serializable{

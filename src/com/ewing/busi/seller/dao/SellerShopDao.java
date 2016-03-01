@@ -9,7 +9,7 @@ import com.ewing.core.jdbc.BaseDao;
 /**
  * sellshop dao操作类
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月20日
  *
  */

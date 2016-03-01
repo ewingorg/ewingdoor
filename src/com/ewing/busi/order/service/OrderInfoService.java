@@ -1,7 +1,6 @@
 package com.ewing.busi.order.service;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -30,7 +29,6 @@ import com.ewing.common.exception.BusinessException;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.utils.BizGenerator;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 @Repository("orderInfoService")
 public class OrderInfoService {

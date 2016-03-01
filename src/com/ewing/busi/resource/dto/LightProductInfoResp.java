@@ -1,6 +1,5 @@
 package com.ewing.busi.resource.dto;
 
-import com.ewing.utils.FileUrlUtil;
 
 /**
  * 轻量级的产品信息，产品列表使用

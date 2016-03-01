@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.dao.OrderDetailDao;
 import com.ewing.busi.order.dto.OrderInfoDetailResp;
-import com.ewing.busi.order.model.OrderDetail;
 
 @Repository("orderDetailService")
 public class OrderDetailService extends BaseService {

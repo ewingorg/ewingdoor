@@ -9,14 +9,11 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * <p/>
- * <br>=
- * ============================== <br>
- * 公司：优视科技-安卓应用发行中心 <br>
- * 系统：UC应用商店-开放平台 <br>
- * 开发：Joeson <br>
- * 创建时间：2014年9月23日 下午12:07:31 <br>=
- * ==============================
+ * Integer 工具类
+ * 
+ * @author Joeson Chan<chenxuegui1234@163.com>
+ * @since 2016年3月2日
+ *
  */
 public class IntegerUtils {
     

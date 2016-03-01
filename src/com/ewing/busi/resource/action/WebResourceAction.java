@@ -1,8 +1,6 @@
 package com.ewing.busi.resource.action;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -18,12 +16,11 @@ import com.ewing.busi.resource.service.WebCategoryService;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.common.constants.IsHot;
 import com.ewing.core.app.action.base.BaseAction;
-import com.ewing.core.redis.RedisCache;
 
 /**
  * 产品控制类，提供产品相关数据
  * 
- * @author tangzz@ucweb.com
+ * @author tanlam
  * @createDate 2016年1月25日
  */
 

@@ -10,14 +10,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 /**
- * Http处理接口
- * <p/>
- * <br>=
- * ============================== <br>
- * 公司：优视科技-安卓应用发行中心 <br>
- * 开发：Joeson <br>
- * 创建时间：2014年9月23日 下午12:07:31 <br>=
- * ==============================
+ * 
+ * @author Joeson Chan<chenxuegui1234@163.com>
+ * @since 2016年3月2日
+ *
  */
 public class HttpUtils {
     private static Logger log = Logger.getLogger(HttpUtils.class);

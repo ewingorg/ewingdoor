@@ -15,7 +15,7 @@ import com.google.common.collect.Lists;
 /**
  * Bean copy 工具
  * 
- * @author Joeson Chan<chenxuegui.cxg@alibaba-inc.com>
+ * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月2日
  *
  */

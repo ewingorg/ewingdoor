@@ -4,16 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 
 /**
- * 
- * TODO 自动扩展字节缓冲
- * <p/>
- * <br>=
- * ========================= <br>
- * 公司：优视科技-安卓应用发行中心 <br>
- * 系统：采集系统 <br>
- * 开发：郑智彬 <br>
- * 创建时间：2014年8月9日 下午5:22:16 <br>=
- * =========================
+ * @author Joeson Chan<chenxuegui1234@163.com>
+ * @since 2016年3月2日
+ *
  */
 public class AutoExpandByteBuffer {
 
