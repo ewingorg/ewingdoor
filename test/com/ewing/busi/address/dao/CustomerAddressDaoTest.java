@@ -14,20 +14,20 @@ import com.ewing.utils.JsonUtils;
 public class CustomerAddressDaoTest {
 
   @Test
-  public void testFindDefaultAddress(){
+  public void testFindDefaultAddress() {
     try {
-      CustomerAddressDao customerAddressDao = (CustomerAddressDao) SpringCtx
-              .getByBeanName("customerAddressDao");
-      
+      CustomerAddressDao customerAddressDao =
+          (CustomerAddressDao) SpringCtx.getByBeanName("customerAddressDao");
+
       CustomerAddress addr = customerAddressDao.findDefaultAddress(10);
-      
-      if(null != addr){
+
+      if (null != addr) {
         System.out.println(JsonUtils.toJson(addr));
       }
-      
-  } catch (Exception e) {
+
+    } catch (Exception e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
-  }
+    }
   }
 }

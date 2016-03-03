@@ -155,4 +155,14 @@ public class CustomerAddress implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
+    @Override
+    public String toString() {
+      return "CustomerAddress [id=" + id + ", customerId=" + customerId + ", receiver=" + receiver
+          + ", province=" + province + ", city=" + city + ", region=" + region + ", address="
+          + address + ", phone=" + phone + ", postCode=" + postCode + ", isDefault=" + isDefault
+          + ", iseff=" + iseff + ", createTime=" + createTime + ", lastUpdate=" + lastUpdate + "]";
+    }
+    
+    
+
 }

@@ -171,12 +171,13 @@ public class OrderInfoService {
     orderInfo.setCargoPrice(0f);
     orderInfo.setTotalPrice(0f);
     orderInfo.setStatus(OrderStatus.WAIT_PAY.getValue());
+    orderInfo.setPhone("");
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
     
     OrderDetail detail = OrderHelper.initOrderDetail(orderInfo.getId(), userId, cusId, bizId, count, resource, price);
     baseDao.save(detail);
     
-    return detail.getId();
+    return orderInfo.getId();
   }
 }

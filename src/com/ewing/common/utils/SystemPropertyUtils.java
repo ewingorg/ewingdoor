@@ -20,4 +20,7 @@ public class SystemPropertyUtils {
     public final static String RESOURCE_WEBSTIE = PropertyUtil.getProperty("resource.website");
 
     public final static String SHOP_NAME= PropertyUtil.getProperty("system.shop.name");
+    
+    /** 快递查询接口调用的appid**/
+    public final static String EXPRESS_APPID = PropertyUtil.getProperty("express_appid");
 }

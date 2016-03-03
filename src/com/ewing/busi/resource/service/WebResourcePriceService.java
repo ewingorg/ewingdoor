@@ -27,69 +27,69 @@ import com.ewing.utils.FloatUtils;
  */
 @Repository("webResourcePriceService")
 public class WebResourcePriceService {
-    @Resource
-    private WebResourceDao webResourceDao;
-    @Resource
-    private WebResourcePriceDao webResourcePriceDao;
+  @Resource
+  private WebResourceDao webResourceDao;
+  @Resource
+  private WebResourcePriceDao webResourcePriceDao;
 
-    /**
-     * 查找指定资源的价格设置
-     * 
-     * @param resourceId
-     * @return
-     */
-    public  List<ProductPriceDto> findByResourceId(Integer resourceId) {
-        List<WebResourcePrice> list = webResourcePriceDao.findByResourceId(resourceId);
-        List<ProductPriceDto> dtoList = new ArrayList<ProductPriceDto>();
-        
-        for (WebResourcePrice model : list) {
-            ProductPriceDto dto = new ProductPriceDto();
-            try {
-                BeanUtils.copyProperties(dto, model);
-                dtoList.add(dto);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        }
-        return dtoList;
-    }
-    
-    /**
-     * 获取价格区间(eg:两个50-100，一个50)
-     * @return
-     * @author Joeson
-     */
-    public String getPriceRange(List<ProductPriceDto> dtoList){
-      if(CollectionUtils.isEmpty(dtoList)){
-        return StringUtils.EMPTY;
-      }
-      
-      Float minPrice = Float.MAX_VALUE;
-      Float maxPrice = Float.MIN_VALUE;
-      
-      //@FIXME float类型比较方法
-      for(ProductPriceDto dto : dtoList){
-        if(minPrice > dto.getPrice()){
-          minPrice = dto.getPrice();
-        }
-        if(maxPrice < dto.getPrice()){
-          maxPrice = dto.getPrice();
-        }
-      }
-      
-      if(minPrice == maxPrice){
-        return minPrice.toString();
-      }else{
-        return minPrice + "-" + maxPrice;
+  /**
+   * 查找指定资源的价格设置
+   * 
+   * @param resourceId
+   * @return
+   */
+  public List<ProductPriceDto> findByResourceId(Integer resourceId) {
+    List<WebResourcePrice> list = webResourcePriceDao.findByResourceId(resourceId);
+    List<ProductPriceDto> dtoList = new ArrayList<ProductPriceDto>();
+
+    for (WebResourcePrice model : list) {
+      ProductPriceDto dto = new ProductPriceDto();
+      try {
+        BeanUtils.copyProperties(dto, model);
+        dtoList.add(dto);
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (InvocationTargetException e) {
+        e.printStackTrace();
       }
     }
-    
-    public static void main(String[] args) {
-      
-      System.out.println(Float.MIN_VALUE);
+    return dtoList;
+  }
+
+  /**
+   * 获取价格区间(eg:两个50-100，一个50)
+   * 
+   * @return
+   * @author Joeson
+   */
+  public String getPriceRange(List<ProductPriceDto> dtoList) {
+    if (CollectionUtils.isEmpty(dtoList)) {
+      return StringUtils.EMPTY;
     }
-    
-    
+
+    Float minPrice = Float.MAX_VALUE;
+    Float maxPrice = Float.MIN_VALUE;
+
+    for (ProductPriceDto dto : dtoList) {
+      if (FloatUtils.isGt(minPrice, dto.getPrice())) {
+        minPrice = dto.getPrice();
+      }
+      if (FloatUtils.isLt(maxPrice, dto.getPrice())) {
+        maxPrice = dto.getPrice();
+      }
+    }
+
+    if (FloatUtils.isEqual(minPrice, maxPrice)) {
+      return minPrice.toString();
+    } else {
+      return minPrice + "-" + maxPrice;
+    }
+  }
+
+  public static void main(String[] args) {
+
+    System.out.println(Float.MIN_VALUE);
+  }
+
+
 }

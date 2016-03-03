@@ -11,114 +11,101 @@ import com.google.gson.annotations.SerializedName;
  * @since 2016年2月21日
  */
 public class ExpressRespDto {
-    
-    private Response response;
-    
-    
-    class Response{
-        private Header header;
-        
-        private List<String> body;
-        
-        public Header getHeader() {
-            return header;
-        }
 
-        public void setHeader(Header header) {
-            this.header = header;
-        }
+  /**
+   * true 成功 ，false 失败
+   */
+  private Boolean success;
 
+  /**
+   * 如果请求失败，失败原因
+   */
+  private String reason;
 
+  /**
+   * 数据集合
+   */
+  private List<Data> data;
 
-        public List<String> getBody() {
-            return body;
-        }
+  /**
+   * 运单的当前状态：0物流单号暂无结果，3在途，4 揽件，5 疑难，6签收，7退签，8 派件，9 退回
+   */
+  private Integer status;
 
 
 
-        public void setBody(List<String> body) {
-            this.body = body;
-        }
+  public Boolean getSuccess() {
+    return success;
+  }
+
+  public void setSuccess(Boolean success) {
+    this.success = success;
+  }
+
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
 
 
 
-        class Header{
-            /**
-             * 接口名称
-             */
-            @SerializedName(value="service_name")
-            private String serviceName;
-            
-            /**
-             * 接口授权账号
-             */
-            @SerializedName(value="partner_name")
-            private String partnerName;
-            
-            /**
-             * 接口响应时间
-             */
-            @SerializedName(value="time_stamp")
-            private String timeStamp;
-            
-            /**
-             * 验证状态
-             */
-            private String status;
-            
-            /**
-             * 验证说明
-             */
-            private String desc;
+  public List<Data> getData() {
+    return data;
+  }
 
-            public String getServiceName() {
-                return serviceName;
-            }
 
-            public void setServiceName(String serviceName) {
-                this.serviceName = serviceName;
-            }
 
-            
-            public String getPartnerName() {
-                return partnerName;
-            }
+  public void setData(List<Data> data) {
+    this.data = data;
+  }
 
-            public void setPartnerName(String partnerName) {
-                this.partnerName = partnerName;
-            }
 
-            public String getTimeStamp() {
-                return timeStamp;
-            }
 
-            public void setTimeStamp(String timeStamp) {
-                this.timeStamp = timeStamp;
-            }
+  public Integer getStatus() {
+    return status;
+  }
 
-            public String getStatus() {
-                return status;
-            }
+  public void setStatus(Integer status) {
+    this.status = status;
+  }
 
-            public void setStatus(String status) {
-                this.status = status;
-            }
+  public class Data {
+    private String time;
 
-            public String getDesc() {
-                return desc;
-            }
+    private String context;
 
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-        }
+    public String getTime() {
+      return time;
     }
 
-    public Response getResponse() {
-        return response;
+    public void setTime(String time) {
+      this.time = time;
     }
 
-    public void setResponse(Response response) {
-        this.response = response;
+    public String getContext() {
+      return context;
     }
+
+    public void setContext(String context) {
+      this.context = context;
+    }
+
+    @Override
+    public String toString() {
+      return "Data [time=" + time + ", context=" + context + "]";
+    }
+    
+  }
+
+  @Override
+  public String toString() {
+    return "ExpressRespDto [success=" + success + ", reason=" + reason + ", data=" + data
+        + ", status=" + status + "]";
+  }
+  
+  
+  
 }
