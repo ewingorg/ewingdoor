@@ -14,17 +14,32 @@ import com.ewing.common.utils.SystemPropertyUtils;
 public class FileUrlUtil {
 
     /**
-     * 将相对路径的图片转成绝对路径
+     * 转成资源相关的路径
      * 
      * @param relativePath
      * @return
      */
-    public static String convertImgUrl(String relativePath) {
+    public static String convertResourceUrl(String relativePath) {
         if (StringUtils.isEmpty(relativePath))
             return null;
         if (StringUtils.isEmpty(SystemPropertyUtils.RESOURCE_WEBSTIE))
             return relativePath;
         else
             return SystemPropertyUtils.RESOURCE_WEBSTIE + relativePath;
+    }
+
+    /**
+     * 转换成商店相关的URL
+     * 
+     * @param relativePath
+     * @return
+     */
+    public static String convertShopUrl(String relativePath) {
+        if (StringUtils.isEmpty(relativePath))
+            return null;
+        if (StringUtils.isEmpty(SystemPropertyUtils.SHOP_DOMAIN))
+            return relativePath;
+        else
+            return SystemPropertyUtils.SHOP_DOMAIN + relativePath;
     }
 }

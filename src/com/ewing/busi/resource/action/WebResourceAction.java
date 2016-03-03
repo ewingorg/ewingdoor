@@ -41,11 +41,12 @@ public class WebResourceAction extends BaseAction {
             Integer isHot = req.getIsHot();
             Integer page = req.getPage();
             Integer pageSize = req.getPageSize();
-            Integer userId = req.getUserId();
+            Integer shopId = req.getShopId();
             checkRequired(isHot, "isHot");
             checkRequired(page, "page");
             checkRequired(pageSize, "pageSize");
-            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(userId, IsHot
+            checkRequired(shopId, "shopId");
+            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(shopId, IsHot
                     .fromValue(isHot).getValue(), page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
@@ -75,7 +76,7 @@ public class WebResourceAction extends BaseAction {
     public void getProductCategory() {
         try {
             CategoryReq req = getParamJson(CategoryReq.class);
-            List<CategoryResp> list = webCategoryService.queryShopCategory(req.getUserId());
+            List<CategoryResp> list = webCategoryService.queryShopCategory(req.getShopId());
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

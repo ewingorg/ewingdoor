@@ -27,19 +27,19 @@ public class WebResourceDao {
     /**
      * 获取资源信息，支持分页获取数据
      * 
-     * @param userId 用户ID
+     * @param shopId 商铺ID
      * @param isHot 是否热门资源
      * @param page
      * @param pageSize
      * 
      * @return
      */
-    public List<WebResource> pageQueryHotResource(Integer userId, Integer isHot, Integer page,
+    public List<WebResource> pageQueryHotResource(Integer shopId, Integer isHot, Integer page,
             Integer pageSize) {
         StringBuffer querySql = new StringBuffer();
         querySql.append("iseff = ").append("'" + IsEff.EFFECTIVE.getValue() + "'");
         querySql.append(" and is_hot =").append(isHot);
-        querySql.append(" and user_id=").append(userId);
+        querySql.append(" and shop_id=").append(shopId);
         querySql.append(" and is_online=").append(IsOnline.ONLINE.getValue());
         querySql.append(" order by last_update");
         PageBean<WebResource> result = baseDao.pageQuery(querySql.toString(), pageSize, page,

@@ -52,24 +52,24 @@ public class WebResourceService extends BaseService {
     /**
      * 获取资源信息，支持分页获取数据
      * 
-     * @param userId 用户ID
+     * @param shopId 商铺ID
      * @param isHot 是否热门资源
      * @param page
      * @param pageSize
      * 
      * @return
      */
-    @RedisCache(key = "lightProductList", keyParamNames = { "userId", "isHot" }, isList = true)
-    public List<LightProductInfoResp> pageQueryHotResource(Integer userId, Integer isHot,
+    @RedisCache(key = "lightProductList", keyParamNames = { "shopId", "isHot" }, isList = true)
+    public List<LightProductInfoResp> pageQueryHotResource(Integer shopId, Integer isHot,
             Integer page, Integer pageSize) {
 
         List<LightProductInfoResp> dtoList = new ArrayList<LightProductInfoResp>();
-        List<WebResource> list = webResourceDao.pageQueryHotResource(userId, isHot, page, pageSize);
+        List<WebResource> list = webResourceDao.pageQueryHotResource(shopId, isHot, page, pageSize);
         for (WebResource webResource : list) {
             LightProductInfoResp lightProductInfo = new LightProductInfoResp();
             try {
                 BeanUtils.copyProperties(lightProductInfo, webResource);
-                lightProductInfo.setImageUrl(FileUrlUtil.convertImgUrl(lightProductInfo
+                lightProductInfo.setImageUrl(FileUrlUtil.convertResourceUrl(lightProductInfo
                         .getImageUrl()));
                 dtoList.add(lightProductInfo);
             } catch (Exception e) {
@@ -103,7 +103,7 @@ public class WebResourceService extends BaseService {
         productDetail.setIsCollect(null != collect ? 1 : 0);
         try {
             BeanUtils.copyProperties(productDetail, webresource);
-            productDetail.setImageUrl(FileUrlUtil.convertImgUrl(productDetail.getImageUrl()));
+            productDetail.setImageUrl(FileUrlUtil.convertResourceUrl(productDetail.getImageUrl()));
         } catch (Exception e) {
             e.printStackTrace();
         }

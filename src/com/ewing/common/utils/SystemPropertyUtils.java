@@ -20,4 +20,7 @@ public class SystemPropertyUtils {
     public final static String RESOURCE_WEBSTIE = PropertyUtil.getProperty("resource.website");
 
     public final static String SHOP_NAME= PropertyUtil.getProperty("system.shop.name");
+    
+    public final static String SHOP_DOMAIN= PropertyUtil.getProperty("shop.domain");
+    
 }

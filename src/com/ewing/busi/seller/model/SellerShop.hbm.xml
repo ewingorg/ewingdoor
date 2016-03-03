@@ -12,6 +12,10 @@
             <column name="user_id" length="50" not-null="true">
             </column>
         </property>
+         <property name="templatePackageId" type="int">
+            <column name="template_package_id"  >
+            </column>
+        </property> 
         <property name="shopName" type="string">
             <column name="shop_name" length="200" not-null="true">
             </column>

@@ -43,4 +43,8 @@
 		<action name="queryCollectIndex" method="queryIndex" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 		<action name="addCollect" method="addColect" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 	</package>
+	
+	<package name="web" extends="struts-default"> 
+		<action name="templateKey" method="templateKey" class="com.ewing.busi.web.action.WebBlockAction" /> 
+	</package>
 </struts>
