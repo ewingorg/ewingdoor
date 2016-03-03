@@ -100,6 +100,7 @@ public class OrderCartService extends BaseService {
     orderInfo.setCargoPrice(0f);
     orderInfo.setTotalPrice(0f);
     orderInfo.setStatus(OrderStatus.WAIT_PAY.getValue());
+    orderInfo.setPhone("");
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
 

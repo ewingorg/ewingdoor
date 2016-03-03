@@ -23,6 +23,10 @@ public class OrderInfo implements java.io.Serializable {
      */
     private String bizId;
     /**
+     * 支付方式：0在线付款 1 货到付款
+     */
+    private String payWay;
+    /**
      * 产品费用
      */
     private float productPrice;
@@ -115,8 +119,14 @@ public class OrderInfo implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    
-    
+    public String getPayWay() {
+      return payWay;
+    }
+
+    public void setPayWay(String payWay) {
+      this.payWay = payWay;
+    }
+
     public String getBizId() {
         return bizId;
     }

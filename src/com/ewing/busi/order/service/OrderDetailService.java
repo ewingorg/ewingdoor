@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.dao.OrderDetailDao;
 import com.ewing.busi.order.dto.OrderInfoDetailResp;
+import com.ewing.utils.FileUrlUtil;
 
 @Repository("orderDetailService")
 public class OrderDetailService extends BaseService {
@@ -23,7 +24,11 @@ public class OrderDetailService extends BaseService {
             return Collections.emptyList();
         }
         
-        return orderDetailDao.findByOrderIdAndCusId(orderId, cusId);
+        List<OrderInfoDetailResp> list = orderDetailDao.findByOrderIdAndCusId(orderId, cusId);
+        for(OrderInfoDetailResp resp : list){
+          resp.setIcon(FileUrlUtil.convertResourceUrl(resp.getIcon()));
+        }
+        return list;
     }
     
 }

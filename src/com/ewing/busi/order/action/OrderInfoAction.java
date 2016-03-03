@@ -24,6 +24,7 @@ import com.ewing.busi.order.dto.OrderInfoDetailResp;
 import com.ewing.busi.order.service.OrderCartService;
 import com.ewing.busi.order.service.OrderInfoService;
 import com.ewing.busi.resource.action.WebResourceAction;
+import com.ewing.busi.resource.helper.PayWayHelper;
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
@@ -37,7 +38,6 @@ import com.google.common.collect.Maps;
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月2日
  */
-
 public class OrderInfoAction extends BaseAction {
 
   private static Logger logger = Logger.getLogger(WebResourceAction.class);
@@ -66,6 +66,7 @@ public class OrderInfoAction extends BaseAction {
           orderInfoService.queryByCusId(getLoginCusId(), status, page, pageSize);
       Map<String, Object> map = Maps.newHashMap();
       map.put("list", list);
+      map.put("payWays", PayWayHelper.list());
       map.put("shopName", SystemPropertyUtils.SHOP_NAME);
       outSucResult(map);
     } catch (Exception e) {
@@ -91,7 +92,7 @@ public class OrderInfoAction extends BaseAction {
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list", list);
       map.put("addrList", addrList);
-      map.put("payWay", PayWay.PAY_AFTER_RECEIVE);
+      map.put("payWays", PayWayHelper.list());
       map.put("defaultAddr", defaultAddr);
       outSucResult(map);
     } catch (Exception e) {
