@@ -10,21 +10,19 @@ import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.express.dto.ExpressResp;
 import com.ewing.core.express.service.ExpressApiService;
+import com.ewing.core.express.vo.ExpressRespDto;
 
 @Repository("expressService")
 public class ExpressService {
   @Resource
   private ExpressApiService expressApiService;
   
-  public static List<ExpressResp> list(String com,String num){
+  public ExpressRespDto query4Order(String com,String num){
     if(StringUtils.isEmpty(com) || StringUtils.isEmpty(num)){
-      return Collections.EMPTY_LIST;
+      return null;
     }
     
-//    ExpressApiService.
-    return null;
-    
-    
+    return expressApiService.request(com, num);
   }
     
     

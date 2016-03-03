@@ -2,6 +2,7 @@ package com.ewing.core.express.service;
 
 import org.springframework.stereotype.Repository;
 
+import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.express.vo.ExpressReqDto;
 import com.ewing.core.express.vo.ExpressRespDto;
 import com.ewing.utils.HttpUtils;
@@ -26,10 +27,10 @@ public class ExpressApiService {
      * @param id 快递查询接口appid
      * @param com 公司代号
      * @param num 快递单号
-     * @author Joeson
+     * @author Joeson,
      */
-    public ExpressRespDto request(String id,String com,String num){
-      String url = String.format(REQUEST_URL, id, com, num); 
+    public ExpressRespDto request(String com,String num){
+      String url = String.format(REQUEST_URL, SystemPropertyUtils.EXPRESS_APPID, com, num); 
       String response = HttpUtils.request(url, "GET", null, null, "utf8");
       return JsonUtils.toObject(response, ExpressRespDto.class);
     }

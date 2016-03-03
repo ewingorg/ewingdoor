@@ -37,7 +37,7 @@ public class ExpressServiceTest {
         ExpressApiService expressApiService = (ExpressApiService) SpringCtx
                 .getByBeanName("expressApiService");
         
-        ExpressRespDto dto = expressApiService.request(SystemPropertyUtils.EXPRESS_APPID, "yuantong", "881142919526377939");
+        ExpressRespDto dto = expressApiService.request("yuantong", "881142919526377939");
         
         System.out.println(dto);
     } catch (Exception e) {
