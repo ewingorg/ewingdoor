@@ -1,7 +1,7 @@
 package com.ewing.busi.resource.dto;
 
 /**
- * 产品分类请求 
+ * 产品分类请求
  * 
  * @author tansonlam
  * @createDate 2016年2月29日
@@ -9,14 +9,13 @@ package com.ewing.busi.resource.dto;
  */
 public class CategoryReq {
 
-    private Integer userId;
+    private Integer shopId;
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getShopId() {
+        return shopId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
-
 }

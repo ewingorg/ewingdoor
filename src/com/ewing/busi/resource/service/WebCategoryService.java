@@ -26,12 +26,12 @@ public class WebCategoryService {
      * @param userId
      * @return
      */
-    @RedisCache(key = "queryShopCategory", keyParamNames = { "userId" })
-    public List<CategoryResp> queryShopCategory(Integer userId) {
-        if (IntegerUtils.nullOrZero(userId)) {
+    @RedisCache(key = "queryShopCategory", keyParamNames = { "shopId" })
+    public List<CategoryResp> queryShopCategory(Integer shopId) {
+        if (IntegerUtils.nullOrZero(shopId)) {
             return Collections.EMPTY_LIST;
         } 
-        List<WebCategory> list = webCategoryDao.findByUserId(userId);
+        List<WebCategory> list = webCategoryDao.findByShopId(shopId);
         List<CategoryResp> dtoList = BeanCopy.copy(list, CategoryResp.class);
         return dtoList;
     }

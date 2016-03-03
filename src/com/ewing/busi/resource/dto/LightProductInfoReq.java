@@ -8,9 +8,9 @@ public class LightProductInfoReq extends PageRequest {
      */
     private Integer isHot;
     /**
-     * 商户ID
+     * 商铺ID
      */
-    private Integer userId;
+    private Integer shopId;
 
     public Integer getIsHot() {
         return isHot;
@@ -20,12 +20,12 @@ public class LightProductInfoReq extends PageRequest {
         this.isHot = isHot;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Integer getShopId() {
+        return shopId;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setShopId(Integer shopId) {
+        this.shopId = shopId;
     }
 
 }

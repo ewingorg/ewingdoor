@@ -23,4 +23,7 @@ public class SystemPropertyUtils {
     
     /** 快递查询接口调用的appid**/
     public final static String EXPRESS_APPID = PropertyUtil.getProperty("express_appid");
+    
+    public final static String SHOP_DOMAIN= PropertyUtil.getProperty("shop.domain");
+    
 }
