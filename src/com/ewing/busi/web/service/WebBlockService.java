@@ -21,6 +21,7 @@ import com.ewing.busi.web.dto.WebTemplateKeyResp;
 import com.ewing.busi.web.model.WebBlock;
 import com.ewing.busi.web.model.WebTemplate;
 import com.ewing.common.constants.BlockLinkType;
+import com.ewing.core.redis.RedisCache;
 import com.ewing.utils.BeanCopy;
 import com.ewing.utils.FileUrlUtil;
 
@@ -49,6 +50,7 @@ public class WebBlockService {
      * @param templateName
      * @return
      */
+    @RedisCache(key = "listTemplateBlock", keyParamNames = { "shopId", "templateName" }, isList = true)
     public List<WebTemplateKeyResp> listTemplateBlock(Integer shopId, String templateName) {
         // 查找对应的商店
         SellerShop sellerShop = sellerShopDao.findShop(shopId);
