@@ -441,7 +441,8 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
             String json =  gson.toJson(responseData);
             response.setContentType("text/json");
             if (isJsonpRequest()) {
-                String jsonpResut = "success_jsonpCallback(" + json + ")";
+                String callbackparam =  request.getParameter("callbackparam");
+                String jsonpResut = callbackparam+"(" + json + ")";
                 logger.debug(jsonpResut);
                 response.getWriter().write(jsonpResut);
             } else {

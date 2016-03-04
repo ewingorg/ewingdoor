@@ -50,7 +50,7 @@ public class WebBlockService {
      * @param templateName
      * @return
      */
-    @RedisCache(key = "listTemplateBlock", keyParamNames = { "shopId", "templateName" }, isList = true)
+    @RedisCache(key = "listTemplateBlock", keyParamNames = { "shopId", "templateName" }, isList = false)
     public List<WebTemplateKeyResp> listTemplateBlock(Integer shopId, String templateName) {
         // 查找对应的商店
         SellerShop sellerShop = sellerShopDao.findShop(shopId);
