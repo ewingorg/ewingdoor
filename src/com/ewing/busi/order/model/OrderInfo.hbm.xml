@@ -44,6 +44,10 @@
             <column name="post_code" length="10">
             </column>
         </property>
+        <property name="payWay" type="int">
+            <column name="pay_way" >
+            </column>
+        </property>
         <property name="province" type="string">
             <column name="province" length="50">
             </column>

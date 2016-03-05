@@ -25,7 +25,7 @@ public class OrderInfo implements java.io.Serializable {
     /**
      * 支付方式：0在线付款 1 货到付款
      */
-    private String payWay;
+    private Integer payWay;
     /**
      * 产品费用
      */
@@ -119,11 +119,11 @@ public class OrderInfo implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public String getPayWay() {
+    public Integer getPayWay() {
       return payWay;
     }
 
-    public void setPayWay(String payWay) {
+    public void setPayWay(Integer payWay) {
       this.payWay = payWay;
     }
 

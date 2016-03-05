@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
@@ -25,16 +26,17 @@ public class OrderInfoDao {
      * 
      * @param cusId
      * @author Joeson
-     * @param status
+     * @param statusList
      */
     @SuppressWarnings("unchecked")
-    public List<OrderInfo> queryByCusId(Integer cusId, String status, Integer page, Integer pageSize) {
+    public List<OrderInfo> queryByCusIdAndStatus(Integer cusId, List<String> statusList, Integer page, Integer pageSize) {
         StringBuilder query = new StringBuilder();
         query.append("customer_id=").append(cusId);
         query.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
-        if (StringUtils.isNotEmpty(status)) {
-            query.append(" and status = '").append(status).append("'");
+        if (CollectionUtils.isNotEmpty(statusList)) {
+            query.append(" and status in (").append(StringUtils.join(statusList.toArray(), ",")).append(")");
         }
+        
         query.append(" order by last_update desc");
         query.append(" limit ").append(PageUtil.getLimit(page, pageSize));
 

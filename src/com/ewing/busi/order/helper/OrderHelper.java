@@ -46,7 +46,7 @@ public class OrderHelper {
     // detail.setCargoPrice( );
     detail.setOrderId(orderId);
     detail.setTotalPrice(analysyTotal(detail));
-    detail.setStatus(OrderStatus.WAIT_PAY.getValue());
+    detail.setStatus(OrderStatus.INIT.getValue());
     detail.setIseff(IsEff.EFFECTIVE.getValue());
 
     // @TODO设置物流信息
@@ -84,7 +84,7 @@ public class OrderHelper {
     detail.setCargoPrice(count);
     detail.setOrderId(orderId);
     detail.setTotalPrice(analysyTotal(detail));
-    detail.setStatus(OrderStatus.WAIT_PAY.getValue());
+    detail.setStatus(OrderStatus.INIT.getValue());
     detail.setIseff(IsEff.EFFECTIVE.getValue());
 
     // @TODO设置物流信息

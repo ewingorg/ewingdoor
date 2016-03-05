@@ -15,6 +15,7 @@ import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.busi.customer.service.CustomerAddressService;
 import com.ewing.busi.order.constants.PayWay;
 import com.ewing.busi.order.dto.AddOrdeReq;
+import com.ewing.busi.order.dto.CommitOrdeReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
 import com.ewing.busi.order.dto.LightOrderInfoReq;
@@ -25,6 +26,7 @@ import com.ewing.busi.order.service.OrderCartService;
 import com.ewing.busi.order.service.OrderInfoService;
 import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.busi.resource.helper.PayWayHelper;
+import com.ewing.common.constants.AjaxRespCode;
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
@@ -58,12 +60,11 @@ public class OrderInfoAction extends BaseAction {
   public void queryIndexOrder() {
     try {
       LightOrderInfoReq request = getParamJson(LightOrderInfoReq.class);
-      String status = request.getStatus();
       Integer page = request.getPage();
       Integer pageSize = request.getPageSize();
 
       List<LightOrderInfoResp> list =
-          orderInfoService.queryByCusId(getLoginCusId(), status, page, pageSize);
+          orderInfoService.queryByCusId(getLoginCusId(), request.convertStatus(), page, pageSize);
       Map<String, Object> map = Maps.newHashMap();
       map.put("list", list);
       map.put("payWays", PayWayHelper.list());
@@ -162,11 +163,25 @@ public class OrderInfoAction extends BaseAction {
   }
 
   /**
-   * 支付
+   * 提交订单
    * 
    * @author Joeson
    */
-  public void payOrder() {
+  public void commitOrder() {
+    try {
+      CommitOrdeReq req = getParamJson(CommitOrdeReq.class);
+      checkRequired(req, "入参不能为空");
+
+      boolean result = orderInfoService.commitOrder(getLoginCusId(), req);
+      if(result){
+        outSucResult(AjaxRespCode.CODE_SUC.code);
+      }else{
+        outFailResult(AjaxRespCode.CODE_ERROR);;
+      }
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
+    }
 
   }
 }

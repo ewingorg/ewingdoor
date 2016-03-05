@@ -358,5 +358,17 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
         bulidEntityTime(entity, false);
         getHibernateTemplate().update(getHibernateTemplate().merge(entity));
     }
+    
+    @Override
+    public <T> void updateMuti(List<T> entityList) {
+        if(CollectionUtils.isEmpty(entityList)){
+            return;
+        }
+        for(Object entity : entityList){
+            bulidEntityTime(entity, true);
+        }
+        
+        getHibernateTemplate().saveOrUpdateAll(entityList);
+    }
 
 }

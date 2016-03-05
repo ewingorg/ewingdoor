@@ -1,17 +1,24 @@
 package com.ewing.busi.order.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.customer.dto.AddressDetailResp;
+import com.ewing.busi.customer.model.CustomerAddress;
+import com.ewing.busi.customer.service.CustomerAddressService;
 import com.ewing.busi.order.constants.OrderStatus;
+import com.ewing.busi.order.constants.PayWay;
 import com.ewing.busi.order.dao.OrderInfoDao;
 import com.ewing.busi.order.dto.AddOrdeReq;
+import com.ewing.busi.order.dto.CommitOrdeReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
 import com.ewing.busi.order.dto.LightOrderInfoResp;
@@ -29,6 +36,7 @@ import com.ewing.common.exception.BusinessException;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.utils.BizGenerator;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 @Repository("orderInfoService")
 public class OrderInfoService {
@@ -46,20 +54,23 @@ public class OrderInfoService {
   private WebResourceService webResourceService;
   @Resource
   private WebResourceDao webResoueceDao;
+  @Resource
+  private CustomerAddressService customerAddressService;
+  
   /**
    * 根据客户id查询 购物车列表
    * 
    * @param cusId 客户ID
-   * @param status 订单状态
+   * @param statusList 订单状态
    */
-  public List<LightOrderInfoResp> queryByCusId(Integer cusId, String status, Integer page,
+  public List<LightOrderInfoResp> queryByCusId(Integer cusId, List<String> statusList, Integer page,
       Integer pageSize) {
     Validate.notNull(cusId, "客户id不能为空");
     Validate.notNull(page, "page不能为空");
     Validate.notNull(pageSize, "pageSize不能为空");
 
     List<LightOrderInfoResp> dtoList = Lists.newArrayList();
-    List<OrderInfo> orderList = orderInfoDao.queryByCusId(cusId, status, page, pageSize);
+    List<OrderInfo> orderList = orderInfoDao.queryByCusIdAndStatus(cusId, statusList, page, pageSize);
     for (OrderInfo order : orderList) {
       List<OrderInfoDetailResp> detailDtoList =
           orderDetailService.findByOrderIdAndCusId(order.getId(), cusId);
@@ -170,7 +181,7 @@ public class OrderInfoService {
     orderInfo.setBizId(bizId);
     orderInfo.setCargoPrice(0f);
     orderInfo.setTotalPrice(0f);
-    orderInfo.setStatus(OrderStatus.WAIT_PAY.getValue());
+    orderInfo.setStatus(OrderStatus.INIT.getValue());
     orderInfo.setPhone("");
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
@@ -179,5 +190,55 @@ public class OrderInfoService {
     baseDao.save(detail);
     
     return orderInfo.getId();
+  }
+
+  /**
+   * 提交订单，将订单状态改为待支付状态待支付状态
+   * @param cusId
+   * @param req
+   * @author Joeson
+   */
+  public boolean commitOrder(Integer cusId, CommitOrdeReq req) {
+    Validate.notNull(cusId, "cusId不能为空");
+    Validate.notNull(req, "req不能为空");
+    Validate.notNull(req.getAddrId(), "addrId不能为空");
+    Validate.notNull(req.getPayWayId(), "payway不能为空");
+    
+    AddressDetailResp address = customerAddressService.findById(req.getAddrId(), cusId);
+    List<com.ewing.busi.order.dto.CommitOrdeReq.Item> list = req.getList();
+    Map<Integer,Integer> itemMap = Maps.newHashMap();//<key,value> ==> <detailId,itemCount>
+    List<Integer> detailIdList = Lists.newArrayList();
+    for(com.ewing.busi.order.dto.CommitOrdeReq.Item item : list){
+      detailIdList.add(item.getDetailId());
+      itemMap.put(item.getDetailId(), item.getItemCount());
+    }
+    List<OrderDetail> detailList = baseDao.findMuti(detailIdList, OrderDetail.class);
+    
+    List<Integer> orderInfoIdList = Lists.newArrayList();//一般是同一次提交只有一个orderinfo的
+    for(OrderDetail detail : detailList){
+      orderInfoIdList.add(detail.getOrderId());
+    }
+    List<OrderInfo> orderList =  baseDao.findMuti(detailIdList, OrderInfo.class);
+    
+    //更新操作
+    for(OrderDetail detail : detailList){
+      detail.setStatus(OrderStatus.WAIT_PAY.getValue());
+      detail.setItemCount(itemMap.get(detail.getId()));
+      
+      baseDao.update(detail);
+    }
+    for(OrderInfo order : orderList){
+      order.setStatus(OrderStatus.WAIT_PAY.getValue());
+      order.setPayWay(req.getPayWayId());
+      order.setPhone(null != address ? address.getPhone() : StringUtils.EMPTY);
+      order.setProvince(null != address ? address.getProvince() : StringUtils.EMPTY);
+      order.setCity(null != address ? address.getCity() : StringUtils.EMPTY);
+      order.setRegion(null != address ? address.getRegion() : StringUtils.EMPTY);
+      order.setAddress(null != address ? address.getAddress() : StringUtils.EMPTY);
+      
+      baseDao.update(order);
+    }
+    
+    return true;
   }
 }

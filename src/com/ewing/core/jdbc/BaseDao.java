@@ -35,6 +35,8 @@ public interface BaseDao {
     public <T> void saveMuti(List<T> entityList);
 
     public void update(Object entity);
+    
+    public <T> void updateMuti(List<T> entityList);
 
     public Session getConnectionSession();
 

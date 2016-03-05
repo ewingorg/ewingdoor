@@ -4,7 +4,10 @@ import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * 客户订单状态
+ * 客户订单状态<br/>
+ * 
+ * INIT ==提交订单==> WAIT_PAY ==支付==> WAIT_SEND ==发货，填写快递号==> WAIT_RECEIVE ==收货==> FINISHED
+ * @author Joeson
  */
 public enum OrderStatus {
 
@@ -18,7 +21,9 @@ public enum OrderStatus {
     
     FINISHED("4", "已完成"),
     
-    CLOSED("5", "已关闭");
+    CLOSED("5", "已关闭"),
+    
+    INIT("6", "初始化");
 
     private String value;
     private String msg;
