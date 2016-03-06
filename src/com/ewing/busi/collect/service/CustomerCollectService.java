@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.collect.dao.CustomerCollectDao;
 import com.ewing.busi.collect.dto.LightCollectResp;
 import com.ewing.busi.collect.model.CustomerCollect;
+import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.utils.IntegerUtils;
@@ -39,7 +40,7 @@ public class CustomerCollectService {
      * 保存到收藏夹
      * @author Joeson
      */
-    public void addCollect(Integer cusId, Integer resId) {
+    public boolean addCollect(Integer cusId, Integer resId) {
         Validate.notNull(cusId, "cusId不能为空");
         Validate.notNull(resId, "resId不能为空");
         
@@ -55,6 +56,8 @@ public class CustomerCollectService {
             collect.setIseff(IsEff.EFFECTIVE.getValue());
             baseDao.save(collect);
         }
+        
+        return true;
     }
 
     public CustomerCollect findByCusIdAndResId(Integer cusId, Integer resourceId) {
@@ -63,6 +66,24 @@ public class CustomerCollectService {
       }
       
       return customerCollectDao.findByCusIdAndResId(cusId, resourceId);
+    }
+
+    /**
+     * 取消购物车
+     * @param cusId
+     * @param resId
+     * @author Joeson
+     */
+    public boolean delCollect(Integer cusId, Integer resId) {
+      CustomerCollect collect = customerCollectDao.findByCusIdAndResId(cusId, resId);
+      if(null == collect){
+        return true;
+      }
+      
+      collect.setIseff(IsEff.INEFFECTIVE.getValue());
+      baseDao.update(collect);
+      return true;
+      
     }
 
 }

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 
 import com.ewing.busi.collect.dto.AddCollectReq;
+import com.ewing.busi.collect.dto.DelCollectReq;
 import com.ewing.busi.collect.dto.LightCollectReq;
 import com.ewing.busi.collect.dto.LightCollectResp;
 import com.ewing.busi.collect.service.CustomerCollectService;
@@ -59,11 +60,38 @@ public class CustomerCollectAction extends BaseAction{
             AddCollectReq req = getParamJson(AddCollectReq.class);
             checkRequired(req.getResId(), "resource_id");
             
-            customerCollectService.addCollect(getLoginCusId(), req.getResId());
-            outSucResult(AjaxRespCode.CODE_SUC);
+            boolean result = customerCollectService.addCollect(getLoginCusId(), req.getResId());
+            if(result){
+              outSucResult(AjaxRespCode.CODE_SUC.code);
+            }else{
+              outFailResult(AjaxRespCode.CODE_ERROR);
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
-            outFailResult("内部异常");
+            outFailResult(AjaxRespCode.CODE_ERROR);
+        }
+    }
+    
+    /**
+     * 添加收件夹
+     * 
+     * @author Joeson
+     */
+    public void delCollect(){
+        try {
+            DelCollectReq req = getParamJson(DelCollectReq.class);
+            checkRequired(req.getResId(), "resource_id");
+            
+            boolean result = customerCollectService.delCollect(getLoginCusId(), req.getResId());
+            if(result)
+              {
+              outSucResult(AjaxRespCode.CODE_SUC.code);
+              }else{
+                outFailResult(AjaxRespCode.CODE_ERROR);
+              }
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            outFailResult(AjaxRespCode.CODE_ERROR);
         }
     }
 

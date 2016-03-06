@@ -43,6 +43,7 @@
 	<package name="collect" extends="struts-default"> 
 		<action name="queryCollectIndex" method="queryIndex" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 		<action name="addCollect" method="addCollect" class="com.ewing.busi.collect.action.CustomerCollectAction" />
+		<action name="delCollect" method="delCollect" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 	</package>
 	
 	<package name="web" extends="struts-default"> 
