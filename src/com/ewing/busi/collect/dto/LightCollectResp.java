@@ -50,7 +50,13 @@ public class LightCollectResp implements Serializable{
      */
     @Column(fieldName = "image_url")
     private String icon;
-
+    
+    /**
+     * 简单描述
+     */
+    @Column(fieldName = "short_desc")
+    private String shortDesc;
+    
     /**
      * page
      */
@@ -62,6 +68,15 @@ public class LightCollectResp implements Serializable{
      */
     @Column(fieldName = "pageSize")
     private Integer pageSize;
+
+    
+    public String getShortDesc() {
+      return shortDesc;
+    }
+
+    public void setShortDesc(String shortDesc) {
+      this.shortDesc = shortDesc;
+    }
 
     public String getProductName() {
         return productName;
