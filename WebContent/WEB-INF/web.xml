@@ -56,6 +56,19 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 
+	<!-- <filter>
+		<filter-name>ajaxSessionCheckFilter</filter-name>
+		<filter-class>com.ewing.core.auth.filter.AjaxSessionCheckFilter</filter-class>
+		<init-param>
+			<param-name>ignoreUriList</param-name>
+            <param-value>/,/web/login,/web/fs/**/,/web/init/ping</param-value>
+		</init-param>
+	</filter> -->
+	<filter-mapping>
+		<filter-name>ajaxSessionCheckFilter</filter-name>
+		<url-pattern>/web/*</url-pattern>
+	</filter-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
