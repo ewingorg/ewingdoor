@@ -27,6 +27,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+	
+	<!-- 操作RequestHolder的类 -->
+	<listener>
+		<listener-class>com.ewing.core.auth.interceptor.RequestListener</listener-class>
+	</listener>
 
 
 	<filter>
@@ -57,17 +62,13 @@
 	</filter-mapping>
 
 	<!-- <filter>
-		<filter-name>ajaxSessionCheckFilter</filter-name>
-		<filter-class>com.ewing.core.auth.filter.AjaxSessionCheckFilter</filter-class>
+		<filter-name>sessionCheckFilter</filter-name>
+		<filter-class>com.ewing.core.auth.filter.SessionCheckFilter.java</filter-class>
 		<init-param>
 			<param-name>ignoreUriList</param-name>
             <param-value>/,/web/login,/web/fs/**/,/web/init/ping</param-value>
 		</init-param>
 	</filter> -->
-	<filter-mapping>
-		<filter-name>ajaxSessionCheckFilter</filter-name>
-		<url-pattern>/web/*</url-pattern>
-	</filter-mapping>
 	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

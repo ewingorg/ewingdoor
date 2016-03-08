@@ -13,8 +13,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.ewing.core.auth.HttpSessionUtils;
 
 
@@ -24,12 +22,8 @@ import com.ewing.core.auth.HttpSessionUtils;
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年3月7日
  */
-public class AjaxSessionCheckFilter implements Filter {
-  /**
-   * 默认生成的该类的LOG记录器，使用slf4j组件。避免产生编译警告，使用protected修饰符。
-   */
-  private static Logger logger = Logger.getLogger(AjaxSessionCheckFilter.class);
-  
+public class SessionCheckFilter implements Filter {
+
   /**
    * 忽略检查
    */
@@ -40,6 +34,7 @@ public class AjaxSessionCheckFilter implements Filter {
    */
   private static final String ignoreAll = "/**";
   
+  
   private Set<String> ignoreUris = null;
 
   @Override
@@ -49,7 +44,6 @@ public class AjaxSessionCheckFilter implements Filter {
     if (sIgnoreUriList == null || sIgnoreUriList.length() == 0) {
       return;
     }
-    
     String[] uris = sIgnoreUriList.split(",");
     for (String uri : uris) {
       ignoreUris.add(uri);
@@ -67,27 +61,11 @@ public class AjaxSessionCheckFilter implements Filter {
       chain.doFilter(request, response);
       return;
     }
-    // 如果获取不到PreSessionUserDetails，需要到进行登陆（第三方）验证
-    if (req.getSession(false) == null || HttpSessionUtils.getPreSessionUserDetails() == null) {
+    // 如果没有PreSessionUserDetails，说明没有登录过，或者登录过但是用户清空了浏览器缓存，需要第三方登陆验证
+    if (req.getSession(false) == null || null == HttpSessionUtils.getPreSessionUserDetails()) {
       HttpServletResponse resp = (HttpServletResponse) response;
-      //@TODO 如果没有session，而又点击退出按钮，则重定向（则定向到微信登陆界面）
-
-      //      if (requestPath.equals(CommonConstants.logoutUri)) {
-//        resp.sendRedirect(context + CommonConstants.loginUri);
-//        return;
-//      }
       
-//      resp.setContentType("application/json; charset=UTF-8");
-//      resp.setCharacterEncoding("UTF-8");
-//      PrintWriter writer = resp.getWriter();
-//      try {
-//        LOG.info("noCookie!!!!!!!");
-//        writer.write(noCookie);
-//      }
-//      finally {
-//        IOUtils.closeQuietly(writer);
-//      }
-      return;
+      //@DODO重定向到第三方登陆，登陆之后设置SessionUserDetails
     }
     
     chain.doFilter(request, response);
@@ -101,7 +79,7 @@ public class AjaxSessionCheckFilter implements Filter {
    * 当前请求是否忽略检查，默认返回false，表示需要检查，实现参考AntPathRequestMatcher
    * @param request
    * @return
-   * @author Joeson
+   * created by xuzhw on 2015年10月9日 下午2:09:32
    */
   private boolean ignoreCheck(String requestPath) {
     // 如果忽略的uri中包含/**则表示不需要检查
@@ -129,4 +107,5 @@ public class AjaxSessionCheckFilter implements Filter {
     }
     return result;
   }
+  
 }

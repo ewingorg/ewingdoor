@@ -1,6 +1,7 @@
 package com.ewing.core.auth;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -41,12 +42,13 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static PreSessionUserDetails getPreSessionUserDetails() {
-    ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-    if (servletRequestAttributes == null) {
+    HttpServletRequest request = (HttpServletRequest) RequestHolder.getRequest();
+    if (request == null) {
       return null;
     }
-    HttpServletRequest request = servletRequestAttributes.getRequest();
-    return request == null ? null : (PreSessionUserDetails) request.getSession().getAttribute(USER_SESSION_ID_KEY);
+    
+    HttpSession session = request.getSession();
+    return session == null ? null : (PreSessionUserDetails) session.getAttribute(USER_SESSION_ID_KEY);
   }
   
   /**
