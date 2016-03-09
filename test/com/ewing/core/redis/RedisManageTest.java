@@ -88,5 +88,31 @@ public class RedisManageTest {
         }
 
     }
+    @Test
+    public void testZadd() {
+        List<WebResource> list = new ArrayList<WebResource>();
+
+        WebResource resource1 = new WebResource();
+        resource1.setId(7);
+        resource1.setCreateTime(new Date());
+        WebResource resource2 = new WebResource();
+        resource2.setId(8);
+        resource2.setCreateTime(new Date());
+        list.add(resource1);
+        list.add(resource2);
+        String key = "resource_list2";
+        try {
+            RedisManage.getInstance().zadd(key, list);
+            RedisManage.getInstance().zadd(key, list);
+        List<WebResource> rlist = RedisManage.getInstance().zrangeWithScore(key, 0, 10);
+        System.out.println(rlist.size());
+        for (WebResource r : rlist) {
+            System.out.println("id:" + r.getId());
+        }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
 }
