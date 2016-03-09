@@ -20,6 +20,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 
 import com.ewing.core.redis.RedisCache;
+import com.ewing.core.redis.RedisLocker;
 import com.ewing.core.redis.RedisManage;
 import com.ewing.utils.PropertyUtil;
 
@@ -42,11 +43,11 @@ public class RedisCacheAdvice {
 
     @Around("execution(* com.ewing.busi.*.service.*.*(..))  && @annotation(cache)")
     public Object aroundMethod(ProceedingJoinPoint pjd, RedisCache cache) throws Throwable {
-         
+
         if (!isCache) {
             return pjd.proceed();
         }
-        
+
         if (cache != null && !StringUtils.isEmpty(cache.key())) {
             analyseMethodInfo(pjd);
             String key = cacheKey(pjd, cache);
@@ -80,26 +81,38 @@ public class RedisCacheAdvice {
             String key = cacheKey(pjd, cache);
             RedisManage redis = RedisManage.getInstance();
             // 处理LIST
-            if (cache.isList()) {
-                List listObj = (List) retObj;
-                if (listObj != null && !listObj.isEmpty()) {
-                    ParamValue page = getOneParamVale(pjd, cache.page());
-                    ParamValue pageSize = getOneParamVale(pjd, cache.pageSize());
-                    if (page != null && !StringUtils.isEmpty(page.getValue()) && pageSize != null
-                            && !StringUtils.isEmpty(pageSize.getValue())) {
-                        String pageKey = key + "_page=" + page.getValue() + "_pageSize="
-                                + pageSize.getValue();
-                        redis.rpush(pageKey, (List) retObj);
-                        String mapKey = key + "_map";
-                        redis.hset(mapKey, pageKey, pageKey);
+            try {
+                if (RedisLocker.getInstance().tryLock(key)) {
+                    if (cache.isList()) {
+                        List listObj = (List) retObj;
+                        if (listObj != null && !listObj.isEmpty()) {
+                            ParamValue page = getOneParamVale(pjd, cache.page());
+                            ParamValue pageSize = getOneParamVale(pjd, cache.pageSize());
+                            if (page != null && !StringUtils.isEmpty(page.getValue())
+                                    && pageSize != null && !StringUtils.isEmpty(pageSize.getValue())) {
+                                String pageKey = key + "_page=" + page.getValue() + "_pageSize="
+                                        + pageSize.getValue();
+                                List cacheList = redis.lrange(pageKey, 0, -1);
+                                if (cacheList != null && !cacheList.isEmpty())
+                                    return cacheList;
+                                redis.rpush(pageKey, (List) retObj);
+                                String mapKey = key + "_map";
+                                redis.hset(mapKey, pageKey, pageKey);
+                            }
+                        }
+
+                    }
+                    // 处理普通对象类型
+                    else {
+                        Object cacheResult = redis.get(key);
+                        if (cacheResult != null)
+                            return cacheResult;
+                        if (retObj != null)
+                            redis.set(key, retObj);
                     }
                 }
-
-            }
-            // 处理普通对象类型
-            else {
-                if (retObj != null)
-                    redis.set(key, retObj);
+            } finally {
+                RedisLocker.getInstance().unLock(key);
             }
         }
         return retObj;

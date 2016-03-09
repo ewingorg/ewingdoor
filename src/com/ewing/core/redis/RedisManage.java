@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.axis.utils.StringUtils;
@@ -29,7 +30,7 @@ public class RedisManage {
     /**
      * 连接池
      */
-    private ShardedJedisPool pool;
+    protected ShardedJedisPool pool;
     /**
      * 是否已经初始化，防止重复调用构造函数
      */
@@ -117,6 +118,26 @@ public class RedisManage {
             returnResource(jedis);
         }
     }
+    
+    /**
+     * 删除对象缓存
+     * 
+     * @param key
+     * @return
+     * @throws Exception
+     */
+    public void del(String key) throws RedisException {
+        ShardedJedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            jedis.del(key); 
+        } catch (Exception e) {
+            pool.returnBrokenResource(jedis);
+            throw new RedisException(e);
+        } finally {
+            returnResource(jedis);
+        }
+    }
 
     /**
      * 设置单个对象缓存
@@ -131,7 +152,7 @@ public class RedisManage {
         try {
             jedis = pool.getResource();
             byte[] data = SerializingTranscoder.serialize(value);
-            return jedis.set(key.getBytes(), data); 
+            return jedis.set(key.getBytes(), data);
         } catch (Exception e) {
             pool.returnBrokenResource(jedis);
             throw new RedisException(e);
@@ -251,6 +272,61 @@ public class RedisManage {
                 allMap.put(new String(mapkey), new String(map.get(mapkey)));
             }
             return allMap;
+        } catch (Exception e) {
+            pool.returnBrokenResource(jedis);
+            throw new RedisException(e);
+        } finally {
+            returnResource(jedis);
+        }
+    }
+
+    /**
+     * 添加有序的集合
+     * 
+     * @param key
+     * @param datas
+     * @throws RedisException
+     */
+    public <T> void zadd(String key, List<T> datas) throws RedisException {
+        if (datas.isEmpty())
+            return;
+        ShardedJedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Map<Double, byte[]> scoreMembers = new HashMap<Double, byte[]>();
+            for (int i = 0; i < datas.size(); i++) {
+                scoreMembers.put(Double.valueOf(i), SerializingTranscoder.serialize(datas.get(i)));
+            }
+            jedis.zadd(key.getBytes(), scoreMembers);
+        } catch (Exception e) {
+            pool.returnBrokenResource(jedis);
+            throw new RedisException(e);
+        } finally {
+            returnResource(jedis);
+        }
+    }
+    
+    /**
+     * 按照分数排序获取集合
+     * 
+     * @param key
+     * @param min
+     * @param max
+     * @return
+     * @throws RedisException
+     */
+    public <T> List<T> zrangeWithScore(String key, int min, int max) throws RedisException {
+        ShardedJedis jedis = null;
+        try {
+            jedis = pool.getResource();
+            Set<byte[]> result = jedis.zrangeByScore(key.getBytes(), min, max);
+            if (result == null)
+                return Collections.EMPTY_LIST;
+            List<T> rList = new ArrayList<T>();
+            for (byte[] b : result) {
+                rList.add((T) SerializingTranscoder.deserialize(b));
+            }
+            return rList;
         } catch (Exception e) {
             pool.returnBrokenResource(jedis);
             throw new RedisException(e);
