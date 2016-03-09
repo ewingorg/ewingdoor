@@ -4,8 +4,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.ewing.core.redis.RedisException;
+import com.ewing.core.redis.RedisManage;
 
 
 /**
@@ -25,6 +26,11 @@ public final class HttpSessionUtils {
    * 从servletrequestattribute获取的PreSessionUserDetails的key
    */
   public static final String USER_SESSION_ID_KEY = "usersessionid";
+  
+  /**
+   * 从缓存中获取key的
+   */
+  public static final String USER_DETAILS_CACHE_KEY = "userdetailscache_";
   
   /**
    * 标识用户是否已经登陆
@@ -68,15 +74,20 @@ public final class HttpSessionUtils {
   /**
    * 需要根据PreSessionUserDetails到缓存中获取
    * @author Joeson
+   * @throws RedisException 
    */
-  public static SessionUserDetails getSessionUserDetails(){
+  public static SessionUserDetails getSessionUserDetails() throws RedisException{
     PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
     if(null == preSessionUserDetails){
       return null;
     }else{
-      //@TODO从缓存中获取SessionUserDetails
-      return null;
-//      return preSessionUserDetails.getCusId();
+      //从缓存中获取UserDetails
+      try {
+        return RedisManage.getInstance().get(USER_DETAILS_CACHE_KEY + preSessionUserDetails);
+      } catch (RedisException e) {
+        logger.error(e.getMessage(), e);
+        throw e;
+      }
     }
   }
 }

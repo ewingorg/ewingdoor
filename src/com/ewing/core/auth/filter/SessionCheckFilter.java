@@ -65,7 +65,7 @@ public class SessionCheckFilter implements Filter {
     if (req.getSession(false) == null || null == HttpSessionUtils.getPreSessionUserDetails()) {
       HttpServletResponse resp = (HttpServletResponse) response;
       
-      //@DODO重定向到第三方登陆，登陆之后设置SessionUserDetails
+      //@DODO重定向到第三方登陆，登陆之后设置PreSessionUserDetails和SessionUserDetails
     }
     
     chain.doFilter(request, response);
