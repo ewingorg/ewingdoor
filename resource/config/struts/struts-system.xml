@@ -46,6 +46,11 @@
 		<action name="delCollect" method="delCollect" class="com.ewing.busi.collect.action.CustomerCollectAction" />
 	</package>
 	
+	<!-- 快递-->
+	<package name="express" extends="struts-default"> 
+		<action name="queryExpress" method="query" class="com.ewing.busi.express.action.ExpressAction" />
+	</package>
+	
 	<package name="web" extends="struts-default"> 
 		<action name="templateKey" method="templateKey" class="com.ewing.busi.web.action.WebBlockAction" /> 
 	</package>
