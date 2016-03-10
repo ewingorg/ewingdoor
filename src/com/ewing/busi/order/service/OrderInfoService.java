@@ -117,12 +117,17 @@ public class OrderInfoService {
    * 
    * @param orderId
    * @author Joeson
+   * @param orderId 
    */
-  public void closeOrder(Integer orderId) {
+  public void closeOrder(Integer cusId, Integer orderId) {
     Validate.notNull(orderId, "orderId不能为空");
 
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
     Validate.notNull(order, "order不能为空");
+    
+    if(order.getCustomerId() != cusId){
+      return;
+    }
     // 如果状态不为待付款或已收货，不能关闭订单
     if (!(ObjectUtils.equals(order.getStatus(), OrderStatus.WAIT_PAY.getValue()) || ObjectUtils
         .equals(order.getStatus(), OrderStatus.FINISHED.getValue()))) {
@@ -137,6 +142,8 @@ public class OrderInfoService {
 
   /**
    * 添加到order，场景：立即订购
+   * 
+   * 如果priceId为空，则取web_resource中的price
    * @param cusId 客户id
    * @param req 请求参数
    * @author Joeson
@@ -145,7 +152,6 @@ public class OrderInfoService {
   public Integer addOrder(Integer cusId, AddOrdeReq req) throws Exception {
     Validate.notNull(req, "入参不能为空");
     Validate.notNull(req.getResourceId(), "resourceId不能为空");
-    Validate.notNull(req.getPriceId(), "priceId不能为空");
     Validate.notNull(req.getCount(), "count不能为空");
     
     Integer resourceId = req.getResourceId();
@@ -156,10 +162,7 @@ public class OrderInfoService {
     if (null == resource) {
       throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
     }
-    WebResourcePrice price = baseDao.findOne(priceId, WebResourcePrice.class);
-    if(null == price || price.getResourceId() != resourceId){
-      throw new Exception(String.format("价格异常[id=%d]", priceId));
-    }
+    WebResourcePrice price = null == priceId ? null : baseDao.findOne(priceId, WebResourcePrice.class);
 
     String bizId = BizGenerator.generateBizNum();
     //保存orderinfo
@@ -174,7 +177,7 @@ public class OrderInfoService {
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
     
-    OrderDetail detail = OrderHelper.initOrderDetail(orderInfo.getId(), resource.getUserId(), cusId, bizId, count, resource, price);
+    OrderDetail detail = OrderHelper.initOrderDetail(orderInfo.getId(), priceId, cusId, bizId, count, resource, price);
     baseDao.save(detail);
     
     return orderInfo.getId();

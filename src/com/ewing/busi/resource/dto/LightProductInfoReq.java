@@ -11,6 +11,11 @@ public class LightProductInfoReq extends PageRequest {
      * 商铺ID
      */
     private Integer shopId;
+    
+    /**
+     * 类别web_category id
+     */
+    private Integer categoryId;
 
     public Integer getIsHot() {
         return isHot;
@@ -26,6 +31,14 @@ public class LightProductInfoReq extends PageRequest {
 
     public void setShopId(Integer shopId) {
         this.shopId = shopId;
+    }
+
+    public Integer getCategoryId() {
+      return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+      this.categoryId = categoryId;
     }
 
 }

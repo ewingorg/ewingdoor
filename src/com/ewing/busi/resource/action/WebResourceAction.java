@@ -52,7 +52,18 @@ public class WebResourceAction extends BaseAction {
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
-
+    }
+    
+    public void queryByCategory(){
+      try {
+          LightProductInfoReq req = getParamJson(LightProductInfoReq.class);
+          checkRequired(req, "入参不能为空");
+          
+          List<LightProductInfoResp> list = webResourceService.queryByCategory(req);
+          outSucResult(list);
+      } catch (Exception e) {
+          logger.error(e.getMessage(), e);
+      }
     }
 
     /**

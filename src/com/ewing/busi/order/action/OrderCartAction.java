@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.order.dto.AddCartReq;
+import com.ewing.busi.order.dto.LightOrderCartReq;
 import com.ewing.busi.order.dto.LightOrderCartResp;
 import com.ewing.busi.order.dto.SubmitCartReq;
 import com.ewing.busi.order.service.OrderCartService;
@@ -34,14 +35,10 @@ public class OrderCartAction extends BaseAction {
   // @CustomerLoginFilter
   public void queryIndexCart() {
     try {
-      LightAddressInfoReq request = getParamJson(LightAddressInfoReq.class);
-      Integer page = request.getPage();
-      Integer pageSize = request.getPageSize();
-      checkRequired(page, "page");
-      checkRequired(pageSize, "pageSize");
-
+      LightOrderCartReq req = getParamJson(LightOrderCartReq.class);
+      
       List<LightOrderCartResp> list =
-          orderCartService.queryByCusId(getLoginCusId(), page, pageSize);
+          orderCartService.queryByCusId(getLoginCusId(), req);
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list", list);
       outSucResult(map);
@@ -63,7 +60,7 @@ public class OrderCartAction extends BaseAction {
       checkRequired(req, "req");
 
       // @TODO 抽取dto对象
-      Integer orderId = orderCartService.balanceCart(req, getLoginCusId());
+      Integer orderId = orderCartService.balanceCart(getLoginCusId(), req);
       outSucResult(orderId);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
@@ -80,14 +77,9 @@ public class OrderCartAction extends BaseAction {
   public void addCart() {
     try {
       AddCartReq req = getParamJson(AddCartReq.class);
-      Integer resourceId = req.getResourceId();
-      Integer priceId = req.getPriceId();
-      Integer count = req.getCount();
-      checkRequired(resourceId, "resourceId");
-      checkRequired(priceId, "priceId");
-      checkRequired(count, "count");
+      checkRequired(req, "入参不能为空");
 
-      orderCartService.addCart(getLoginCusId(), resourceId, priceId, count);
+      orderCartService.addCart(getLoginCusId(), req);
       outSucResult(AjaxRespCode.CODE_SUC);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

@@ -41,6 +41,7 @@ public class WebResourceDao {
         querySql.append(" and is_hot =").append(isHot);
         querySql.append(" and shop_id=").append(shopId);
         querySql.append(" and is_online=").append(IsOnline.ONLINE.getValue());
+        querySql.append(" and iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
         querySql.append(" order by last_update");
         PageBean<WebResource> result = baseDao.pageQuery(querySql.toString(), pageSize, page,
                 WebResource.class);
@@ -55,5 +56,20 @@ public class WebResourceDao {
      */
     public WebResource findOne(Integer resourceId) {
         return baseDao.findOne(resourceId, WebResource.class);
+    }
+
+    public List<WebResource> queryByCategory(Integer shopId, Integer categoryId, Integer page,
+        Integer pageSize) {
+      StringBuilder sql = new StringBuilder("select wr.* from web_resource wr"
+          + " inner join web_category wc on wr.category_id = wc.id"
+          + " where 1= 1");
+      sql.append(" and wc.shop_id = ").append(shopId);
+      sql.append(" and wc.shop_id = ").append(shopId);
+      sql.append(" and wc.id = ").append(categoryId);
+      sql.append(" and wc.iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
+      sql.append(" and wr.iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
+      sql.append(" order by wr.last_update desc");
+      
+      return baseDao.noMappedObjectQuery(sql.toString(), WebResource.class);
     }
 }

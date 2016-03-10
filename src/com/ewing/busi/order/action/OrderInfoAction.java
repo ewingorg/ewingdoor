@@ -141,7 +141,7 @@ public class OrderInfoAction extends BaseAction {
       Integer orderId = req.getOrderId();
       checkRequired(orderId, "orderId");
 
-      orderInfoService.closeOrder(orderId);
+      orderInfoService.closeOrder(getLoginCusId() ,orderId);
       outSucResult(ResponseCode.OK);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
@@ -184,6 +184,5 @@ public class OrderInfoAction extends BaseAction {
       logger.error(e.getMessage(), e);
       outFailResult("内部异常");
     }
-
   }
 }

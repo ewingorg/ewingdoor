@@ -62,27 +62,25 @@ public class OrderHelper {
   }
 
   /**
-   * 
-   * 
    * @author Joeson
    */
-  public static OrderDetail initOrderDetail(Integer orderId, Integer userId, Integer cusId,
-      String bizId, Integer count, WebResource resource, WebResourcePrice price) {
-    if (IntegerUtils.nullOrZero(orderId) || IntegerUtils.nullOrZero(userId)
-        || IntegerUtils.nullOrZero(cusId) || StringUtils.isEmpty(bizId)
-        || IntegerUtils.nullOrZero(count) || null == resource || null == price) {
+  public static OrderDetail initOrderDetail(Integer orderId, Integer priceId, Integer cusId, String bizId, Integer count, WebResource resource, WebResourcePrice price) {
+    if (IntegerUtils.nullOrZero(orderId) || IntegerUtils.nullOrZero(priceId)
+        || IntegerUtils.nullOrZero(cusId) || StringUtils.isEmpty(bizId) || null == resource) {
       return null;
     }
 
+    count = null == count ? 1 : count;
+    
     OrderDetail detail = new OrderDetail();
     detail.setOrderId(orderId);
     detail.setCustomerId(cusId);
     detail.setBizId(bizId);
-    detail.setUserId(userId);
+    detail.setUserId(resource.getUserId());
     detail.setResourceId(resource.getId());
-    detail.setPriceId(price.getId());
+    detail.setPriceId(priceId);
     detail.setItemCount(count);
-    detail.setUnitPrice(price.getPrice());
+    detail.setUnitPrice(null == price ? resource.getPrice() : price.getPrice());
     detail.setCargoPrice(count);
     detail.setOrderId(orderId);
     detail.setTotalPrice(analysyTotal(detail));

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.constants.OrderStatus;
 import com.ewing.busi.order.dao.OrderCartDao;
+import com.ewing.busi.order.dto.AddCartReq;
+import com.ewing.busi.order.dto.LightOrderCartReq;
 import com.ewing.busi.order.dto.LightOrderCartResp;
 import com.ewing.busi.order.dto.SubmitCartReq;
 import com.ewing.busi.order.dto.SubmitCartReq.Item;
@@ -65,8 +67,13 @@ public class OrderCartService extends BaseService {
    * @param pageSize
    * @param page
    */
-  public List<LightOrderCartResp> queryByCusId(Integer cusId, Integer page, Integer pageSize) {
-    checkFalse(IntegerUtils.nullOrZero(cusId), "cusId不能为空");
+  public List<LightOrderCartResp> queryByCusId(Integer cusId, LightOrderCartReq req) {
+    Validate.notNull(req, "入参不能为空");
+    Integer page = req.getPage();
+    Integer pageSize = req.getPageSize();
+    Validate.notNull(cusId, "客户id不能为空");
+    Validate.notNull(page, "page不能为空");
+    Validate.notNull(pageSize, "pageSize不能为空");
 
     return orderCartDao.queryByCusId(cusId, page, pageSize);
   }
@@ -76,7 +83,7 @@ public class OrderCartService extends BaseService {
    * 
    * @param cusId 客户id
    */
-  public Integer balanceCart(SubmitCartReq req, Integer cusId) {
+  public Integer balanceCart(Integer cusId, SubmitCartReq req){
     Validate.notNull(req, "req不能为空");
 
     Map<Integer, Item> map = Maps.newHashMap();
@@ -135,14 +142,18 @@ public class OrderCartService extends BaseService {
    * 
    * @param cusId 客户id
    * @param resourceId 资源id
+   * @param priceId 如果没有priceId，则价格取web_resouce中的价格
    * @param count 购物车数量
    * @author Joeson
    * @param count2
    */
-  public void addCart(Integer cusId, Integer resourceId, Integer priceId, Integer count)
-      throws Exception {
+  public void addCart(Integer cusId, AddCartReq req) throws Exception {
+    Validate.notNull(req, "入参不能为空");
     Validate.notNull(cusId, "cusId不能为空");
-    Validate.notNull(priceId, "priceId不能为空");
+
+    Integer count = req.getCount();
+    Integer resourceId = req.getResourceId();
+    Integer priceId = req.getPriceId();
     Validate.notNull(resourceId, "resourceId不能为空");
     // 默认count只添加一个
     count = null == count ? 1 : count;
@@ -151,28 +162,28 @@ public class OrderCartService extends BaseService {
     if (null == resource) {
       throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
     }
-    WebResourcePrice price = baseDao.findOne(priceId, WebResourcePrice.class);
-    if (null == price || price.getResourceId() != resourceId) {
-      throw new Exception(String.format("价格异常[id=%d]", priceId));
-    }
+    WebResourcePrice price =
+        null == priceId ? null : baseDao.findOne(priceId, WebResourcePrice.class);
 
     OrderCart cart = orderCartDao.findByCusIdAndResIdAndPriId(cusId, resourceId, priceId);
-    if (null != cart) {
-      cart.setItemCount(count);
-      cart.setIseff(IsEff.EFFECTIVE.getValue());
+    boolean isExist = null != cart; // 是否存在
+    cart = null == cart ? new OrderCart() : cart;
+
+    cart = new OrderCart();
+    cart.setCustomerId(cusId);
+    cart.setUserId(resource.getUserId());
+    cart.setResourceId(resourceId);
+    cart.setPriceId(priceId);
+    cart.setItemCount(count);
+    cart.setUnitPrice(null == price ? resource.getPrice() : price.getPrice());
+    // cart.setCargoPrice(resource.get);运费 @TODO确认运费问题
+    cart.setTotalPrice(analyseTotal(cart));
+    cart.setIseff(IsEff.EFFECTIVE.getValue());
+    cart.setCreateTime(new Date());
+
+    if (isExist) {
       baseDao.update(cart);
     } else {
-      cart = new OrderCart();
-      cart.setCustomerId(cusId);
-      cart.setUserId(resource.getUserId());
-      cart.setResourceId(resourceId);
-      cart.setPriceId(priceId);
-      cart.setItemCount(count);
-      cart.setUnitPrice(price.getPrice());
-      // cart.setCargoPrice(resource.get);运费
-      cart.setTotalPrice(analyseTotal(cart));
-      cart.setIseff(IsEff.EFFECTIVE.getValue());
-      cart.setCreateTime(new Date());
       baseDao.save(cart);
     }
   }
