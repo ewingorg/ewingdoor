@@ -110,7 +110,8 @@ public class OrderCartService extends BaseService {
       cart.setIseff(IsEff.INEFFECTIVE.getValue());
       baseDao.update(cart);
 
-      OrderDetail detail = OrderHelper.initOrderDetail(cart, bizId, item.getItemCount(), orderInfo.getId());
+      OrderDetail detail =
+          OrderHelper.initOrderDetail(cart, bizId, item.getItemCount(), orderInfo.getId());
       detailList.add(detail);
 
       totalPrice = totalPrice + detail.getTotalPrice();
@@ -135,8 +136,8 @@ public class OrderCartService extends BaseService {
    * @param cusId 客户id
    * @param resourceId 资源id
    * @param count 购物车数量
-   * @author Joeson 
-   * @param count2 
+   * @author Joeson
+   * @param count2
    */
   public void addCart(Integer cusId, Integer resourceId, Integer priceId, Integer count)
       throws Exception {
@@ -151,21 +152,28 @@ public class OrderCartService extends BaseService {
       throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
     }
     WebResourcePrice price = baseDao.findOne(priceId, WebResourcePrice.class);
-    if(null == price || price.getResourceId() != resourceId){
+    if (null == price || price.getResourceId() != resourceId) {
       throw new Exception(String.format("价格异常[id=%d]", priceId));
     }
 
-    OrderCart cart = new OrderCart();
-    cart.setCustomerId(cusId);
-    cart.setUserId(resource.getUserId());
-    cart.setResourceId(resourceId);
-    cart.setPriceId(priceId);
-    cart.setItemCount(count);
-    cart.setUnitPrice(price.getPrice());
-    // cart.setCargoPrice(resource.get);运费
-    cart.setTotalPrice(analyseTotal(cart));
-    cart.setIseff(IsEff.EFFECTIVE.getValue());
-    cart.setCreateTime(new Date());
-    baseDao.save(cart);
+    OrderCart cart = orderCartDao.findByCusIdAndResIdAndPriId(cusId, resourceId, priceId);
+    if (null != cart) {
+      cart.setItemCount(count);
+      cart.setIseff(IsEff.EFFECTIVE.getValue());
+      baseDao.update(cart);
+    } else {
+      cart = new OrderCart();
+      cart.setCustomerId(cusId);
+      cart.setUserId(resource.getUserId());
+      cart.setResourceId(resourceId);
+      cart.setPriceId(priceId);
+      cart.setItemCount(count);
+      cart.setUnitPrice(price.getPrice());
+      // cart.setCargoPrice(resource.get);运费
+      cart.setTotalPrice(analyseTotal(cart));
+      cart.setIseff(IsEff.EFFECTIVE.getValue());
+      cart.setCreateTime(new Date());
+      baseDao.save(cart);
+    }
   }
 }

@@ -1,8 +1,10 @@
-package com.ewing.core.express.vo;
+package com.ewing.busi.express.dto;
 
 import java.util.List;
 
-import com.google.gson.annotations.SerializedName;
+import com.ewing.busi.customer.dto.LightAddressInfoResp;
+import com.ewing.core.express.vo.ExpressApiRespDto;
+import com.ewing.utils.BeanCopy;
 
 /**
  * 快递响应参数
@@ -31,6 +33,26 @@ public class ExpressRespDto {
    * 运单的当前状态：0物流单号暂无结果，3在途，4 揽件，5 疑难，6签收，7退签，8 派件，9 退回
    */
   private Integer status;
+
+  private LightAddressInfoResp address;
+
+
+  public ExpressRespDto(LightAddressInfoResp address, ExpressApiRespDto request) {
+    this.address = address;
+    BeanCopy.copy(this, request, true);
+  }
+
+
+
+  public LightAddressInfoResp getAddress() {
+    return address;
+  }
+
+
+
+  public void setAddress(LightAddressInfoResp address) {
+    this.address = address;
+  }
 
 
 
@@ -97,7 +119,7 @@ public class ExpressRespDto {
     public String toString() {
       return "Data [time=" + time + ", context=" + context + "]";
     }
-    
+
   }
 
   @Override
@@ -105,7 +127,7 @@ public class ExpressRespDto {
     return "ExpressRespDto [success=" + success + ", reason=" + reason + ", data=" + data
         + ", status=" + status + "]";
   }
-  
-  
-  
+
+
+
 }

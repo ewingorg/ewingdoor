@@ -15,195 +15,221 @@ import com.google.common.collect.Lists;
  */
 public class LightOrderInfoResp implements java.io.Serializable {
 
-    /**
+  /**
      * 
      */
-    private static final long serialVersionUID = 1L;
-    
-    private Integer id;
+  private static final long serialVersionUID = 1L;
+
+  private Integer id;
+  /**
+   * 总费用
+   */
+  private float totalPrice;
+  /**
+   * 购物状态 0:待付款 1:待发货 2:待收货
+   */
+  private String status;
+  /**
+   * 购物状态 0:待付款 1:待发货 2:待收货
+   */
+  private String statusStr;
+
+  /**
+   * 商品数量
+   */
+  private Integer productCount;
+
+  /**
+   * 商店名称
+   */
+  private String shopName;
+
+  private List<DetailDto> list;
+
+  /**
+   * 快递公司
+   */
+  private String cargoName;
+
+  /**
+   * 快递单
+   */
+  private String cargoNumber;
+
+
+  public String getCargoName() {
+    return cargoName;
+  }
+
+  public void setCargoName(String cargoName) {
+    this.cargoName = cargoName;
+  }
+
+  public String getCargoNumber() {
+    return cargoNumber;
+  }
+
+  public void setCargoNumber(String cargoNumber) {
+    this.cargoNumber = cargoNumber;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public String getShopName() {
+    return shopName;
+  }
+
+  public void setShopName(String shopName) {
+    this.shopName = shopName;
+  }
+
+  public Integer getId() {
+    return id;
+  }
+
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public float getTotalPrice() {
+    return totalPrice;
+  }
+
+  public void setTotalPrice(float totalPrice) {
+    this.totalPrice = totalPrice;
+  }
+
+  public String getStatusStr() {
+    return statusStr;
+  }
+
+  public void setStatusStr(String statusStr) {
+    this.statusStr = statusStr;
+  }
+
+  public Integer getProductCount() {
+    return productCount;
+  }
+
+  public void setProductCount(Integer productCount) {
+    this.productCount = productCount;
+  }
+
+  public List<DetailDto> getList() {
+    return list;
+  }
+
+  public void setList(List<DetailDto> list) {
+    this.list = list;
+  }
+
+  public class DetailDto {
     /**
-     * 总费用
+     * 资源Id
      */
-    private float totalPrice;
+    private Integer resourceId;
+
     /**
-     * 购物状态 0:待付款 1:待发货 2:待收货
+     * icon图片
      */
-    private String status;
+    private String icon;
+
     /**
-     * 购物状态 0:待付款 1:待发货 2:待收货
+     * 产品名称
      */
-    private String statusStr;
-    
+    private String productName;
+
     /**
-     * 商品数量
+     * 单价
      */
-    private Integer productCount;
-    
+    private String unitPrice;
+
     /**
-     * 商店名称
+     * 数量
      */
-    private String shopName;
-    
-    private List<DetailDto> list;
-    
-    
-    
-    public String getStatus() {
-        return status;
+    private Integer itemCount;
+
+    /**
+     * 规格
+     */
+    private String standard;
+
+
+    public Integer getResourceId() {
+      return resourceId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setResourceId(Integer resourceId) {
+      this.resourceId = resourceId;
     }
 
-    public String getShopName() {
-        return shopName;
+    public String getIcon() {
+      return icon;
     }
 
-    public void setShopName(String shopName) {
-        this.shopName = shopName;
+    public void setIcon(String icon) {
+      this.icon = icon;
     }
 
-    public Integer getId() {
-        return id;
+    public String getProductName() {
+      return productName;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setProductName(String productName) {
+      this.productName = productName;
     }
 
-    public float getTotalPrice() {
-        return totalPrice;
+    public String getUnitPrice() {
+      return unitPrice;
     }
 
-    public void setTotalPrice(float totalPrice) {
-        this.totalPrice = totalPrice;
+    public void setUnitPrice(String unitPrice) {
+      this.unitPrice = unitPrice;
     }
 
-    public String getStatusStr() {
-        return statusStr;
+    public Integer getItemCount() {
+      return itemCount;
     }
 
-    public void setStatusStr(String statusStr) {
-        this.statusStr = statusStr;
+    public void setItemCount(Integer itemCount) {
+      this.itemCount = itemCount;
     }
 
-    public Integer getProductCount() {
-        return productCount;
+    public String getStandard() {
+      return standard;
     }
 
-    public void setProductCount(Integer productCount) {
-        this.productCount = productCount;
+    public void setStandard(String standard) {
+      this.standard = standard;
     }
 
-    public List<DetailDto> getList() {
-        return list;
+
+  }
+
+  public LightOrderInfoResp() {
+    this.list = Lists.newArrayList();
+  }
+
+  public LightOrderInfoResp(OrderInfo order, List<OrderInfoDetailResp> dtoList) {
+    this();
+    BeanCopy.copy(this, order, true);
+    this.setProductCount(dtoList.size());
+    this.setStatus(order.getStatus());
+    this.setStatusStr(OrderStatus.getMsg(order.getStatus()));
+    this.setShopName(SystemPropertyUtils.SHOP_NAME);
+    this.setCargoName(order.getCargoName());
+
+    for (OrderInfoDetailResp dto : dtoList) {
+      DetailDto detailDto = new DetailDto();
+      BeanCopy.copy(detailDto, dto, true);
+      this.getList().add(detailDto);
     }
+  }
 
-    public void setList(List<DetailDto> list) {
-        this.list = list;
-    }
-
-    public class DetailDto{
-        /**
-         * 资源Id
-         */
-        private Integer resourceId;
-        
-        /**
-         * icon图片
-         */
-        private String icon;
-        
-        /**
-         * 产品名称
-         */
-        private String productName;
-        
-        /**
-         * 单价
-         */
-        private String unitPrice;
-        
-        /**
-         * 数量
-         */
-        private Integer itemCount;
-        
-        /**
-         * 规格
-         */
-        private String standard;
-
-        
-        public Integer getResourceId() {
-            return resourceId;
-        }
-
-        public void setResourceId(Integer resourceId) {
-            this.resourceId = resourceId;
-        }
-
-        public String getIcon() {
-            return icon;
-        }
-
-        public void setIcon(String icon) {
-            this.icon = icon;
-        }
-
-        public String getProductName() {
-            return productName;
-        }
-
-        public void setProductName(String productName) {
-            this.productName = productName;
-        }
-
-        public String getUnitPrice() {
-            return unitPrice;
-        }
-
-        public void setUnitPrice(String unitPrice) {
-            this.unitPrice = unitPrice;
-        }
-
-        public Integer getItemCount() {
-            return itemCount;
-        }
-
-        public void setItemCount(Integer itemCount) {
-            this.itemCount = itemCount;
-        }
-
-        public String getStandard() {
-            return standard;
-        }
-
-        public void setStandard(String standard) {
-            this.standard = standard;
-        }
-        
-        
-    }
-
-    public LightOrderInfoResp() {
-        this.list = Lists.newArrayList();
-    }
-
-    public LightOrderInfoResp(OrderInfo order, List<OrderInfoDetailResp> dtoList) {
-        this();
-        BeanCopy.copy(this, order, true);
-        this.setProductCount(dtoList.size());
-        this.setStatus(order.getStatus());
-        this.setStatusStr(OrderStatus.getMsg(order.getStatus()));
-        this.setShopName(SystemPropertyUtils.SHOP_NAME);
-        
-        for(OrderInfoDetailResp dto : dtoList){
-            DetailDto detailDto = new DetailDto();
-            BeanCopy.copy(detailDto, dto, true);
-            this.getList().add(detailDto);
-        }
-    }
-    
 }

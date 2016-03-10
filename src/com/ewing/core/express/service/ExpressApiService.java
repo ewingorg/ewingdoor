@@ -3,8 +3,8 @@ package com.ewing.core.express.service;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.common.utils.SystemPropertyUtils;
-import com.ewing.core.express.vo.ExpressReqDto;
-import com.ewing.core.express.vo.ExpressRespDto;
+import com.ewing.core.express.vo.ExpressApiReqDto;
+import com.ewing.core.express.vo.ExpressApiRespDto;
 import com.ewing.utils.HttpUtils;
 import com.ewing.utils.JsonUtils;
 
@@ -29,10 +29,10 @@ public class ExpressApiService {
      * @param num 快递单号
      * @author Joeson,
      */
-    public ExpressRespDto request(String com,String num){
+    public ExpressApiRespDto request(String com,String num){
       String url = String.format(REQUEST_URL, SystemPropertyUtils.EXPRESS_APPID, com, num); 
       String response = HttpUtils.request(url, "GET", null, null, "utf8");
-      return JsonUtils.toObject(response, ExpressRespDto.class);
+      return JsonUtils.toObject(response, ExpressApiRespDto.class);
     }
 
 }

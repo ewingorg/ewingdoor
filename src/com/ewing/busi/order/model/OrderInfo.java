@@ -9,266 +9,306 @@ import java.util.Date;
  */
 public class OrderInfo implements java.io.Serializable {
 
-    private Integer id;
-    /**
-     * 消费者ID
-     */
-    private Integer customerId;
-    /**
-     * 商户用户ID
-     */
-    private Integer userId;
-    /**
-     * 流水号
-     */
-    private String bizId;
-    /**
-     * 支付方式：0在线付款 1 货到付款
-     */
-    private Integer payWay;
-    /**
-     * 产品费用
-     */
-    private float productPrice;
-    /**
-     * 运费
-     */
-    private float cargoPrice;
-    /**
-     * 总费用
-     */
-    private float totalPrice;
-    /**
-     * 购物状态 0:待付款 1:待发货 2:待收货
-     */
-    private String status;
-    /**
-     * 收件人
-     */
-    private String receiver;
-    /**
-     * 邮编
-     */
-    private String postCode;
-    /**
-     * 省份
-     */
-    private String province;
-    /**
-     * 城市
-     */
-    private String city;
-    /**
-     * 地区
-     */
-    private String region;
-    /**
-     * 具体地址
-     */
-    private String address;
-    /**
-     * 电话
-     */
-    private String phone;
-    /**
-     * 是否生效
-     */
-    private String iseff;
-    private Date createTime;
-    private Date lastUpdate;
+  private Integer id;
+  /**
+   * 消费者ID
+   */
+  private Integer customerId;
+  /**
+   * 商户用户ID
+   */
+  private Integer userId;
+  /**
+   * 流水号
+   */
+  private String bizId;
+  /**
+   * 支付方式：0在线付款 1 货到付款
+   */
+  private Integer payWay;
+  /**
+   * 产品费用
+   */
+  private float productPrice;
+  /**
+   * 运费
+   */
+  private float cargoPrice;
+  /**
+   * 总费用
+   */
+  private float totalPrice;
+  /**
+   * 购物状态 0:待付款 1:待发货 2:待收货
+   */
+  private String status;
+  /**
+   * 收件人
+   */
+  private String receiver;
+  /**
+   * 邮编
+   */
+  private String postCode;
+  /**
+   * 省份
+   */
+  private String province;
+  /**
+   * 城市
+   */
+  private String city;
+  /**
+   * 地区
+   */
+  private String region;
+  /**
+   * 具体地址
+   */
+  private String address;
+  /**
+   * 电话
+   */
+  private String phone;
 
-    public OrderInfo() {
-    }
+  /**
+   * 快递公司
+   */
+  private String cargoName;
 
-    public OrderInfo(Integer customerId, Integer userId, String bizId,float productPrice, float cargoPrice,
-            float totalPrice, String status, String phone, String iseff, Date createTime,
-            Date lastUpdate) {
-        this.customerId = customerId;
-        this.userId = userId;
-        this.bizId = bizId;
-        this.productPrice = productPrice;
-        this.cargoPrice = cargoPrice;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.phone = phone;
-        this.iseff = iseff;
-        this.createTime = createTime;
-        this.lastUpdate = lastUpdate;
-    }
+  /**
+   * 快递单
+   */
+  private String cargoNumber;
+  /**
+   * 是否生效
+   */
+  private String iseff;
+  private Date createTime;
+  private Date lastUpdate;
 
-    public OrderInfo(Integer customerId, Integer userId, String bizId,float productPrice, float cargoPrice,
-            float totalPrice, String status, String receiver, String postCode, String province,
-            String city, String region, String address, String phone, String iseff, Date createTime,
-            Date lastUpdate) {
-        this.customerId = customerId;
-        this.userId = userId;
-        this.bizId = bizId;
-        this.productPrice = productPrice;
-        this.cargoPrice = cargoPrice;
-        this.totalPrice = totalPrice;
-        this.status = status;
-        this.receiver = receiver;
-        this.postCode = postCode;
-        this.province = province;
-        this.city = city;
-        this.region = region;
-        this.address = address;
-        this.phone = phone;
-        this.iseff = iseff;
-        this.createTime = createTime;
-        this.lastUpdate = lastUpdate;
-    }
+  public OrderInfo() {}
 
-    public Integer getPayWay() {
-      return payWay;
-    }
+  public OrderInfo(Integer id, Integer customerId, Integer userId, String bizId, Integer payWay,
+      float productPrice, float cargoPrice, float totalPrice, String status, String receiver,
+      String postCode, String province, String city, String region, String address, String phone,
+      String cargoName, String cargoNumber, String iseff, Date createTime, Date lastUpdate) {
+    super();
+    this.id = id;
+    this.customerId = customerId; 
+    this.userId = userId;
+    this.bizId = bizId;
+    this.payWay = payWay;
+    this.productPrice = productPrice;
+    this.cargoPrice = cargoPrice;
+    this.totalPrice = totalPrice;
+    this.status = status;
+    this.receiver = receiver;
+    this.postCode = postCode;
+    this.province = province;
+    this.city = city;
+    this.region = region;
+    this.address = address;
+    this.phone = phone;
+    this.cargoName = cargoName;
+    this.cargoNumber = cargoNumber;
+    this.iseff = iseff;
+    this.createTime = createTime;
+    this.lastUpdate = lastUpdate;
+  }
 
-    public void setPayWay(Integer payWay) {
-      this.payWay = payWay;
-    }
 
-    public String getBizId() {
-        return bizId;
-    }
 
-    public void setBizId(String bizId) {
-        this.bizId = bizId;
-    }
 
-    public Integer getId() {
-        return this.id;
-    }
+  public String getCargoName() {
+    return cargoName;
+  }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public void setCargoName(String cargoName) {
+    this.cargoName = cargoName;
+  }
 
-    public Integer getCustomerId() {
-        return this.customerId;
-    }
+  public String getCargoNumber() {
+    return cargoNumber;
+  }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
-    }
+  public void setCargoNumber(String cargoNumber) {
+    this.cargoNumber = cargoNumber;
+  }
 
-    public Integer getUserId() {
-        return this.userId;
-    }
+  public OrderInfo(Integer customerId, Integer userId, String bizId, float productPrice,
+      float cargoPrice, float totalPrice, String status, String receiver, String postCode,
+      String province, String city, String region, String address, String phone, String iseff,
+      Date createTime, Date lastUpdate) {
+    this.customerId = customerId;
+    this.userId = userId;
+    this.bizId = bizId;
+    this.productPrice = productPrice;
+    this.cargoPrice = cargoPrice;
+    this.totalPrice = totalPrice;
+    this.status = status;
+    this.receiver = receiver;
+    this.postCode = postCode;
+    this.province = province;
+    this.city = city;
+    this.region = region;
+    this.address = address;
+    this.phone = phone;
+    this.iseff = iseff;
+    this.createTime = createTime;
+    this.lastUpdate = lastUpdate;
+  }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+  public Integer getPayWay() {
+    return payWay;
+  }
 
-    public float getProductPrice() {
-        return this.productPrice;
-    }
+  public void setPayWay(Integer payWay) {
+    this.payWay = payWay;
+  }
 
-    public void setProductPrice(float productPrice) {
-        this.productPrice = productPrice;
-    }
+  public String getBizId() {
+    return bizId;
+  }
 
-    public float getCargoPrice() {
-        return this.cargoPrice;
-    }
+  public void setBizId(String bizId) {
+    this.bizId = bizId;
+  }
 
-    public void setCargoPrice(float cargoPrice) {
-        this.cargoPrice = cargoPrice;
-    }
+  public Integer getId() {
+    return this.id;
+  }
 
-    public float getTotalPrice() {
-        return this.totalPrice;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setTotalPrice(float totalPrice) {
-        this.totalPrice = totalPrice;
-    }
+  public Integer getCustomerId() {
+    return this.customerId;
+  }
 
-    public String getStatus() {
-        return this.status;
-    }
+  public void setCustomerId(Integer customerId) {
+    this.customerId = customerId;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public Integer getUserId() {
+    return this.userId;
+  }
 
-    public String getReceiver() {
-        return this.receiver;
-    }
+  public void setUserId(Integer userId) {
+    this.userId = userId;
+  }
 
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
+  public float getProductPrice() {
+    return this.productPrice;
+  }
 
-    public String getPostCode() {
-        return this.postCode;
-    }
+  public void setProductPrice(float productPrice) {
+    this.productPrice = productPrice;
+  }
 
-    public void setPostCode(String postCode) {
-        this.postCode = postCode;
-    }
+  public float getCargoPrice() {
+    return this.cargoPrice;
+  }
 
-    public String getProvince() {
-        return this.province;
-    }
+  public void setCargoPrice(float cargoPrice) {
+    this.cargoPrice = cargoPrice;
+  }
 
-    public void setProvince(String province) {
-        this.province = province;
-    }
+  public float getTotalPrice() {
+    return this.totalPrice;
+  }
 
-    public String getCity() {
-        return this.city;
-    }
+  public void setTotalPrice(float totalPrice) {
+    this.totalPrice = totalPrice;
+  }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+  public String getStatus() {
+    return this.status;
+  }
 
-    public String getRegion() {
-        return this.region;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
+  public String getReceiver() {
+    return this.receiver;
+  }
 
-    public String getAddress() {
-        return this.address;
-    }
+  public void setReceiver(String receiver) {
+    this.receiver = receiver;
+  }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+  public String getPostCode() {
+    return this.postCode;
+  }
 
-    public String getPhone() {
-        return this.phone;
-    }
+  public void setPostCode(String postCode) {
+    this.postCode = postCode;
+  }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+  public String getProvince() {
+    return this.province;
+  }
 
-    public String getIseff() {
-        return this.iseff;
-    }
+  public void setProvince(String province) {
+    this.province = province;
+  }
 
-    public void setIseff(String iseff) {
-        this.iseff = iseff;
-    }
+  public String getCity() {
+    return this.city;
+  }
 
-    public Date getCreateTime() {
-        return this.createTime;
-    }
+  public void setCity(String city) {
+    this.city = city;
+  }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+  public String getRegion() {
+    return this.region;
+  }
 
-    public Date getLastUpdate() {
-        return this.lastUpdate;
-    }
+  public void setRegion(String region) {
+    this.region = region;
+  }
 
-    public void setLastUpdate(Date lastUpdate) {
-        this.lastUpdate = lastUpdate;
-    }
+  public String getAddress() {
+    return this.address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
+  }
+
+  public String getPhone() {
+    return this.phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getIseff() {
+    return this.iseff;
+  }
+
+  public void setIseff(String iseff) {
+    this.iseff = iseff;
+  }
+
+  public Date getCreateTime() {
+    return this.createTime;
+  }
+
+  public void setCreateTime(Date createTime) {
+    this.createTime = createTime;
+  }
+
+  public Date getLastUpdate() {
+    return this.lastUpdate;
+  }
+
+  public void setLastUpdate(Date lastUpdate) {
+    this.lastUpdate = lastUpdate;
+  }
 
 }

@@ -36,6 +36,9 @@ public class LightAddressInfoResp implements java.io.Serializable  {
      */
     private String address;
     
+    /**
+     * 邮编
+     */
     private String postCode;
 
     /**

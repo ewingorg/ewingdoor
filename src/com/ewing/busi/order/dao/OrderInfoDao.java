@@ -9,6 +9,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
@@ -43,6 +44,15 @@ public class OrderInfoDao {
         PageBean<OrderInfo> pageBean = baseDao.pageQuery(query.toString(), pageSize, page,
                 OrderInfo.class);
         return null != pageBean ? pageBean.getResult() : Collections.EMPTY_LIST;
+    }
+
+    public OrderInfo findByIdAndCusId(Integer id, Integer cusId) {
+      StringBuilder query = new StringBuilder();
+      query.append("id = ").append(id);
+      query.append(" and customer_id = ").append(cusId);
+      query.append(" and iseff = ").append(IsEff.EFFECTIVE.getValue());
+      
+      return baseDao.findOne(query.toString(), OrderInfo.class);
     }
 
 }

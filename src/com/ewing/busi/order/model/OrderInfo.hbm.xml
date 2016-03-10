@@ -68,6 +68,14 @@
             <column name="phone" length="50" not-null="true">
             </column>
         </property>
+        <property name="cargoName" type="string">
+            <column name="cargo_name">
+            </column>
+        </property>
+        <property name="cargoNumber" type="string">
+            <column name="cargo_number">
+            </column>
+        </property>
         <property name="iseff" type="string">
             <column name="iseff" length="1" not-null="true">
             </column>

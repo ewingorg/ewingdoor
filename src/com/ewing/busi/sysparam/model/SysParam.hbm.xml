@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-2-2 16:23:43 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.ewing.busi.sysparam.model.SysParam" table="sys_param" catalog="ewing">
+        <id name="paramCode" type="java.lang.String">
+            <column name="param_code" />
+        </id>
+        <property name="paramName" type="string">
+            <column name="param_name">
+            </column>
+        </property>
+        <property name="paramValue" type="string">
+            <column name="param_value">
+            </column>
+        </property>
+        <property name="rootCode" type="string">
+            <column name="root_code">
+            </column>
+        </property>
+        <property name="des" type="string">
+            <column name="des">
+            </column>
+        </property>
+        <property name="seq" type="string">
+            <column name="seq">
+            </column>
+        </property>
+        <property name="iseff" type="string">
+            <column name="iseff">
+            </column>
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
+        </property>
+        <property name="lastUpdate" type="timestamp">
+            <column name="last_update" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

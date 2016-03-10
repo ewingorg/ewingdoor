@@ -2,9 +2,11 @@ package com.ewing.busi.order.helper;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.order.constants.OrderStatus;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.busi.order.model.OrderDetail;
+import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.busi.resource.model.WebResourcePrice;
 import com.ewing.common.constants.IsEff;
@@ -110,5 +112,22 @@ public class OrderHelper {
 
     float resourcePrice = detail.getUnitPrice() * detail.getItemCount();
     return resourcePrice + detail.getCargoPrice();
+  }
+  
+  public static LightAddressInfoResp toAddress(OrderInfo order){
+    if(null == order){
+      return null;
+    }
+    
+    LightAddressInfoResp addr = new LightAddressInfoResp();
+    addr.setReceiver(order.getReceiver());
+    addr.setProvince(order.getProvince());
+    addr.setCity(order.getCity());
+    addr.setRegion(order.getRegion());
+    addr.setAddress(order.getAddress());
+    addr.setPostCode(order.getPostCode());
+    addr.setPhone(order.getPhone());
+    
+    return addr;
   }
 }

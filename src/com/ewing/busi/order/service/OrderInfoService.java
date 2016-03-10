@@ -85,18 +85,6 @@ public class OrderInfoService {
   }
 
   /**
-   * 
-   * @param orderId
-   * @param cusId 商户Id
-   * @author Joeson
-   */
-  public List<OrderInfoDetailResp> getByIdAndCusId(Integer orderId, Integer cusId) {
-    Validate.notNull(orderId, "orderId不能为空");
-
-    return orderDetailService.findByOrderIdAndCusId(orderId, cusId);
-  }
-
-  /**
    * 确认订单
    * 
    * @param req
@@ -125,12 +113,12 @@ public class OrderInfoService {
   }
 
   /**
-   * 取消order,如果order为已付款、待
+   * 取消order,如果order为已付款、待收货，不能关闭订单
    * 
    * @param orderId
    * @author Joeson
    */
-  public void cancelOrder(Integer orderId) {
+  public void closeOrder(Integer orderId) {
     Validate.notNull(orderId, "orderId不能为空");
 
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
@@ -154,7 +142,7 @@ public class OrderInfoService {
    * @author Joeson
    * @throws Exception 
    */
-  public Integer addOrder(Integer userId, Integer cusId, AddOrdeReq req) throws Exception {
+  public Integer addOrder(Integer cusId, AddOrdeReq req) throws Exception {
     Validate.notNull(req, "入参不能为空");
     Validate.notNull(req.getResourceId(), "resourceId不能为空");
     Validate.notNull(req.getPriceId(), "priceId不能为空");
@@ -177,7 +165,7 @@ public class OrderInfoService {
     //保存orderinfo
     OrderInfo orderInfo = new OrderInfo();
     orderInfo.setCustomerId(cusId);
-    orderInfo.setUserId(userId);
+    orderInfo.setUserId(resource.getUserId());
     orderInfo.setBizId(bizId);
     orderInfo.setCargoPrice(0f);
     orderInfo.setTotalPrice(0f);
@@ -186,7 +174,7 @@ public class OrderInfoService {
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
     
-    OrderDetail detail = OrderHelper.initOrderDetail(orderInfo.getId(), userId, cusId, bizId, count, resource, price);
+    OrderDetail detail = OrderHelper.initOrderDetail(orderInfo.getId(), resource.getUserId(), cusId, bizId, count, resource, price);
     baseDao.save(detail);
     
     return orderInfo.getId();

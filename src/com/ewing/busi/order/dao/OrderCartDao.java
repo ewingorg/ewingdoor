@@ -59,7 +59,14 @@ public class OrderCartDao {
       StringBuilder query = new StringBuilder();
       query.append(" customer_id = ").append(cusId);
       query.append(" and resource_id = ").append(resourceId);
-      query.append(" and iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
+      return baseDao.findOne(query.toString(), OrderCart.class);
+    }
+
+    public OrderCart findByCusIdAndResIdAndPriId(Integer cusId, Integer resourceId, Integer priceId) {
+      StringBuilder query = new StringBuilder();
+      query.append(" customer_id = ").append(cusId);
+      query.append(" and resource_id = ").append(resourceId);
+      query.append(" and price_id = ").append(priceId);
       return baseDao.findOne(query.toString(), OrderCart.class);
     }
 

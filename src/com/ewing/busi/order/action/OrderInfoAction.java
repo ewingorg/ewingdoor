@@ -23,6 +23,7 @@ import com.ewing.busi.order.dto.LightOrderInfoResp;
 import com.ewing.busi.order.dto.OrderInfoDetailReq;
 import com.ewing.busi.order.dto.OrderInfoDetailResp;
 import com.ewing.busi.order.service.OrderCartService;
+import com.ewing.busi.order.service.OrderDetailService;
 import com.ewing.busi.order.service.OrderInfoService;
 import com.ewing.busi.resource.action.WebResourceAction;
 import com.ewing.busi.resource.helper.PayWayHelper;
@@ -45,6 +46,8 @@ public class OrderInfoAction extends BaseAction {
   private static Logger logger = Logger.getLogger(WebResourceAction.class);
   @Resource
   private OrderCartService orderCartService;
+  @Resource
+  private OrderDetailService orderDetailService; 
   @Resource
   private OrderInfoService orderInfoService;
   @Resource
@@ -87,7 +90,7 @@ public class OrderInfoAction extends BaseAction {
       Integer orderId = req.getOrderId();
       checkRequired(orderId, "orderId");
 
-      List<OrderInfoDetailResp> list = orderInfoService.getByIdAndCusId(orderId, getLoginCusId());
+      List<OrderInfoDetailResp> list = orderDetailService.findByOrderIdAndCusId(orderId, getLoginCusId());
       CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginCusId());
       List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginCusId());
       Map<String, Object> map = new HashMap<String, Object>();
@@ -138,7 +141,7 @@ public class OrderInfoAction extends BaseAction {
       Integer orderId = req.getOrderId();
       checkRequired(orderId, "orderId");
 
-      orderInfoService.cancelOrder(orderId);
+      orderInfoService.closeOrder(orderId);
       outSucResult(ResponseCode.OK);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
@@ -151,8 +154,7 @@ public class OrderInfoAction extends BaseAction {
       AddOrdeReq req = getParamJson(AddOrdeReq.class);
       checkRequired(req, "入参不能为空");
 
-      // @FIXME userId
-      Integer orderId = orderInfoService.addOrder(0, getLoginCusId(), req);
+      Integer orderId = orderInfoService.addOrder(getLoginCusId(), req);
       Map<String, Object> map = Maps.newHashMap();
       map.put("orderId", orderId);
       outSucResult(map);

@@ -7,7 +7,7 @@ package com.ewing.core.express.vo;
  * @since 2016年2月21日
  *
  */
-public class ExpressReqDto {
+public class ExpressApiReqDto {
     
     /**
      * 默认json返回
@@ -34,7 +34,7 @@ public class ExpressReqDto {
      */
     private String show;
 
-    public ExpressReqDto(String id, String com, String num, String show) {
+    public ExpressApiReqDto(String id, String com, String num, String show) {
         super();
         this.id = id;
         this.com = com;
@@ -42,7 +42,7 @@ public class ExpressReqDto {
         this.show = show;
     }
 
-    public ExpressReqDto(String id, String com, String num) {
+    public ExpressApiReqDto(String id, String com, String num) {
         super();
         this.id = id;
         this.com = com;
