@@ -73,8 +73,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
                 requestJson = JsonUtils.toObject(IOUtils.toString(request.getInputStream()),
                         RequestJson.class, clazz);
             else if (request.getMethod().equalsIgnoreCase("GET")) {
-                requestJson = JsonUtils.toObject(request.getParameter("param"), RequestJson.class,
-                        clazz);
+                requestJson = JsonUtils.toObject(
+                        new String(request.getParameter("param").getBytes("ISO-8859-1"), "UTF-8"),
+                        RequestJson.class, clazz);
             }
             if (null != requestJson) {
                 return requestJson.getData();
@@ -171,18 +172,17 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     public void setCondition(String condition) {
         this.condition = condition;
     }
-    
+
     /**
-     * @FIXME
-     * 获取商家id
+     * @FIXME 获取商家id
      * 
      * @return
      * @author Joeson
      */
-    public Integer getUserId(){
-      return 1;
+    public Integer getUserId() {
+        return 1;
     }
-    
+
     /**
      * 获取登陆客户ID
      * 
@@ -437,12 +437,12 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     public void outResult(ResponseData responseData) {
         if (responseData == null)
             throw new IllegalArgumentException("responseData should not be null");
-        try {  
-            String json =  gson.toJson(responseData);
+        try {
+            String json = gson.toJson(responseData);
             response.setContentType("text/json");
             if (isJsonpRequest()) {
-                String callbackparam =  request.getParameter("callbackparam");
-                String jsonpResut = callbackparam+"(" + json + ")";
+                String callbackparam = request.getParameter("callbackparam");
+                String jsonpResut = callbackparam + "(" + json + ")";
                 logger.debug(jsonpResut);
                 response.getWriter().write(jsonpResut);
             } else {
