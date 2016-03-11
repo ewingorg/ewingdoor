@@ -224,6 +224,7 @@ public class LightOrderInfoResp implements java.io.Serializable {
     this.setStatusStr(OrderStatus.getMsg(order.getStatus()));
     this.setShopName(SystemPropertyUtils.SHOP_NAME);
     this.setCargoName(order.getCargoName());
+    this.setCargoNumber(order.getCargoNumber());
 
     for (OrderInfoDetailResp dto : dtoList) {
       DetailDto detailDto = new DetailDto();

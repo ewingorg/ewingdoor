@@ -35,6 +35,7 @@ import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.exception.BusinessException;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.utils.BizGenerator;
+import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -125,7 +126,7 @@ public class OrderInfoService {
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
     Validate.notNull(order, "order不能为空");
     
-    if(order.getCustomerId() != cusId){
+    if(!IntegerUtils.equals(order.getCustomerId(), cusId)){
       return;
     }
     // 如果状态不为待付款或已收货，不能关闭订单
