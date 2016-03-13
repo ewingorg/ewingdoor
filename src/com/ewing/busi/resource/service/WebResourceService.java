@@ -23,9 +23,12 @@ import com.ewing.busi.resource.dto.ProductDetailResp;
 import com.ewing.busi.resource.dto.ProductPriceDto;
 import com.ewing.busi.resource.dto.ProductSpecGroup;
 import com.ewing.busi.resource.model.WebResource;
+import com.ewing.common.constants.IsHot;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.redis.RedisCache;
 import com.ewing.utils.FileUrlUtil;
+import com.ewing.utils.IntegerUtils;
+import com.google.common.collect.Lists;
 
 /**
  * 资源服务类
@@ -62,11 +65,23 @@ public class WebResourceService extends BaseService {
    * @return
    */
   @RedisCache(key = "lightProductList", keyParamNames = {"shopId", "isHot"}, isList = true)
-  public List<LightProductInfoResp> pageQueryHotResource(Integer shopId, Integer isHot,
-      Integer page, Integer pageSize) {
+  public List<LightProductInfoResp> pageIndexResource(LightProductInfoReq req) {
+    Integer isHot = req.getIsHot();
+    Integer shopId = req.getShopId();
+    Integer categoryId = req.getCategoryId();
+    Integer page = req.getPage();
+    Integer pageSize = req.getPageSize();
+    Validate.notNull(shopId, "shopId不能为空");
+    Validate.notNull(page, "page不能为空");
+    Validate.notNull(pageSize, "pageSize不能为空");
 
     List<LightProductInfoResp> dtoList = new ArrayList<LightProductInfoResp>();
-    List<WebResource> list = webResourceDao.pageQueryHotResource(shopId, isHot, page, pageSize);
+    List<WebResource> list = null;
+    if (IntegerUtils.nullOrZero(categoryId)) {//如果分类不为空，按照分类查找，否则按照首页热门查找
+      list = webResourceDao.pageQueryHotResource(shopId, isHot, page, pageSize);
+    } else {
+      list = webResourceDao.queryByCategory(shopId, categoryId, page, pageSize);
+    }
     for (WebResource webResource : list) {
       LightProductInfoResp lightProductInfo = new LightProductInfoResp();
       try {
@@ -78,6 +93,7 @@ public class WebResourceService extends BaseService {
         e.printStackTrace();
       }
     }
+    
     return dtoList;
   }
 

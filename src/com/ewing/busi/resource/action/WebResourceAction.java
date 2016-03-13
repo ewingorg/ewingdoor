@@ -38,16 +38,7 @@ public class WebResourceAction extends BaseAction {
 
         try {
             LightProductInfoReq req = getParamJson(LightProductInfoReq.class);
-            Integer isHot = req.getIsHot();
-            Integer page = req.getPage();
-            Integer pageSize = req.getPageSize();
-            Integer shopId = req.getShopId();
-            checkRequired(isHot, "isHot");
-            checkRequired(page, "page");
-            checkRequired(pageSize, "pageSize");
-            checkRequired(shopId, "shopId");
-            List<LightProductInfoResp> list = webResourceService.pageQueryHotResource(shopId, IsHot
-                    .fromValue(isHot).getValue(), page, pageSize);
+            List<LightProductInfoResp> list = webResourceService.pageIndexResource(req);
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

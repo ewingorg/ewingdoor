@@ -34,12 +34,12 @@ public class WebResourceServiceTest {
         try {
             WebResourceService webResourceService = (WebResourceService) SpringCtx
                     .getByBeanName("webResourceService");
-            List<LightProductInfoResp> resp = webResourceService.pageQueryHotResource(1, 0, 1, 2);
-            System.out.println(resp.size());
-            resp = webResourceService.pageQueryHotResource(1, 0, 1, 2);
-            System.out.println(resp.size());
-            resp = webResourceService.pageQueryHotResource(1, 0, 1, 2);
-            System.out.println(resp.size());
+//            List<LightProductInfoResp> resp = webResourceService.pageQueryHotResource(1, 0, 1, 2);
+//            System.out.println(resp.size());
+//            resp = webResourceService.pageQueryHotResource(1, 0, 1, 2);
+//            System.out.println(resp.size());
+//            resp = webResourceService.pageQueryHotResource(1, 0, 1, 2);
+//            System.out.println(resp.size());
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
