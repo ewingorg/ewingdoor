@@ -21,7 +21,7 @@
             </column>
         </property>
         <property name="priceId" type="int">
-            <column name="price_id" not-null="true">
+            <column name="price_id">
             </column>
         </property>
         <property name="itemCount" type="int">

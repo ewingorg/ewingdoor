@@ -13,13 +13,13 @@ import com.ewing.core.jdbc.BaseDao;
  * 
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月20日
- * 
  */
 @Repository("sellerShopDao")
 public class SellerShopDao {
 
     @Resource
     private BaseDao baseDao;
+    
     /**
      * 查询商铺
      * @param shopId

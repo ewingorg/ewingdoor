@@ -65,8 +65,7 @@ public class OrderHelper {
    * @author Joeson
    */
   public static OrderDetail initOrderDetail(Integer orderId, Integer priceId, Integer cusId, String bizId, Integer count, WebResource resource, WebResourcePrice price) {
-    if (IntegerUtils.nullOrZero(orderId) || IntegerUtils.nullOrZero(priceId)
-        || IntegerUtils.nullOrZero(cusId) || StringUtils.isEmpty(bizId) || null == resource) {
+    if (IntegerUtils.nullOrZero(orderId) || IntegerUtils.nullOrZero(cusId) || StringUtils.isEmpty(bizId) || null == resource) {
       return null;
     }
 
