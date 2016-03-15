@@ -16,12 +16,16 @@ import com.ewing.busi.collect.service.CustomerCollectService;
 import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.dao.WebResourcePriceDao;
 import com.ewing.busi.resource.dao.WebResourceSpecDao;
+import com.ewing.busi.resource.dto.CategoryProductInfoReq;
+import com.ewing.busi.resource.dto.CategoryProductInfoResp;
 import com.ewing.busi.resource.dto.LightProductInfoReq;
 import com.ewing.busi.resource.dto.LightProductInfoResp;
 import com.ewing.busi.resource.dto.ProductDetailDto;
 import com.ewing.busi.resource.dto.ProductDetailResp;
 import com.ewing.busi.resource.dto.ProductPriceDto;
 import com.ewing.busi.resource.dto.ProductSpecGroup;
+import com.ewing.busi.resource.dto.WebResourceDto;
+import com.ewing.busi.resource.model.WebCategory;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.common.constants.IsHot;
 import com.ewing.core.jdbc.BaseDao;
@@ -53,7 +57,9 @@ public class WebResourceService extends BaseService {
   private WebResourcePriceService webResourcePriceService;
   @Resource
   private CustomerCollectService customerCollectService;
-
+  @Resource
+  private WebCategoryService webCategoryService;
+  
   /**
    * 获取资源信息，支持分页获取数据
    * 
@@ -68,7 +74,6 @@ public class WebResourceService extends BaseService {
   public List<LightProductInfoResp> pageIndexResource(LightProductInfoReq req) {
     Integer isHot = req.getIsHot();
     Integer shopId = req.getShopId();
-    Integer categoryId = req.getCategoryId();
     Integer page = req.getPage();
     Integer pageSize = req.getPageSize();
     Validate.notNull(shopId, "shopId不能为空");
@@ -76,12 +81,7 @@ public class WebResourceService extends BaseService {
     Validate.notNull(pageSize, "pageSize不能为空");
 
     List<LightProductInfoResp> dtoList = new ArrayList<LightProductInfoResp>();
-    List<WebResource> list = null;
-    if (IntegerUtils.nullOrZero(categoryId)) {//如果分类不为空，按照分类查找，否则按照首页热门查找
-      list = webResourceDao.pageQueryHotResource(shopId, isHot, page, pageSize);
-    } else {
-      list = webResourceDao.queryByCategory(shopId, categoryId, page, pageSize);
-    }
+    List<WebResource> list = webResourceDao.pageQueryHotResource(shopId, isHot, page, pageSize);
     for (WebResource webResource : list) {
       LightProductInfoResp lightProductInfo = new LightProductInfoResp();
       try {
@@ -93,7 +93,7 @@ public class WebResourceService extends BaseService {
         e.printStackTrace();
       }
     }
-    
+
     return dtoList;
   }
 
@@ -143,20 +143,19 @@ public class WebResourceService extends BaseService {
    * @return
    * @author Joeson
    */
-  public List<LightProductInfoResp> queryByCategory(LightProductInfoReq req) {
-    Validate.notNull(req, "入参不能为空");
-
+  public List<CategoryProductInfoResp> queryByCategory(CategoryProductInfoReq req) {
     Integer shopId = req.getShopId();
     Integer categoryId = req.getCategoryId();
     Integer page = req.getPage();
     Integer pageSize = req.getPageSize();
     Validate.notNull(shopId, "shopId不能为空");
-    Validate.notNull(categoryId, "categoryId不能为空");
+    Validate.notNull(page, "page不能为空");
+    Validate.notNull(pageSize, "pageSize不能为空");
 
-    List<LightProductInfoResp> dtoList = new ArrayList<LightProductInfoResp>();
-    List<WebResource> list = webResourceDao.queryByCategory(shopId, categoryId, page, pageSize);
-    for (WebResource webResource : list) {
-      LightProductInfoResp lightProductInfo = new LightProductInfoResp();
+    List<CategoryProductInfoResp> dtoList = new ArrayList<CategoryProductInfoResp>();
+    List<WebResourceDto> list = webResourceDao.queryByCategory(shopId, categoryId, page, pageSize);
+    for (WebResourceDto webResource : list) {
+      CategoryProductInfoResp lightProductInfo = new CategoryProductInfoResp();
       try {
         BeanUtils.copyProperties(lightProductInfo, webResource);
         lightProductInfo
@@ -166,6 +165,7 @@ public class WebResourceService extends BaseService {
         e.printStackTrace();
       }
     }
+    
     return dtoList;
   }
 

@@ -22,7 +22,7 @@ public interface BaseDao {
     public <T> PageBean<T> pageQuery(String condition, String orderBy, Integer pageSize,
             Integer page, Class<T> entityClass);
 
-    public <T> PageBean<T> pageQuery(String sql, String condition, String orderBy,
+    public <T> PageBean<T> pageQuery(String hql, String condition, String orderBy,
             Integer pageSize, Integer page, Class<T> entityClass);
 
     public <T> PageBean<T> pageQuery(String condition, Integer pageSize, Integer page,
@@ -46,5 +46,7 @@ public interface BaseDao {
     
     public <T> PageBean<T> noMappedObjectPageQuery(String sql, Class<T> beanClass, Integer page,
             Integer pageSize);
+
+    public <T> List<T> queryBySql(String sql);
 
 }

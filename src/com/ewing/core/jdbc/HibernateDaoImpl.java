@@ -113,7 +113,7 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
         }
         return null;
     }
-
+    
     /**
      * @author Joeson
      */
@@ -310,13 +310,13 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
     }
 
     @Override
-    public <T> PageBean<T> pageQuery(String sql, String condition, String orderBy,
+    public <T> PageBean<T> pageQuery(String hql, String condition, String orderBy,
             Integer pageSize, Integer page, Class<T> entityClass) {
         if (!StringUtils.isEmpty(condition))
-            sql += condition;
+            hql += condition;
         if (!StringUtils.isEmpty(orderBy))
-            sql += orderBy;
-        return pageQuery(sql, pageSize, page, entityClass);
+            hql += orderBy;
+        return pageQuery(hql, pageSize, page, entityClass);
     }
 
     @Override
@@ -329,6 +329,19 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
         }
         return null;
     }
+
+    @Override
+  public <T> List<T> queryBySql(final String sql){
+      List list = getHibernateTemplate().executeFind(new HibernateCallback() {  
+        public Object doInHibernate(Session session) throws HibernateException,  
+                SQLException {  
+            Query query = session.createSQLQuery(sql);    
+            List list = query.list();  
+            return list;  
+        }  
+    });  
+    return list;  
+  }
 
     @Override
     public void releaseConnectionSession(Session session) {

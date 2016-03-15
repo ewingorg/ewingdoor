@@ -46,6 +46,4 @@ public class RequestListener implements ServletRequestListener {
       RequestHolder.removeRequest();
     }
   }
-
-
 }

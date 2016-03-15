@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.resource.dao.WebCategoryDao;
 import com.ewing.busi.resource.dto.CategoryResp;
 import com.ewing.busi.resource.model.WebCategory;
+import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.redis.RedisCache;
 import com.ewing.utils.BeanCopy;
 import com.ewing.utils.IntegerUtils;
@@ -19,6 +20,8 @@ public class WebCategoryService {
 
     @Resource
     private WebCategoryDao webCategoryDao;
+    @Resource
+    private BaseDao baseDao;
 
     /**
      * 查找某个商店的分类
@@ -34,6 +37,14 @@ public class WebCategoryService {
         List<WebCategory> list = webCategoryDao.findByShopId(shopId);
         List<CategoryResp> dtoList = BeanCopy.copy(list, CategoryResp.class);
         return dtoList;
+    }
+
+    public WebCategory find(Integer catId) {
+      if(IntegerUtils.nullOrZero(catId)){
+        return null;
+      }
+      
+      return baseDao.findOne(catId, WebCategory.class);
     }
 
 }

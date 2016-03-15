@@ -1,20 +1,25 @@
 package com.ewing.busi.resource.action;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.ewing.busi.resource.dto.CategoryProductInfoReq;
+import com.ewing.busi.resource.dto.CategoryProductInfoResp;
 import com.ewing.busi.resource.dto.CategoryReq;
 import com.ewing.busi.resource.dto.CategoryResp;
 import com.ewing.busi.resource.dto.LightProductInfoReq;
 import com.ewing.busi.resource.dto.LightProductInfoResp;
 import com.ewing.busi.resource.dto.ProductDetailReq;
 import com.ewing.busi.resource.dto.ProductDetailResp;
+import com.ewing.busi.resource.model.WebCategory;
 import com.ewing.busi.resource.service.WebCategoryService;
 import com.ewing.busi.resource.service.WebResourceService;
-import com.ewing.common.constants.IsHot;
 import com.ewing.core.app.action.base.BaseAction;
 
 /**
@@ -45,13 +50,22 @@ public class WebResourceAction extends BaseAction {
         }
     }
     
+    /**
+     * 分类列表
+     * 
+     * @author Joeson
+     */
     public void queryByCategory(){
       try {
-          LightProductInfoReq req = getParamJson(LightProductInfoReq.class);
+        CategoryProductInfoReq req = getParamJson(CategoryProductInfoReq.class);
           checkRequired(req, "入参不能为空");
           
-          List<LightProductInfoResp> list = webResourceService.queryByCategory(req);
-          outSucResult(list);
+          List<CategoryProductInfoResp> list = webResourceService.queryByCategory(req);
+          WebCategory category = webCategoryService.find(req.getCategoryId());
+          Map<String,Object> map = new HashMap<String, Object>();
+          map.put("list", list);
+          map.put("category", null != category ? category.getName() : StringUtils.EMPTY);
+          outSucResult(map);
       } catch (Exception e) {
           logger.error(e.getMessage(), e);
       }

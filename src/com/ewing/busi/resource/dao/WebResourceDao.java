@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Repository;
 
+import com.ewing.busi.resource.dto.WebResourceDto;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.common.constants.IsEff;
 import com.ewing.common.constants.IsOnline;
@@ -59,7 +60,7 @@ public class WebResourceDao {
     return baseDao.findOne(resourceId, WebResource.class);
   }
 
-  public List<WebResource> queryByCategory(Integer shopId, Integer categoryId, Integer page,
+  public List<WebResourceDto> queryByCategory(Integer shopId, Integer categoryId, Integer page,
       Integer pageSize) {
     StringBuilder sql =
         new StringBuilder("select wr.* from web_resource wr"
@@ -70,10 +71,8 @@ public class WebResourceDao {
     sql.append(" and wc.iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
     sql.append(" and wr.iseff = '").append(IsEff.EFFECTIVE.getValue()).append("'");
     sql.append(" order by wr.last_update desc");
-    sql.append(" limit ").append(PageUtil.getOffset(page, pageSize)).append(",")
-        .append(PageUtil.getLimit(page, pageSize));
     
-    //@TO这里有问题
-    return baseDao.noMappedObjectQuery(sql.toString(), WebResource.class);
+    PageBean<WebResourceDto> pageBean = baseDao.noMappedObjectPageQuery(sql.toString(), WebResourceDto.class, page, pageSize);
+    return pageBean.getResult();
   }
 }
