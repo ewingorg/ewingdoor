@@ -130,6 +130,10 @@ public class HibernateDaoImpl extends HibernateDaoSupport implements BaseDao {
 
     @Override
     public <T> T findOne(Integer id, Class<T> entityClass) {
+      if(null == id || null == entityClass){
+        return null;
+      }
+      
         List<T> list = find("id=" + id, entityClass);
         if (!list.isEmpty())
             return (T) list.get(0);

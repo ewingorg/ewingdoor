@@ -20,6 +20,7 @@ import com.ewing.busi.resource.dto.ProductDetailResp;
 import com.ewing.busi.resource.model.WebCategory;
 import com.ewing.busi.resource.service.WebCategoryService;
 import com.ewing.busi.resource.service.WebResourceService;
+import com.ewing.busi.seller.service.SellerShopService;
 import com.ewing.core.app.action.base.BaseAction;
 
 /**
@@ -35,6 +36,8 @@ public class WebResourceAction extends BaseAction {
     private WebResourceService webResourceService;
     @Resource
     private WebCategoryService webCategoryService;
+    @Resource
+    private SellerShopService sellerShopService;
 
     /**
      * 获取首页产品列表
@@ -44,6 +47,9 @@ public class WebResourceAction extends BaseAction {
         try {
             LightProductInfoReq req = getParamJson(LightProductInfoReq.class);
             List<LightProductInfoResp> list = webResourceService.pageIndexResource(req);
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("list", list);
+            map.put("shopName", sellerShopService.findName(req.getShopId()));
             outSucResult(list);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

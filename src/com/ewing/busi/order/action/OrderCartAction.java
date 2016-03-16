@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.order.dto.AddCartReq;
+import com.ewing.busi.order.dto.DelCartReq;
 import com.ewing.busi.order.dto.LightOrderCartReq;
 import com.ewing.busi.order.dto.LightOrderCartResp;
 import com.ewing.busi.order.dto.SubmitCartReq;
@@ -80,6 +81,24 @@ public class OrderCartAction extends BaseAction {
       checkRequired(req, "入参不能为空");
 
       orderCartService.addCart(getLoginCusId(), req);
+      outSucResult(AjaxRespCode.CODE_SUC);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
+    }
+  }
+  
+  /**
+   * 删除购物车
+   * 
+   * @author Joeson
+   */
+  public void delCart() {
+    try {
+      DelCartReq req = getParamJson(DelCartReq.class);
+      checkRequired(req, "入参不能为空");
+
+      orderCartService.delCart(getLoginCusId(), req);
       outSucResult(AjaxRespCode.CODE_SUC);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

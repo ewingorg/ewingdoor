@@ -1,5 +1,9 @@
 package com.ewing.core.mpskd;
 
+import java.io.FileNotFoundException;
+
+import org.springframework.util.ResourceUtils;
+
 import com.ewing.utils.ConfigReaderUtils;
 
 /**
@@ -11,6 +15,10 @@ public class TestSupport {
     protected static ConfigReaderUtils _cr;
 
     static {
-        _cr = new ConfigReaderUtils("conf/biz/properties/mpconf.properties");
+      try {
+        _cr = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
+      } catch (FileNotFoundException e) {
+        e.printStackTrace();
+      }
     }
 }

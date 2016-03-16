@@ -13,6 +13,7 @@ import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.constants.OrderStatus;
 import com.ewing.busi.order.dao.OrderCartDao;
 import com.ewing.busi.order.dto.AddCartReq;
+import com.ewing.busi.order.dto.DelCartReq;
 import com.ewing.busi.order.dto.LightOrderCartReq;
 import com.ewing.busi.order.dto.LightOrderCartResp;
 import com.ewing.busi.order.dto.SubmitCartReq;
@@ -186,5 +187,19 @@ public class OrderCartService extends BaseService {
     } else {
       baseDao.save(cart);
     }
+  }
+
+  public void delCart(Integer cusId, DelCartReq req) {
+    Validate.notNull(req, "入参不能为空");
+    Validate.notNull(cusId, "商户id不能为空");
+    
+    Integer cartId = req.getCartId();
+    OrderCart cart = baseDao.findOne(cartId, OrderCart.class);
+    if(null == cart){
+      return ;
+    }
+    
+    cart.setIseff(IsEff.INEFFECTIVE.getValue());
+    baseDao.update(cart);
   }
 }

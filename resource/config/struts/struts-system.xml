@@ -28,6 +28,7 @@
 		<action name="index" method="queryIndexCart" class="com.ewing.busi.order.action.OrderCartAction" />
 		<action name="balance" method="balanceCart" class="com.ewing.busi.order.action.OrderCartAction" />
 		<action name="addCart" method="addCart" class="com.ewing.busi.order.action.OrderCartAction" />
+		<action name="delCart" method="delCart" class="com.ewing.busi.order.action.OrderCartAction" />
 	</package>
 	
 	<!-- 订单 -->

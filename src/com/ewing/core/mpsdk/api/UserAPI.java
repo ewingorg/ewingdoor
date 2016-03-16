@@ -99,7 +99,7 @@ public interface UserAPI {
     
     /**
      * 网页授权获取用户基本信息- 第一步：用户同意授权
-     * 第一步：用户同意授权，获取code,code通过redirect返回，返回接口查看WxAuthorizeApiControllers.getWebAccessTocken
+     * 第一步：用户同意授权，获取code,code通过redirect返回，返回接口查看WcAuthorizeAction.getWebAccessTocken
      * 第二步：通过code获取网页授权access_token（此access_token与基础支持的access_token不同），及openId（如果第一步scope=snsapi_base）
      * 第三步：刷新access_token（如果需要）
      * 第四步：拉取用户信息(第一步scope=snsapi_userinfo)
@@ -127,7 +127,7 @@ public interface UserAPI {
     
     /**
      * 网页授权获取用户基本信息-第三步：刷新access_token（如果需要）
-     * @param appId 公众号的唯一标识
+     * @param appId 公众号的 唯一标识
      * @param grandType 填写为refresh_token
      * @param refercshToken 填写通过access_token获取到的refresh_token参数
      * @return

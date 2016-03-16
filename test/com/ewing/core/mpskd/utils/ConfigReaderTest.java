@@ -5,12 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.util.ResourceUtils;
 
 import com.ewing.utils.ConfigReaderUtils;
 
@@ -56,7 +58,12 @@ public class ConfigReaderTest {
 
     @Test(expected = NullPointerException.class)
     public void testNullFile() {
-        new ConfigReaderUtils("/test.properties");
+       try {
+        new ConfigReaderUtils(ResourceUtils.getURL("classpath:conf/biz/properties/mpconf.properties").getFile());
+      } catch (FileNotFoundException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
     }
 
     @Test(expected = NullPointerException.class)
