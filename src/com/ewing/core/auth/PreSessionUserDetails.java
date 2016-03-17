@@ -21,6 +21,21 @@ public class PreSessionUserDetails {
    */
   private Integer cusId;
 
+  /**
+   * 微信用户的唯一标识
+   */
+  private String openId;
+
+
+
+  public String getOpenId() {
+    return openId;
+  }
+
+  public void setOpenId(String openId) {
+    this.openId = openId;
+  }
+
   public String getUserSessionId() {
     return userSessionId;
   }

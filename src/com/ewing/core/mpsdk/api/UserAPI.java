@@ -16,6 +16,12 @@ import com.ewing.core.mpsdk.vo.api.WebAuthorizationUserInfo;
  * @since 2.0
  */
 public interface UserAPI {
+  /** 简体 **/
+  public static final String LANG_CN = "zh_CN";
+  /** 繁体 **/
+  public static final String LANG_TW = "zh_TW";
+  /** 英文 **/
+  public static final String LANG_EN = "en";
 
     /**
      * 设置备注名地址
@@ -50,7 +56,7 @@ public interface UserAPI {
     /**
      * 网页授权获取用户基本信息 --第三步:刷新access_token（如果需要）
      */
-    static String web_authorize_3 = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=REFRESH_TOKEN";
+    static String web_authorize_3 = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=%s&grant_type=refresh_token&refresh_token=%s";
     /**
      * 网页授权获取用户基本信息 --第三步:刷新access_token（如果需要）
      */
@@ -129,11 +135,11 @@ public interface UserAPI {
      * 网页授权获取用户基本信息-第三步：刷新access_token（如果需要）
      * @param appId 公众号的 唯一标识
      * @param grandType 填写为refresh_token
-     * @param refercshToken 填写通过access_token获取到的refresh_token参数
+     * @param refreshToken 填写通过access_token获取到的refresh_token参数
      * @return
      * @author Joeson
      */
-    WebAuthorizationDto refreshWebAccessToken(String appId);
+    WebAuthorizationDto refreshWebAccessToken(String appId, String refreshToken);
     
     /**
      * 网页授权获取用户基本信息-第四步：拉取用户信息(需scope为 snsapi_userinfo)

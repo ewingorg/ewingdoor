@@ -17,7 +17,7 @@ public class WebAuthorizationUserInfo {
     private String openId;
 
     /**
-     * access_token接口调用凭证超时时间，单位（秒）
+     * 微信用户昵称
      */
     @JsonField(value = "nickname")
     private String nickName;

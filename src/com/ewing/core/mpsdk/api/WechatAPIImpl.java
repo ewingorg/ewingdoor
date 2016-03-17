@@ -54,6 +54,10 @@ public class WechatAPIImpl implements WechatAPI {
     static MemoryCache<JSTicket> _jstmc;
 
     private MPAccount mpAct;
+    
+    public WechatAPIImpl(){
+      
+    }
 
     public WechatAPIImpl(MPAccount mpAct) {
         this.mpAct = mpAct;
@@ -624,8 +628,8 @@ public class WechatAPIImpl implements WechatAPI {
     }
 
     @Override
-    public WebAuthorizationDto refreshWebAccessToken(String appId) {
-        String url = mergeUrl(web_authorize_3, appId);
+    public WebAuthorizationDto refreshWebAccessToken(String appId, String refreshToken) {
+        String url = mergeUrl(web_authorize_3, appId, refreshToken);
         ApiResult ar = null;
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));

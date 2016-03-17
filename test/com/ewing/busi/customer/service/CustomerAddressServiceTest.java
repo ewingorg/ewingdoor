@@ -31,7 +31,7 @@ public class CustomerAddressServiceTest {
                 dto.setIsDefault(AddressDefault.DEFAULT.getValue());
                 dto.setIseff(IsEff.EFFECTIVE.getValue());
 
-                customerAddressService.save(dto);
+                customerAddressService.save(dto, 10);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block

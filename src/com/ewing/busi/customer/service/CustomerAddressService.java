@@ -62,8 +62,9 @@ public class CustomerAddressService {
      * @param req
      * @return
      * @author Joeson
+     * @param cusId 
      */
-    public boolean save(AddressAddDto req) {
+    public boolean save(AddressAddDto req, Integer cusId) {
         Validate.notNull(req, "请求参数不能为空");
 
         CustomerAddress address = null;
@@ -77,8 +78,7 @@ public class CustomerAddressService {
                 address = new CustomerAddress();
                 BeanCopy.copy(address, req, true);
                 
-                //@TODO设置默认的customerId
-                address.setCustomerId(10);
+                address.setCustomerId(cusId);
                 address.setIsDefault(AddressDefault.UN_DEFAULT.getValue());
                 address.setIseff(IsEff.EFFECTIVE.getValue());
                 baseModelService.save(address);

@@ -73,9 +73,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
                 requestJson = JsonUtils.toObject(IOUtils.toString(request.getInputStream()),
                         RequestJson.class, clazz);
             else if (request.getMethod().equalsIgnoreCase("GET")) {
-                requestJson = JsonUtils.toObject(
-                        new String(request.getParameter("param").getBytes("ISO-8859-1"), "UTF-8"),
-                        RequestJson.class, clazz);
+              requestJson = JsonUtils.toObject(
+                  new String(request.getParameter("param").getBytes(), "UTF-8"),
+                  RequestJson.class, clazz);
             }
             if (null != requestJson) {
                 return requestJson.getData();

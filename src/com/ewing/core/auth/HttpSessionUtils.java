@@ -3,10 +3,15 @@ package com.ewing.core.auth;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 
+import com.ewing.busi.customer.model.CustomerThirdAccount;
+import com.ewing.core.mpsdk.vo.api.WebAuthorizationUserInfo;
 import com.ewing.core.redis.RedisException;
 import com.ewing.core.redis.RedisManage;
+import com.ewing.utils.BeanCopy;
+import com.ewing.utils.BizGenerator;
 
 
 /**
@@ -83,11 +88,55 @@ public final class HttpSessionUtils {
     }else{
       //从缓存中获取UserDetails
       try {
-        return RedisManage.getInstance().get(USER_DETAILS_CACHE_KEY + preSessionUserDetails);
+        return RedisManage.getInstance().get(USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId());
       } catch (RedisException e) {
         logger.error(e.getMessage(), e);
         throw e;
       }
     }
+  }
+  
+  /**
+   * 设置session中UserDetails
+   * @param userInfo
+   * @author Joeson
+   * @throws RedisException 
+   */
+  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId) throws RedisException{
+    if(null == userInfo){
+      throw new IllegalStateException("userInfo 为空");
+    }
+    
+    HttpServletRequest request = (HttpServletRequest) RequestHolder.getRequest();
+    if (request == null) {
+      throw new IllegalStateException("current request dosnot exists requestholder");
+    }
+    
+    HttpSession session = request.getSession();
+    //PreSessionUserDetails保存到Session中
+    PreSessionUserDetails preSessionUserDetails = new PreSessionUserDetails();
+    preSessionUserDetails.setCusId(cusId);
+    preSessionUserDetails.setOpenId(userInfo.getOpenId());
+    preSessionUserDetails.setUserSessionId(generateSessionId());
+    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);
+    
+    //详细的SessionUserDetails信息，保存到redis中
+    WXSessionUserDetails userDetails = new WXSessionUserDetails();
+    BeanCopy.copy(userDetails, userInfo, true);
+   
+    try {
+      RedisManage.getInstance().set(USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId(), userDetails);
+    } catch (RedisException e) {
+      logger.error(e.getMessage(), e);
+      throw e;
+    }
+  }
+  
+  /**
+   * 生成session key
+   * @author Joeson
+   */
+  private static String generateSessionId(){
+    return "sessionkey_" + BizGenerator.generateBizNum();
   }
 }

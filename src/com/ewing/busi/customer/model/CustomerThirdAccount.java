@@ -30,7 +30,7 @@ public class CustomerThirdAccount implements java.io.Serializable {
      * 头像
      */
     private String headIcon;
-    private Long createTime;
+    private Date createTime;
     private Date lastUpdate;
 
     public CustomerThirdAccount() {
@@ -44,7 +44,7 @@ public class CustomerThirdAccount implements java.io.Serializable {
     }
 
     public CustomerThirdAccount(Integer customerId, Integer thirdPlatform, String userId, String nickName,
-            String headIcon, Long createTime, Date lastUpdate) {
+            String headIcon, Date createTime, Date lastUpdate) {
         this.customerId = customerId;
         this.thirdPlatform = thirdPlatform;
         this.userId = userId;
@@ -102,11 +102,11 @@ public class CustomerThirdAccount implements java.io.Serializable {
         this.headIcon = headIcon;
     }
 
-    public Long getCreateTime() {
+    public Date getCreateTime() {
         return this.createTime;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 

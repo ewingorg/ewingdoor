@@ -12,6 +12,7 @@ import com.ewing.busi.customer.dto.AddressDetailResp;
 import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.service.CustomerAddressService;
+import com.ewing.common.constants.AjaxRespCode;
 import com.ewing.core.app.action.base.BaseAction;
 import com.ewing.utils.StringUtil;
 
@@ -82,8 +83,12 @@ public class CustomerAddressAction extends BaseAction{
             AddressAddDto req = getParamJson(AddressAddDto.class);
             checkRequired(req, "req");
 
-            customerAddressService.save(req);
-            outSucResult(StringUtil.EMPTY);
+            boolean result = customerAddressService.save(req, getLoginCusId());
+            if(result){
+              outSucResult(AjaxRespCode.CODE_SUC.code);
+            }else{
+              outFailResult(AjaxRespCode.CODE_ERROR);
+            }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }
