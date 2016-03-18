@@ -36,11 +36,11 @@ public class HttpToolTest extends TestSupport {
 
     @Before
     public void init() {
-        this.openId = _cr.get("openId");
-        this.appId = _cr.get("appId");
-        this.appSecret = _cr.get("appSecret");
-        this.accessToken = _cr.get("accessToken");
-        this.mediaId = _cr.get("mediaId");
+        this.openId = reader.get("openId");
+        this.appId = reader.get("appId");
+        this.appSecret = reader.get("appSecret");
+        this.accessToken = reader.get("accessToken");
+        this.mediaId = reader.get("mediaId");
     }
 
     // 注意access_token接口调用次数,建议跑一次就关闭

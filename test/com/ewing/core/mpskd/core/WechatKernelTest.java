@@ -41,10 +41,10 @@ public class WechatKernelTest extends TestSupport {
     public void init() {
         log.info("====== WechatKernelTest ======");
         mpAct = new MPAccount();
-        mpAct.setMpId(_cr.get("mpId"));
-        mpAct.setAppId(_cr.get("appId"));
-        mpAct.setAppSecret(_cr.get("appSecret"));
-        mpAct.setToken(_cr.get("token"));
+        mpAct.setMpId(reader.get("mpId"));
+        mpAct.setAppId(reader.get("appId"));
+        mpAct.setAppSecret(reader.get("appSecret"));
+        mpAct.setToken(reader.get("token"));
         data = new HashMap<String, String[]>();
         data.put("signature", new String[]{"af06ae6995cb1979e465d3b8015509ad61bb7204"});
         data.put("timestamp", new String[]{"1442726144"});

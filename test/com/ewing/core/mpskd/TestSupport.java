@@ -12,11 +12,11 @@ import com.ewing.utils.ConfigReaderUtils;
  */
 public class TestSupport {
 
-    protected static ConfigReaderUtils _cr;
+    protected static ConfigReaderUtils reader;
 
     static {
       try {
-        _cr = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
+        reader = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
       } catch (FileNotFoundException e) {
         e.printStackTrace();
       }

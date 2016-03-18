@@ -29,7 +29,7 @@ public class MessageAPITest extends APITestSupport {
     public void init() {
         log.info("====== MessageAPITest ======");
         super.init();
-        this.openId = _cr.get("openId");
+        this.openId = reader.get("openId");
         ma = WechatAPIImpl.create(mpAct);
     }
 
@@ -41,7 +41,7 @@ public class MessageAPITest extends APITestSupport {
     @Test
     public void testSendTemplateMsg() {
         log.info("====== MessageAPI#sendTemplateMsg ======");
-        String tmlId = _cr.get("tmplId");
+        String tmlId = reader.get("tmplId");
         Template tml = new Template("title", "测试");
         String url = "https://www.google.com";
         long msgid = ma.sendTemplateMsg(openId, tmlId, "#119EF3", url, tml);

@@ -57,7 +57,7 @@ public class MediaAPITest extends APITestSupport {
     @Test
     public void testGet() {
         log.info("====== MediaAPI#dlMedia ======");
-        String mediaId = _cr.get("mediaId");
+        String mediaId = reader.get("mediaId");
         File media = ma.dlMedia(mediaId);
         assertNotNull(media);
         log.info(media.getAbsolutePath());

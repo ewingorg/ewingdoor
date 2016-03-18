@@ -28,32 +28,32 @@ public class ConfigReaderTest {
     private static final boolean BOOL = true;
     private static final long LONG = 100000000000000l;
 
-    private ConfigReaderUtils cr;
+    private ConfigReaderUtils reader;
 
     @Before
     public void init() {
-        cr = new ConfigReaderUtils("/ErrorCode.properties");
-        cr.put("int", String.valueOf(INTEGER));
-        cr.put("bool", String.valueOf(BOOL));
-        cr.put("long", String.valueOf(LONG));
+        reader = new ConfigReaderUtils("/ErrorCode.properties");
+        reader.put("int", String.valueOf(INTEGER));
+        reader.put("bool", String.valueOf(BOOL));
+        reader.put("long", String.valueOf(LONG));
     }
 
     @After
     public void testClear() {
-        cr.clear();
-        assertNull(cr.get("0"));
+        reader.clear();
+        assertNull(reader.get("0"));
     }
 
     @Test
     public void testAll() {
-        List<String> keys = cr.keys();
-        Collection<String> values = cr.values();
+        List<String> keys = reader.keys();
+        Collection<String> values = reader.values();
         assertEquals(keys.size(), values.size());
     }
 
     @Test
     public void testGet() {
-        assertNotNull(cr.get("0"));
+        assertNotNull(reader.get("0"));
     }
 
     @Test(expected = NullPointerException.class)
@@ -68,22 +68,22 @@ public class ConfigReaderTest {
 
     @Test(expected = NullPointerException.class)
     public void testNullKey() {
-        cr.get(null);
+        reader.get(null);
     }
 
     @Test
     public void testGetInt() {
-        assertEquals(cr.getInt("int"), INTEGER);
+        assertEquals(reader.getInt("int"), INTEGER);
     }
 
     @Test
     public void testGetLong() {
-        assertEquals(cr.getLong("long"), LONG);
+        assertEquals(reader.getLong("long"), LONG);
     }
 
     @Test
     public void testGetBoolean() {
-        assertTrue(cr.getBoolean("bool"));
+        assertTrue(reader.getBoolean("bool"));
     }
 
 }

@@ -24,11 +24,11 @@ public class ServletContainer extends HttpServletSupport {
 
     private static final long serialVersionUID = 8954466678965988236L;
 
-    private static ConfigReaderUtils _cr;
+    private static ConfigReaderUtils reader;
 
     static {
         try {
-          _cr = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
+          reader = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
         } catch (FileNotFoundException e) {
           e.printStackTrace();
         }
@@ -37,10 +37,10 @@ public class ServletContainer extends HttpServletSupport {
     @Override
     public void init() throws ServletException {
         MPAccount mpAct = new MPAccount();
-        mpAct.setMpId(_cr.get("mpId"));
-        mpAct.setAppId(_cr.get("appId"));
-        mpAct.setAppSecret(_cr.get("appSecret"));
-        mpAct.setToken(_cr.get("token"));
+        mpAct.setMpId(reader.get("mpId"));
+        mpAct.setAppId(reader.get("appId"));
+        mpAct.setAppSecret(reader.get("appSecret"));
+        mpAct.setToken(reader.get("token"));
         _wk.setMpAct(mpAct);
         _wk.setWechatHandler(new WechatDefHandler());
     }

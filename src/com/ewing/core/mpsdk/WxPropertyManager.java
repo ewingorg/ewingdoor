@@ -21,11 +21,11 @@ public class WxPropertyManager {
   /** 微信appId 对应的secret **/
   private final String SECRET = "appSecret";
   
-  protected static ConfigReaderUtils _cr;
+  private static ConfigReaderUtils reader;
 
   static {
     try {
-      _cr = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
+      reader = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/mpconf.properties").getFile());
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
@@ -44,7 +44,7 @@ public class WxPropertyManager {
    * @author Joeson
    */
   public String getAppId(){
-    return _cr.get(APPID);
+    return reader.get(APPID);
   }
   
   /**
@@ -52,7 +52,7 @@ public class WxPropertyManager {
    * @author Joeson
    */
   public String getSecret(){
-    return _cr.get(SECRET);
+    return reader.get(SECRET);
   }
   
   

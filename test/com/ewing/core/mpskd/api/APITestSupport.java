@@ -20,17 +20,17 @@ public class APITestSupport extends TestSupport {
     @Before
     public void init() {
         mpAct = new MPAccount();
-        mpAct.setMpId(_cr.get("mpId"));
-        mpAct.setAppId(_cr.get("appId"));
-        mpAct.setAppSecret(_cr.get("appSecret"));
+        mpAct.setMpId(reader.get("mpId"));
+        mpAct.setAppId(reader.get("appId"));
+        mpAct.setAppSecret(reader.get("appSecret"));
 
-        openId = _cr.get("openId");
-        openId2 = _cr.get("openId2");
-        groupId = _cr.getInt("groupId");
-        accessToken = _cr.get("accessToken");
-        mediaId = _cr.get("mediaId");
-        ticket = _cr.get("ticket");
-        tmplId = _cr.get("tmplId");
+        openId = reader.get("openId");
+        openId2 = reader.get("openId2");
+        groupId = reader.getInt("groupId");
+        accessToken = reader.get("accessToken");
+        mediaId = reader.get("mediaId");
+        ticket = reader.get("ticket");
+        tmplId = reader.get("tmplId");
     }
 
 }

@@ -34,7 +34,7 @@ public class QRCodeAPITest extends APITestSupport {
     public void init() {
         log.info("====== QRCodeAPITest ======");
         super.init();
-        this.ticket = _cr.get("ticket");
+        this.ticket = reader.get("ticket");
         qa = WechatAPIImpl.create(mpAct);
     }
 

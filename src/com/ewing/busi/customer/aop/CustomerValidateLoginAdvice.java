@@ -9,7 +9,7 @@ import org.aspectj.lang.annotation.Aspect;
 import com.ewing.common.constants.AjaxRespCode;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
-import com.ewing.utils.PropertyUtil;
+import com.ewing.utils.PropertyUtils;
 
 /**
  * 

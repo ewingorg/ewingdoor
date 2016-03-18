@@ -17,7 +17,7 @@ import redis.clients.jedis.ShardedJedisPool;
 import redis.clients.util.Hashing;
 import redis.clients.util.Sharded;
 
-import com.ewing.utils.PropertyUtil;
+import com.ewing.utils.PropertyUtils;
 
 /**
  * redis工具类
@@ -66,7 +66,7 @@ public class RedisManage {
      * @return
      */
     private List<JedisShardInfo> parseHost() {
-        String hosts = PropertyUtil.getProperty("redis.host");
+        String hosts = PropertyUtils.getProperty("redis.host");
         if (StringUtils.isEmpty(hosts))
             throw new RuntimeException("plz configure redis.host in system.properties");
         String[] hostArray = hosts.split(",");

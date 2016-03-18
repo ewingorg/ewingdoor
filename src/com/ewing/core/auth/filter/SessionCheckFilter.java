@@ -15,11 +15,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.auth.HttpSessionUtils;
 import com.ewing.core.mpsdk.WxPropertyManager;
 import com.ewing.core.mpsdk.api.UserAPI;
 import com.ewing.core.mpsdk.api.WechatAPIImpl;
 import com.ewing.core.wxpaysdk.api.WxpayApiImpl;
+import com.ewing.utils.PropertyUtils;
 
 
 /**
@@ -64,7 +66,7 @@ public class SessionCheckFilter implements Filter {
     String uri = req.getRequestURI();
     String context = req.getContextPath();
     String requestPath = uri.substring(context.length());
-    if (ignoreCheck(requestPath)) {
+    if (!SystemPropertyUtils.isAuth() || ignoreCheck(requestPath)) {
       chain.doFilter(request, response);
       return;
     }

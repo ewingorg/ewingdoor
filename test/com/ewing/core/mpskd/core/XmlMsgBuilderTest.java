@@ -28,9 +28,9 @@ public class XmlMsgBuilderTest extends TestSupport {
     @Before
     public void init() {
         log.info("====== XmlMsgBuilderTest ======");
-        mpId = _cr.get("mpId");
-        openId = _cr.get("openId");
-        mediaId = _cr.get("mediaId");
+        mpId = reader.get("mpId");
+        openId = reader.get("openId");
+        mediaId = reader.get("mediaId");
     }
 
     @Test

@@ -22,7 +22,7 @@ import org.aspectj.lang.annotation.Aspect;
 import com.ewing.core.redis.RedisCache;
 import com.ewing.core.redis.RedisLocker;
 import com.ewing.core.redis.RedisManage;
-import com.ewing.utils.PropertyUtil;
+import com.ewing.utils.PropertyUtils;
 
 /**
  * redis的AOP拦截
@@ -38,7 +38,7 @@ public class RedisCacheAdvice {
     /**
      * 缓存拦截开关
      */
-    private final static boolean isCache = Boolean.valueOf(PropertyUtil
+    private final static boolean isCache = Boolean.valueOf(PropertyUtils
             .getProperty("redis.aopcache.open"));
 
     @Around("execution(* com.ewing.busi.*.service.*.*(..))  && @annotation(cache)")
