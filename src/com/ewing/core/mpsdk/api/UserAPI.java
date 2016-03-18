@@ -22,6 +22,10 @@ public interface UserAPI {
   public static final String LANG_TW = "zh_TW";
   /** 英文 **/
   public static final String LANG_EN = "en";
+  /** snsapi_base （不弹出授权页面，直接跳转，只能获取用户openid）**/
+  public static final String SCOPE_SNSAPI_BASE = "snsapi_base";
+  /** snsapi_userinfo （弹出授权页面，可通过openid拿到昵称、性别、所在地。并且，即使在未关注的情况下，只要用户授权，也能获取其信息） **/
+  public static final String SCOPE_SNSAPI_USERINFO = "snsapi_userinfo";
 
     /**
      * 设置备注名地址

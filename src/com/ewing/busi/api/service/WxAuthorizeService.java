@@ -23,7 +23,7 @@ import com.ewing.core.redis.RedisException;
 import com.sun.star.uno.RuntimeException;
 
 @Repository("wcAuthorizeService")
-public class WcAuthorizeService {
+public class WxAuthorizeService {
   
   private UserAPI userApi = new WechatAPIImpl();
   @Resource

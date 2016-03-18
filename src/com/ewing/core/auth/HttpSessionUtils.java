@@ -120,7 +120,7 @@ public final class HttpSessionUtils {
     preSessionUserDetails.setUserSessionId(generateSessionId());
     session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);
     
-    //详细的SessionUserDetails信息，保存到redis中
+    //详细的SessionUserDetails信息，保存到redis缓存中
     WXSessionUserDetails userDetails = new WXSessionUserDetails();
     BeanCopy.copy(userDetails, userInfo, true);
    

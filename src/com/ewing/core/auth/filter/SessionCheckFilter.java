@@ -13,7 +13,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.ewing.core.auth.HttpSessionUtils;
+import com.ewing.core.mpsdk.WxPropertyManager;
+import com.ewing.core.mpsdk.api.UserAPI;
+import com.ewing.core.mpsdk.api.WechatAPIImpl;
+import com.ewing.core.wxpaysdk.api.WxpayApiImpl;
 
 
 /**
@@ -34,6 +40,7 @@ public class SessionCheckFilter implements Filter {
    */
   private static final String ignoreAll = "/**";
   
+  private UserAPI useApi = new WechatAPIImpl();
   
   private Set<String> ignoreUris = null;
 
@@ -61,15 +68,34 @@ public class SessionCheckFilter implements Filter {
       chain.doFilter(request, response);
       return;
     }
+    
     // 如果没有PreSessionUserDetails，说明没有登录过，或者登录过但是用户清空了浏览器缓存，需要第三方登陆验证
     if (req.getSession(false) == null || null == HttpSessionUtils.getPreSessionUserDetails()) {
       HttpServletResponse resp = (HttpServletResponse) response;
       
-      //@DODO重定向到第三方登陆，登陆之后设置PreSessionUserDetails和SessionUserDetails
+      //@DODO重定向到第三方登陆(暂时只有微信，后续可能会接入其他登陆)，登陆之后设置PreSessionUserDetails和SessionUserDetails
+      WxPropertyManager manager = WxPropertyManager.getInstance();
+      useApi.getWebAuthorizationCode(manager.getAppId(), getFullURL(req), UserAPI.SCOPE_SNSAPI_USERINFO, StringUtils.EMPTY);
+      return;
     }
     
     chain.doFilter(request, response);
   }
+  
+  /**
+   * 获取请求绝对路径
+   * @param request
+   * @author Joeson
+   */
+  private String getFullURL(HttpServletRequest request) {
+
+    StringBuffer url = request.getRequestURL();
+    if (request.getQueryString() != null) {
+     url.append('?');
+     url.append(request.getQueryString());
+    }
+    return url.toString();
+   }
 
   @Override
   public void destroy() {
