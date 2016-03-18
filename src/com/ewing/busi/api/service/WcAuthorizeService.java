@@ -13,7 +13,6 @@ import com.ewing.busi.customer.model.CustomerThirdAccount;
 import com.ewing.busi.customer.service.CustomerThirdAccountService;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.auth.HttpSessionUtils;
-import com.ewing.core.auth.SessionUserDetails;
 import com.ewing.core.jdbc.BaseDao;
 import com.ewing.core.mpsdk.WxPropertyManager;
 import com.ewing.core.mpsdk.api.UserAPI;
