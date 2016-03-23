@@ -387,6 +387,50 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     return sql.toString();
   }
 
+  /**
+   * 返回組裝的JSON信息到页面
+   * 
+   * @param responseData
+   */
+  public void outResult(ResponseData responseData) {
+    if (responseData == null)
+      throw new IllegalArgumentException("responseData should not be null");
+    try {
+      String json = gson.toJson(responseData);
+      response.setContentType("text/json");
+      if (isJsonpRequest()) {
+        String callbackparam = request.getParameter("callbackparam");
+        String jsonpResut = "ajax.jsonpCallback(" + json + ",'" + callbackparam + "')";
+        logger.debug(jsonpResut);
+        response.getWriter().write(jsonpResut);
+      } else {
+        logger.debug(json);
+        response.getWriter().write(json);
+      }
+
+    } catch (IOException e) {
+      logger.error(e.getMessage(), e);
+    }
+  }
+
+  /**
+   * 是否是jsonpa请求
+   * 
+   * @param request
+   * @return
+   * @author Joeson
+   */
+  private boolean isJsonpRequest() {
+    if (null == request) {
+      logger.error("request can not be null");
+      return false;
+    }
+
+    if (!StringUtil.isEmpty(request.getParameter("callbackparam")))
+      return true;
+    return false;
+  }
+
   public String bulidOrderBySql() {
     String orderSql = "";
     Map paramMap = request.getParameterMap();
@@ -417,27 +461,27 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
     outResult(new ResponseData(true, data, ResponseType.NORMAL));
   }
 
-  /**
-   * 返回組裝的JSON信息到页面
-   * 
-   * @param responseData
-   */
-  public void outResult(ResponseData responseData) {
-    if (responseData == null)
-      throw new IllegalArgumentException("responseData should not be null");
-    try {
-      String json = gson.toJson(responseData);
-      if (AjaxJsonpUtils.isJsonpRequest(request)) {
-        AjaxJsonpUtils.outJson(request, response, json);
-      } else {
-        response.setContentType("text/json");
-        logger.debug(json);
-        response.getWriter().write(json);
-      }
-    } catch (IOException e) {
-      logger.error(e.getMessage(), e);
-    }
-  }
+  // /**
+  // * 返回組裝的JSON信息到页面
+  // *
+  // * @param responseData
+  // */
+  // public void outResult(ResponseData responseData) {
+  // if (responseData == null)
+  // throw new IllegalArgumentException("responseData should not be null");
+  // try {
+  // String json = gson.toJson(responseData);
+  // if (AjaxJsonpUtils.isJsonpRequest(request)) {
+  // AjaxJsonpUtils.outJson(request, response, json);
+  // } else {
+  // response.setContentType("text/json");
+  // logger.debug(json);
+  // response.getWriter().write(json);
+  // }
+  // } catch (IOException e) {
+  // logger.error(e.getMessage(), e);
+  // }
+  // }
 
   public void forward(String page) {
     forward(page, null);

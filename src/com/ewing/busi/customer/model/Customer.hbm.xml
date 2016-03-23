@@ -13,7 +13,7 @@
             </column>
         </property>
         <property name="password" type="string">
-            <column name="password" length="100" not-null="true">
+            <column name="password" length="100">
             </column>
         </property>
         <property name="headIcon" type="string">
@@ -21,7 +21,7 @@
             </column>
         </property>
         <property name="phone" type="string">
-            <column name="phone" length="50" not-null="true">
+            <column name="phone" length="50">
             </column>
         </property>
         <property name="sex" type="string">

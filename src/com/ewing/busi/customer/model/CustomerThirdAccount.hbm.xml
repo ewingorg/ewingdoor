@@ -10,34 +10,26 @@
         </id>
         <property name="customerId" type="int">
             <column name="customer_id" not-null="true">
-                <comment>&#207;&#251;&#183;&#209;&#213;&#223;ID</comment>
             </column>
         </property>
         <property name="thirdPlatform" type="int">
             <column name="third_platform" not-null="true">
-                <comment>
-                &#181;&#218;&#200;&#253;&#183;&#189;&#213;&#203;&#186;&#197;&#189;&#211;&#200;&#235;&#198;&#189;&#204;&#168;(1-&#206;&#162;&#208;&#197;,2-&#204;&#212;&#177;&#166;)</comment>
             </column>
         </property>
         <property name="userId" type="string">
             <column name="user_id" length="100" not-null="true">
-                <comment>&#181;&#218;&#200;&#253;&#183;&#189;&#213;&#203;&#186;&#197;ID</comment>
             </column>
         </property>
         <property name="nickName" type="string">
             <column name="nick_name">
-                <comment>&#181;&#218;&#200;&#253;&#183;&#189;&#213;&#203;&#186;&#197;&#234;&#199;&#179;&#198;</comment>
             </column>
         </property>
         <property name="headIcon" type="string">
             <column name="head_icon" length="300">
-                <comment>&#205;&#183;&#207;&#241;</comment>
             </column>
         </property>
-        <property name="createTime" type="java.lang.Long">
-            <column name="create_time">
-                <comment>&#180;&#180;&#189;&#168;&#202;&#177;&#188;&#228;</comment>
-            </column>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
         </property>
         <property name="lastUpdate" type="timestamp">
             <column name="last_update" length="19" not-null="true" />

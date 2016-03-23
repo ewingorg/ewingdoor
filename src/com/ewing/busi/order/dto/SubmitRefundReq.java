@@ -72,7 +72,4 @@ public class SubmitRefundReq {
   public void setReason(String reason) {
     this.reason = reason;
   }
-
-  
-
 }

@@ -607,7 +607,7 @@ public class WechatAPIImpl implements WechatAPI {
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));
             if (ar.isSuccess()) {
-                return Json.fromJson(WebAuthorizationDto.class, Json.toJson(ar.getJson()));
+                return Json.fromJson(WebAuthorizationDto.class, ar.getJson());
             }
 
             log.errorf(
@@ -625,7 +625,7 @@ public class WechatAPIImpl implements WechatAPI {
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));
             if (ar.isSuccess()) {
-                return Json.fromJson(WebAuthorizationDto.class, Json.toJson(ar.getJson()));
+                return Json.fromJson(WebAuthorizationDto.class, ar.getJson());
             }
 
             log.errorf("Get mp[%s] refreshWebAccessToken on web failed. There try %d items.",
@@ -642,6 +642,7 @@ public class WechatAPIImpl implements WechatAPI {
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));
             if (ar.isSuccess()) {
+              log.info(ar.getJson());
                 return Json.fromJson(WebAuthorizationUserInfo.class, ar.getJson());
             }
 

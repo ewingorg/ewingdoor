@@ -48,7 +48,7 @@ public class AjaxJsonpUtils {
       throws IOException {
     response.setContentType("text/json");
     String callbackparam = request.getParameter("callbackparam");
-    String jsonpResut = callbackparam + "(" + json + ")";
+    String jsonpResut = "ajax.jsonpCallback(" + json + ",'" + callbackparam + "')";
     logger.info(jsonpResut);
     response.getWriter().write(jsonpResut);
   }

@@ -73,7 +73,7 @@ public class WxAuthorizeService {
         userApi.getWebUserInfo(getWebAccessTokenResp.getAccessToken(),
             getWebAccessTokenResp.getOpenId(), UserAPI.LANG_CN);
     if (null == userInfo) {
-      throw new RuntimeException("网页授权获取用户基本信息-第三步：获取用户信息失败");
+      throw new RuntimeException("网页授权获取用户基本信息-第四步：获取用户信息失败");
     }
     CustomerThirdAccount thirdAccount =
         customerThirdAccountService.findByUserIdAndPlatId(userInfo.getOpenId(),
@@ -84,10 +84,12 @@ public class WxAuthorizeService {
       customer.setName(userInfo.getNickName());
       customer.setIseff(IsEff.EFFECTIVE.getValue());
       customer.setCreateTime(new Date());
+      customer.setSex(userInfo.getSex());
       baseDao.save(customer);
 
       thirdAccount = new CustomerThirdAccount();
       thirdAccount.setCustomerId(customer.getId());
+      thirdAccount.setThirdPlatform(AccountThirdPlatform.WE_CHAT.getValue());
       thirdAccount.setHeadIcon(userInfo.getHeadImgUrl());
       thirdAccount.setNickName(userInfo.getNickName());
       thirdAccount.setUserId(userInfo.getOpenId());

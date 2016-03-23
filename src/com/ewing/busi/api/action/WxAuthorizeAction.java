@@ -52,7 +52,7 @@ public class WxAuthorizeAction extends BaseAction {
   }
 
   /**
-   * 获取用户微信网页获取用户信息的第一步骤的code
+   * 获取用户微信网页获取用户信息的第一步骤的code，并进行第二、三、四步骤，设置用户登陆信息
    * 
    * @author Joeson
    */
@@ -65,10 +65,14 @@ public class WxAuthorizeAction extends BaseAction {
       logger.info(JsonUtils.toJson(req));
       
       wxAuthorizeService.getWebAuthCode(req);
+      
+      String redirectUrl = HttpSessionUtils.getRedirectUrl(true);
+      logger.info("redirectUrl : " + redirectUrl);
       //进行重定向
-      response.sendRedirect(HttpSessionUtils.getRedirectUrl(true));
+      response.sendRedirect(redirectUrl);
     } catch (Exception e) {
-      e.printStackTrace();
+      HttpSessionUtils.getRedirectUrl(true);
+      logger.error(e.getMessage(), e);
     }
   }
 }

@@ -34,8 +34,8 @@ public class CustomerThirdAccountDao {
    */
   public CustomerThirdAccount findByUserIdAndPlatId(String userId, Integer platId) {
     StringBuilder query = new StringBuilder();
-    query.append(" user_id = ").append(userId);
-    query.append(" and third_platform").append(platId);
+    query.append(" user_id = '").append(userId).append("'");
+    query.append(" and third_platform = ").append(platId);
     
     return baseDao.findOne(query.toString(), CustomerThirdAccount.class);
   }

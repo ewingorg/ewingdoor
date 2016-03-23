@@ -1,5 +1,7 @@
 package com.ewing.core.mpsdk.vo.api;
 
+import java.util.List;
+
 import org.nutz.json.JsonField;
 
 /**
@@ -53,7 +55,7 @@ public class WebAuthorizationUserInfo {
      * 用户特权信息，json 数组，如微信沃卡用户为（chinaunicom）
      */
     @JsonField(value = "privilege")
-    private String privilege;
+    private List<String> privilege;
     /**
      * 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。详见：获取用户个人信息（UnionID机制）
      */
@@ -116,12 +118,12 @@ public class WebAuthorizationUserInfo {
         this.headImgUrl = headImgUrl;
     }
 
-    public String getPrivilege() {
-        return privilege;
+    public List<String> getPrivilege() {
+      return privilege;
     }
 
-    public void setPrivilege(String privilege) {
-        this.privilege = privilege;
+    public void setPrivilege(List<String> privilege) {
+      this.privilege = privilege;
     }
 
     public String getUnionId() {

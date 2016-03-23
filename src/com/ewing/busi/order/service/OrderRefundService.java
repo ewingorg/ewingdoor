@@ -21,6 +21,7 @@ import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
 import com.ewing.busi.order.dto.LightOrderInfoResp;
 import com.ewing.busi.order.dto.OrderInfoDetailResp;
+import com.ewing.busi.order.dto.SubmitRefundReq;
 import com.ewing.busi.order.helper.OrderHelper;
 import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
@@ -230,5 +231,9 @@ public class OrderRefundService {
     }
     
     return true;
+  }
+
+  public LightOrderInfoResp submitRefund(Integer loginCusId, SubmitRefundReq req) {
+    return null;
   }
 }
