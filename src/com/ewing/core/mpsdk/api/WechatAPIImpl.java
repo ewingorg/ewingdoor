@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.nutz.castor.Castors;
 import org.nutz.json.Json;
 import org.nutz.json.JsonFormat;
@@ -15,6 +16,8 @@ import org.nutz.lang.util.NutMap;
 import org.nutz.log.Log;
 import org.nutz.log.Logs;
 
+import com.ewing.busi.api.action.WxAuthorizeAction;
+import com.ewing.core.mpsdk.WxPropertyManager;
 import com.ewing.core.mpsdk.core.JsonMsgBuilder;
 import com.ewing.core.mpsdk.exception.WechatApiException;
 import com.ewing.core.mpsdk.session.AccessTokenMemoryCache;
@@ -44,6 +47,8 @@ import com.ewing.core.wxpaysdk.vo.cache.MemoryCache;
  */
 @SuppressWarnings("unchecked")
 public class WechatAPIImpl implements WechatAPI {
+  
+  private static Logger logger = Logger.getLogger(WechatAPIImpl.class);
 
     private static final Log log = Logs.get();
 
@@ -107,7 +112,6 @@ public class WechatAPIImpl implements WechatAPI {
             }
 
             log.errorf("Get mp[%s]access_token failed. There try %d items.", mpAct.getMpId(), i + 1);
-
         }
 
         throw Lang.wrapThrow(new WechatApiException(ar.getJson()));
@@ -138,10 +142,10 @@ public class WechatAPIImpl implements WechatAPI {
 
     @Override
     public String getAccessToken() {
-        AccessToken at = _atmc.get(mpAct.getMpId());
+        AccessToken at = _atmc.get(WxPropertyManager.getInstance().getAppId());
         if (at == null || !at.isAvailable()) {
             refreshAccessToken();
-            at = _atmc.get(mpAct.getMpId());
+            at = _atmc.get(WxPropertyManager.getInstance().getMpId());
         }
         return at.getAccessToken();
     }
@@ -592,26 +596,13 @@ public class WechatAPIImpl implements WechatAPI {
     }
 
     @Override
-    public void getWebAuthorizationCode(String appId, String redirectUrl, String scope, String state) {
-        String url = mergeUrl(web_authorize_1, appId, redirectUrl, scope, state);
-        ApiResult ar = null;
-        for (int i = 0; i < RETRY_COUNT; i++) {
-            ar = ApiResult.create(HttpTool.get(url));
-            if (ar.isSuccess()) {
-                return;
-            }
-
-            log.errorf(
-                    "Get mp[%s] getWebAuthorizationCode on web authorization failed, redirectUrl[%s], scope[%s], state[%s]. There try %d items.",
-                    appId, redirectUrl, scope, state, i);
-        }
-
-        throw Lang.wrapThrow(new WechatApiException(ar.getJson()));
+    public String getWebAuthorizationCode(String appId, String redirectUrl, String scope, String state) {
+        return String.format(web_authorize_1, appId, redirectUrl, scope, state);
     }
 
     @Override
     public WebAuthorizationDto getWebAccessToken(String appId, String appsecret, String code) {
-        String url = mergeUrl(web_authorize_2, appId, appsecret, code);
+        String url = String.format(web_authorize_2, appId, appsecret, code);
         ApiResult ar = null;
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));
@@ -629,7 +620,7 @@ public class WechatAPIImpl implements WechatAPI {
 
     @Override
     public WebAuthorizationDto refreshWebAccessToken(String appId, String refreshToken) {
-        String url = mergeUrl(web_authorize_3, appId, refreshToken);
+        String url = String.format(web_authorize_3, appId, refreshToken);
         ApiResult ar = null;
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));
@@ -646,12 +637,12 @@ public class WechatAPIImpl implements WechatAPI {
 
     @Override
     public WebAuthorizationUserInfo getWebUserInfo(String accessToken, String openId, String lang) {
-        String url = mergeUrl(web_authorize_4, accessToken, openId, lang);
+        String url = String.format(web_authorize_4, accessToken, openId, lang);
         ApiResult ar = null;
         for (int i = 0; i < RETRY_COUNT; i++) {
             ar = ApiResult.create(HttpTool.get(url));
             if (ar.isSuccess()) {
-                return Json.fromJson(WebAuthorizationUserInfo.class, Json.toJson(ar.getJson()));
+                return Json.fromJson(WebAuthorizationUserInfo.class, ar.getJson());
             }
 
             log.errorf(

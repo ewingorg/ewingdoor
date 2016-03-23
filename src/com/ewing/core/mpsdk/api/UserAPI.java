@@ -50,7 +50,7 @@ public interface UserAPI {
     /**
      * 网页授权获取用户基本信息 --第一步：用户同意授权，获取code
      */
-    static String web_authorize_1 = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=123#wechat_redirect";
+    static String web_authorize_1 = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s&redirect_uri=%s&response_type=code&scope=%s&state=%s#wechat_redirect";
 
     /**
      * 网页授权获取用户基本信息 --第二步：通过code换取网页授权access_token
@@ -122,7 +122,7 @@ public interface UserAPI {
      * @return
      * @author Joeson
      */
-    void getWebAuthorizationCode(String appId,String redirectUrl, String scope,String state);
+    String getWebAuthorizationCode(String appId,String redirectUrl, String scope,String state);
     
     /**
      * 网页授权获取用户基本信息-第二步：通过code换取网页授权access_token

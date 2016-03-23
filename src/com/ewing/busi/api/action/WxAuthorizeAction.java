@@ -4,9 +4,11 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
+import com.ewing.busi.api.dto.WxAuthServerReq;
 import com.ewing.busi.api.dto.WxWebAuthorizeReq;
 import com.ewing.busi.api.service.WxAuthorizeService;
 import com.ewing.core.app.action.base.BaseAction;
+import com.ewing.core.auth.HttpSessionUtils;
 import com.ewing.utils.JsonUtils;
 
 /**
@@ -20,26 +22,53 @@ public class WxAuthorizeAction extends BaseAction {
   private static Logger logger = Logger.getLogger(WxAuthorizeAction.class);
 
   @Resource
-  private static WxAuthorizeService wxAuthorizeService;
+  private WxAuthorizeService wxAuthorizeService;
+  
+  /**
+   * 微信验证本服务器的接口<br/>
+   * http://mp.weixin.qq.com/wiki/8/f9a0b8382e0b77d87b3bcc1ce6fbc104.html#<br/>
+   * 开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请原样返回echostr参数内容，则接入生效，成为开发者成功，否则接入失败
+   * @author Joeson
+   */
+  public void authServer(){
+    WxAuthServerReq req = null;
+    try {
+      String signature = request.getParameter("signature");
+      String timestamp = request.getParameter("timestamp");
+      String nonce = request.getParameter("nonce");
+      String echostr = request.getParameter("echostr");
+      req = new WxAuthServerReq(signature, timestamp, nonce, echostr);
+      logger.info(JsonUtils.toJson(req));
+      
+      if(wxAuthorizeService.authServer(req)){
+        response.getWriter().write(req.getEchostr());
+      }else{
+        return;
+      }
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      return;
+    }
+  }
 
   /**
    * 获取用户微信网页获取用户信息的第一步骤的code
    * 
    * @author Joeson
    */
-  public void getWebAccessTocken(){
-    
+  public void getWebAuthCode(){
     WxWebAuthorizeReq req = null;
     try {
-      req = getParamJson(WxWebAuthorizeReq.class);
+      String code = request.getParameter("code");
+      String state = request.getParameter("state");
+      req = new WxWebAuthorizeReq(code, state);
+      logger.info(JsonUtils.toJson(req));
       
-      wxAuthorizeService.getWebAccessTocken(req);
+      wxAuthorizeService.getWebAuthCode(req);
+      //进行重定向
+      response.sendRedirect(HttpSessionUtils.getRedirectUrl(true));
     } catch (Exception e) {
       e.printStackTrace();
     }
-    
-    System.out.println(JsonUtils.toJson(req));
-
-    
   }
 }

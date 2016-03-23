@@ -21,11 +21,11 @@ public class ApiResult {
 
     private static final Log log = Logs.get();
 
-    private static ConfigReaderUtils reader;
+    private static ConfigReaderUtils _cr;
 
     static {
         try {
-            reader = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/ErrorCode.properties").getFile());
+            _cr = new ConfigReaderUtils(ResourceUtils.getURL("classpath:config/properties/ErrorCode.properties").getFile());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -43,7 +43,7 @@ public class ApiResult {
         this.content = Json.fromJson(Map.class, json);
         this.errCode = (Integer) this.content.get("errcode");
         this.errMsg = (String) this.content.get("errmsg");
-        this.errCNMsg = this.errCode == null ? "请求成功." : reader.get(String.valueOf(this.errCode));
+        this.errCNMsg = this.errCode == null ? "请求成功." : _cr.get(String.valueOf(this.errCode));
 
         if (log.isInfoEnabled()) {
             log.infof("Wechat api result: %s", json);

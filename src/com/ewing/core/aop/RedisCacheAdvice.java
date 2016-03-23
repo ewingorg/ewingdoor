@@ -43,7 +43,6 @@ public class RedisCacheAdvice {
 
     @Around("execution(* com.ewing.busi.*.service.*.*(..))  && @annotation(cache)")
     public Object aroundMethod(ProceedingJoinPoint pjd, RedisCache cache) throws Throwable {
-
         if (!isCache) {
             return pjd.proceed();
         }

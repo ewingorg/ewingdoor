@@ -7,62 +7,85 @@ package com.ewing.core.app.action.base;
  * @description: action中向页面返回的封装信息.
  */
 public class ResponseData {
-	private Boolean success;
-	private String retinfo;
-	private String retCode;
-	private Integer totalProperty;
-	private String page;
-	private Object result;
+  private Boolean success;
+  private String retinfo;
+  private String retCode;
+  private Integer totalProperty;
+  private String page;
+  private Object result;
+  private Integer respType;// 响应类型(由于使用前后端分离，有一些操作可能需要前端协助，比如redirect) 0 normal 1 forword 2 redirect
 
-	public String getRetCode() {
-        return retCode;
-    }
+  
+  /**
+   * 当respType为redirect，result 为 重定向的url
+   * @param success
+   * @param result
+   * @param respType
+   */
+  public ResponseData(Boolean success, Object result, Integer respType) {
+    super();
+    this.success = success;
+    this.result = result;
+    this.respType = respType;
+  }
 
-    public void setRetCode(String retCode) {
-        this.retCode = retCode;
-    }
+  public Integer getRespType() {
+    return respType;
+  }
 
-    public ResponseData() {
+  public void setRespType(Integer respType) {
+    this.respType = respType;
+  }
 
-	}
+  public String getRetCode() {
+    return retCode;
+  }
 
-	public String getRetinfo() {
-		return retinfo;
-	}
+  public void setRetCode(String retCode) {
+    this.retCode = retCode;
+  }
 
-	public String getPage() {
-		return page;
-	}
+  public ResponseData() {
 
-	public void setPage(String page) {
-		this.page = page;
-	}
+  }
 
-	public Boolean getSuccess() {
-		return success;
-	}
+  public String getRetinfo() {
+    return retinfo;
+  }
 
-	public Integer getTotalProperty() {
-		return totalProperty;
-	}
+  public String getPage() {
+    return page;
+  }
 
-	public Object getResult() {
-		return result;
-	}
+  public void setPage(String page) {
+    this.page = page;
+  }
 
-	public void setResult(Object result) {
-		this.result = result;
-	}
+  public Boolean getSuccess() {
+    return success;
+  }
 
-	public void setRetinfo(String retinfo) {
-		this.retinfo = retinfo;
-	}
+  public Integer getTotalProperty() {
+    return totalProperty;
+  }
 
-	public void setSuccess(Boolean success) {
-		this.success = success;
-	}
+  public Object getResult() {
+    return result;
+  }
 
-	public void setTotalProperty(Integer totalProperty) {
-		this.totalProperty = totalProperty;
-	}
+  public void setResult(Object result) {
+    this.result = result;
+  }
+
+  public void setRetinfo(String retinfo) {
+    this.retinfo = retinfo;
+  }
+
+  public void setSuccess(Boolean success) {
+    this.success = success;
+  }
+
+  public void setTotalProperty(Integer totalProperty) {
+    this.totalProperty = totalProperty;
+  }
 }

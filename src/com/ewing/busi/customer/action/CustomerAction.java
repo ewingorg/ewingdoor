@@ -33,13 +33,7 @@ public class CustomerAction extends BaseAction {
     // @CustomerLoginFilter
     public void queryById() {
         try {
-            LightAddressInfoReq req = getParamJson(LightAddressInfoReq.class);
-            Integer cusId = req.getCusId();
-            checkRequired(cusId, "cusId");
-            isTrue(IntegerUtils.equals(cusId,
-                    SystemPropertyUtils.CUSTOMER_LOGIN_VALIDATE ? getLoginCusId() : cusId), "非法操作");
-
-            Customer customer = customerService.queryById(cusId);
+            Customer customer = customerService.queryById(getLoginCusId());
             outSucResult(customer);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

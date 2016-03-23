@@ -32,8 +32,16 @@ public class SystemPropertyUtils {
     public final static String SHOP_DOMAIN= PropertyUtils.getProperty("shop.domain");
     
     /** 是否需要验证登陆状态 **/
-    public final static boolean isAuth(){
-      return null != PropertyUtils.getProperty("customer.validatelogin.open") && PropertyUtils.getProperty("customer.validatelogin.open").equals("true");
-      
+    public static boolean isAuth(){
+      return CUSTOMER_LOGIN_VALIDATE;
+    }
+    
+    /**
+     * 是否是开发模式<br/>
+     * 验证是否需要登陆验证，如果不需要登陆验证，就认为是开发模式；如果不是开发模式，就是生产模式
+     * @author Joeson
+     */
+    public static boolean isDev(){
+      return CUSTOMER_LOGIN_VALIDATE != true;
     }
 }

@@ -1,4 +1,4 @@
-package com.ewing.core.auth.interceptor;
+package com.ewing.core.auth.listener;
 
 import javax.servlet.ServletRequestEvent;
 import javax.servlet.ServletRequestListener;

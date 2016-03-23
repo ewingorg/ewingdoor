@@ -20,6 +20,11 @@ public class WxPropertyManager {
   private final String APPID = "appId";
   /** 微信appId 对应的secret **/
   private final String SECRET = "appSecret";
+  /** 微信服务器验证的token **/
+  private final String TOKEN = "token";
+  /** 获取微信号 **/
+  private final String MPID = "mpId";
+  
   
   private static ConfigReaderUtils reader;
 
@@ -53,6 +58,22 @@ public class WxPropertyManager {
    */
   public String getSecret(){
     return reader.get(SECRET);
+  }
+  
+  /**
+   * 获取token
+   * @author Joeson
+   */
+  public String getToken(){
+    return reader.get(TOKEN);
+  }
+  
+  /**
+   * 获取微信号
+   * @author Joeson
+   */
+  public String getMpId(){
+    return reader.get(MPID);
   }
   
   

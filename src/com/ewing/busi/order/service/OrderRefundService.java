@@ -37,8 +37,8 @@ import com.ewing.utils.IntegerUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-@Repository("orderInfoService")
-public class OrderInfoService {
+@Repository("orderRefundService")
+public class OrderRefundService {
 
   @Resource
   private BaseDao baseDao;
@@ -55,22 +55,21 @@ public class OrderInfoService {
   private WebResourceDao webResoueceDao;
   @Resource
   private CustomerAddressService customerAddressService;
-
+  
   /**
    * 根据客户id查询 购物车列表
    * 
    * @param cusId 客户ID
    * @param statusList 订单状态
    */
-  public List<LightOrderInfoResp> queryByCusId(Integer cusId, List<String> statusList,
-      Integer page, Integer pageSize) {
+  public List<LightOrderInfoResp> queryByCusId(Integer cusId, List<String> statusList, Integer page,
+      Integer pageSize) {
     Validate.notNull(cusId, "客户id不能为空");
     Validate.notNull(page, "page不能为空");
     Validate.notNull(pageSize, "pageSize不能为空");
 
     List<LightOrderInfoResp> dtoList = Lists.newArrayList();
-    List<OrderInfo> orderList =
-        orderInfoDao.queryByCusIdAndStatus(cusId, statusList, page, pageSize);
+    List<OrderInfo> orderList = orderInfoDao.queryByCusIdAndStatus(cusId, statusList, page, pageSize);
     for (OrderInfo order : orderList) {
       List<OrderInfoDetailResp> detailDtoList =
           orderDetailService.findByOrderIdAndCusId(order.getId(), cusId);
@@ -85,25 +84,6 @@ public class OrderInfoService {
   }
 
   /**
-   * 申请退货
-   * 
-   * @param cusId 客户ID
-   * @param statusList 订单状态
-   */
-  public LightOrderInfoResp queryByCusId(Integer cusId, Integer orderId) {
-    Validate.notNull(cusId, "客户id不能为空");
-
-    OrderInfo order = orderInfoDao.findByIdAndCusId(cusId, orderId);
-    if (null == order) {
-      return null;
-    }
-
-    List<OrderInfoDetailResp> detailDtoList =
-        orderDetailService.findByOrderIdAndCusId(order.getId(), cusId);
-    return new LightOrderInfoResp(order, detailDtoList);
-  }
-
-  /**
    * 确认订单
    * 
    * @param req
@@ -115,20 +95,20 @@ public class OrderInfoService {
     Integer orderId = null;
     float totalPrice = 0f;
     for (Item item : req.getList()) {
-      OrderDetail detail = baseDao.findOne(item.getDetailId(), OrderDetail.class);
-      detail.setItemCount(item.getItemCount());
-      detail.setStatus(OrderStatus.WAIT_PAY.getValue());
-      detail.setTotalPrice(OrderHelper.analysyTotal(detail));
-      totalPrice = totalPrice + detail.getTotalPrice();
+        OrderDetail detail = baseDao.findOne(item.getDetailId(), OrderDetail.class);
+        detail.setItemCount(item.getItemCount());
+        detail.setStatus(OrderStatus.WAIT_PAY.getValue());
+        detail.setTotalPrice(OrderHelper.analysyTotal(detail));
+        totalPrice = totalPrice + detail.getTotalPrice();
 
-      orderId = detail.getOrderId();
-      baseDao.update(detail);
+        orderId = detail.getOrderId();
+        baseDao.update(detail);
     }
 
-    OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
-    order.setTotalPrice(totalPrice);
-    order.setStatus(OrderStatus.WAIT_PAY.getValue());
-    baseDao.update(order);
+      OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
+      order.setTotalPrice(totalPrice);
+      order.setStatus(OrderStatus.WAIT_PAY.getValue());
+      baseDao.update(order);
   }
 
   /**
@@ -136,15 +116,15 @@ public class OrderInfoService {
    * 
    * @param orderId
    * @author Joeson
-   * @param orderId
+   * @param orderId 
    */
   public void closeOrder(Integer cusId, Integer orderId) {
     Validate.notNull(orderId, "orderId不能为空");
 
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
     Validate.notNull(order, "order不能为空");
-
-    if (!IntegerUtils.equals(order.getCustomerId(), cusId)) {
+    
+    if(!IntegerUtils.equals(order.getCustomerId(), cusId)){
       return;
     }
     // 如果状态不为待付款或已收货，不能关闭订单
@@ -163,17 +143,16 @@ public class OrderInfoService {
    * 添加到order，场景：立即订购
    * 
    * 如果priceId为空，则取web_resource中的price
-   * 
    * @param cusId 客户id
    * @param req 请求参数
    * @author Joeson
-   * @throws Exception
+   * @throws Exception 
    */
   public Integer addOrder(Integer cusId, AddOrdeReq req) throws Exception {
     Validate.notNull(req, "入参不能为空");
     Validate.notNull(req.getResourceId(), "resourceId不能为空");
     Validate.notNull(req.getCount(), "count不能为空");
-
+    
     Integer resourceId = req.getResourceId();
     Integer priceId = req.getPriceId();
     Integer count = req.getCount();
@@ -182,11 +161,10 @@ public class OrderInfoService {
     if (null == resource) {
       throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
     }
-    WebResourcePrice price =
-        null == priceId ? null : baseDao.findOne(priceId, WebResourcePrice.class);
+    WebResourcePrice price = null == priceId ? null : baseDao.findOne(priceId, WebResourcePrice.class);
 
     String bizId = BizGenerator.generateBizNum();
-    // 保存orderinfo
+    //保存orderinfo
     OrderInfo orderInfo = new OrderInfo();
     orderInfo.setCustomerId(cusId);
     orderInfo.setUserId(resource.getUserId());
@@ -197,18 +175,15 @@ public class OrderInfoService {
     orderInfo.setPhone("");
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
-
-    OrderDetail detail =
-        OrderHelper.initOrderDetail(orderInfo.getId(), priceId, cusId, bizId, count, resource,
-            price);
+    
+    OrderDetail detail = OrderHelper.initOrderDetail(orderInfo.getId(), priceId, cusId, bizId, count, resource, price);
     baseDao.save(detail);
-
+    
     return orderInfo.getId();
   }
 
   /**
    * 提交订单，将订单状态改为待支付状态待支付状态
-   * 
    * @param cusId
    * @param req
    * @author Joeson
@@ -218,31 +193,31 @@ public class OrderInfoService {
     Validate.notNull(req, "req不能为空");
     Validate.notNull(req.getAddrId(), "addrId不能为空");
     Validate.notNull(req.getPayWayId(), "payway不能为空");
-
+    
     AddressDetailResp address = customerAddressService.findById(req.getAddrId(), cusId);
     List<com.ewing.busi.order.dto.CommitOrdeReq.Item> list = req.getList();
-    Map<Integer, Integer> itemMap = Maps.newHashMap();// <key,value> ==> <detailId,itemCount>
+    Map<Integer,Integer> itemMap = Maps.newHashMap();//<key,value> ==> <detailId,itemCount>
     List<Integer> detailIdList = Lists.newArrayList();
-    for (com.ewing.busi.order.dto.CommitOrdeReq.Item item : list) {
+    for(com.ewing.busi.order.dto.CommitOrdeReq.Item item : list){
       detailIdList.add(item.getDetailId());
       itemMap.put(item.getDetailId(), item.getItemCount());
     }
     List<OrderDetail> detailList = baseDao.findMuti(detailIdList, OrderDetail.class);
-
-    List<Integer> orderInfoIdList = Lists.newArrayList();// 一般是同一次提交只有一个orderinfo的
-    for (OrderDetail detail : detailList) {
+    
+    List<Integer> orderInfoIdList = Lists.newArrayList();//一般是同一次提交只有一个orderinfo的
+    for(OrderDetail detail : detailList){
       orderInfoIdList.add(detail.getOrderId());
     }
-    List<OrderInfo> orderList = baseDao.findMuti(detailIdList, OrderInfo.class);
-
-    // 更新操作
-    for (OrderDetail detail : detailList) {
+    List<OrderInfo> orderList =  baseDao.findMuti(detailIdList, OrderInfo.class);
+    
+    //更新操作
+    for(OrderDetail detail : detailList){
       detail.setStatus(OrderStatus.WAIT_PAY.getValue());
       detail.setItemCount(itemMap.get(detail.getId()));
-
+      
       baseDao.update(detail);
     }
-    for (OrderInfo order : orderList) {
+    for(OrderInfo order : orderList){
       order.setStatus(OrderStatus.WAIT_PAY.getValue());
       order.setPayWay(req.getPayWayId());
       order.setPhone(null != address ? address.getPhone() : StringUtils.EMPTY);
@@ -250,10 +225,10 @@ public class OrderInfoService {
       order.setCity(null != address ? address.getCity() : StringUtils.EMPTY);
       order.setRegion(null != address ? address.getRegion() : StringUtils.EMPTY);
       order.setAddress(null != address ? address.getAddress() : StringUtils.EMPTY);
-
+      
       baseDao.update(order);
     }
-
+    
     return true;
   }
 }
