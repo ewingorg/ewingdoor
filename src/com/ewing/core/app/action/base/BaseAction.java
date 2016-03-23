@@ -442,7 +442,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
             response.setContentType("text/json");
             if (isJsonpRequest()) {
                 String callbackparam = request.getParameter("callbackparam");
-                String jsonpResut = callbackparam + "(" + json + ")";
+                String jsonpResut =   "ajax.jsonpCallback(" + json + ",'"+callbackparam+"')";
                 logger.debug(jsonpResut);
                 response.getWriter().write(jsonpResut);
             } else {
