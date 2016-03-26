@@ -192,7 +192,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
    * @throws SessionException
    */
   public Integer getLoginCusId() throws SessionException {
-    return SystemPropertyUtils.isDev() ? HttpSessionUtils.getCusId() : 10;
+    return SystemPropertyUtils.isDev() ? 10 : HttpSessionUtils.getCusId();
   }
 
   /**

@@ -26,4 +26,18 @@ public enum PayWay {
     public String getMsg() {
         return msg;
     }
+    
+    public static PayWay getByValue(Integer value){
+      if(null == value){
+        return null;
+      }
+      
+      for(PayWay payWay : PayWay.values()){
+        if(payWay.value == value){
+          return payWay;
+        }
+      }
+      
+      return null;
+    }
 }

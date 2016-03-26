@@ -1,6 +1,7 @@
 package com.ewing.busi.order.action;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,11 +10,10 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
-import com.ewing.busi.customer.aop.CustomerLoginFilter;
 import com.ewing.busi.customer.dao.CustomerAddressDao;
+import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.customer.model.CustomerAddress;
 import com.ewing.busi.customer.service.CustomerAddressService;
-import com.ewing.busi.order.constants.PayWay;
 import com.ewing.busi.order.dto.AddOrdeReq;
 import com.ewing.busi.order.dto.CommitOrdeReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq;
@@ -31,8 +31,6 @@ import com.ewing.common.constants.AjaxRespCode;
 import com.ewing.common.constants.ResponseCode;
 import com.ewing.common.utils.SystemPropertyUtils;
 import com.ewing.core.app.action.base.BaseAction;
-import com.ewing.utils.IntegerUtils;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
@@ -81,6 +79,7 @@ public class OrderInfoAction extends BaseAction {
 
   /**
    * 根据id查找detail
+   * 场景：提交订单前进行订单的load
    * 
    * @author Joeson
    */
@@ -91,13 +90,41 @@ public class OrderInfoAction extends BaseAction {
       checkRequired(orderId, "orderId");
 
       List<OrderInfoDetailResp> list = orderDetailService.findByOrderIdAndCusId(orderId, getLoginCusId());
-      CustomerAddress defaultAddr = customerAddressService.findDefaultAddress(getLoginCusId());
-      List<CustomerAddress> addrList = customerAddressService.queryByCusId(getLoginCusId());
+      LightAddressInfoResp defaultAddr = customerAddressService.findDefaultAddress(getLoginCusId());
+      List<LightAddressInfoResp> addrList = customerAddressService.queryByCusId(getLoginCusId());
       Map<String, Object> map = new HashMap<String, Object>();
       map.put("list", list);
       map.put("addrList", addrList);
       map.put("payWays", PayWayHelper.list());
       map.put("defaultAddr", defaultAddr);
+      outSucResult(map);
+    } catch (Exception e) {
+      logger.error(e.getMessage(), e);
+      outFailResult("内部异常");
+    }
+  }
+  
+  /**
+   * 根据id查找detail
+   * 场景：提交订单后，对订单进行查询
+   * 
+   * @author Joeson
+   */
+  public void getDetailById() {
+    try {
+      OrderInfoDetailReq req = getParamJson(OrderInfoDetailReq.class);
+      Integer orderId = req.getOrderId();
+      checkRequired(orderId, "orderId");
+
+      Integer cusId = getLoginCusId();
+      List<OrderInfoDetailResp> list = orderDetailService.findByOrderIdAndCusId(orderId, cusId);
+      LightAddressInfoResp orderAddr = orderInfoService.getOrderAddress(orderId, cusId);
+      com.ewing.busi.resource.helper.PayWayHelper.Item item = orderInfoService.getPayWay(orderId, cusId);
+      
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("list", list);
+      map.put("payWays", Arrays.asList(item));
+      map.put("orderAddr", orderAddr);
       outSucResult(map);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

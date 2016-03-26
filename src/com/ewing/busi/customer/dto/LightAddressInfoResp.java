@@ -49,7 +49,7 @@ public class LightAddressInfoResp implements java.io.Serializable  {
     /**
      * 是否默认 0:不是 1:是
      */
-    private char isDefault;
+    private String isDefault;
 
     
     public String getPostCode() {
@@ -116,11 +116,11 @@ public class LightAddressInfoResp implements java.io.Serializable  {
         this.phone = phone;
     }
 
-    public char getIsDefault() {
+    public String getIsDefault() {
         return isDefault;
     }
 
-    public void setIsDefault(char isDefault) {
+    public void setIsDefault(String isDefault) {
         this.isDefault = isDefault;
     }
 

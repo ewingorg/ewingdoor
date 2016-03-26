@@ -42,6 +42,7 @@
 		<action name="close" method="closeOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="list" method="queryIndexOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="find" method="getById" class="com.ewing.busi.order.action.OrderInfoAction" />
+		<action name="getDetail" method="getDetailById" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="confirm" method="confirmOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="addOrder" method="addOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 		<action name="commitOrder" method="commitOrder" class="com.ewing.busi.order.action.OrderInfoAction" />

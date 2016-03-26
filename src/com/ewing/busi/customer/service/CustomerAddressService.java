@@ -23,6 +23,7 @@ import com.ewing.core.jdbc.DaoException;
 import com.ewing.utils.BeanCopy;
 import com.ewing.utils.IntegerUtils;
 import com.ewing.utils.JsonUtils;
+import com.google.common.collect.Lists;
 
 /**
  * 
@@ -128,7 +129,7 @@ public class CustomerAddressService {
         Validate.notNull(address, String.format("找不到对应的地址信息[id=%d]", id));
 
         // 设置原来默认的地址为非默认
-        CustomerAddress defAddress = findDefaultAddress(address.getCustomerId());
+        LightAddressInfoResp defAddress = findDefaultAddress(address.getCustomerId());
         if (null != defAddress) {
             defAddress.setIsDefault(AddressDefault.UN_DEFAULT.getValue());
             baseModelService.update(defAddress);
@@ -138,10 +139,16 @@ public class CustomerAddressService {
 
     }
 
-    public CustomerAddress findDefaultAddress(Integer cusId) {
+    public LightAddressInfoResp findDefaultAddress(Integer cusId) {
         Validate.notNull(cusId, "客户id不能为空");
 
-        return customerAddressDao.findDefaultAddress(cusId);
+        CustomerAddress address = customerAddressDao.findDefaultAddress(cusId);
+        if(null == address){
+          return null;
+        }
+        LightAddressInfoResp resp = new LightAddressInfoResp();
+        BeanCopy.copy(resp, address, true);
+        return resp;
     }
 
     /**
@@ -159,11 +166,20 @@ public class CustomerAddressService {
         baseModelService.update(address);
     }
 
-    public List<CustomerAddress> queryByCusId(Integer cusId) {
+    public List<LightAddressInfoResp> queryByCusId(Integer cusId) {
         if(IntegerUtils.nullOrZero(cusId)){
             return Collections.EMPTY_LIST;
         }
         
-        return customerAddressDao.queryByCusId(cusId);
+        List<CustomerAddress> list = customerAddressDao.queryByCusId(cusId);
+        List<LightAddressInfoResp> dtoList = Lists.newArrayList();
+        for(CustomerAddress addr : list){
+          
+          LightAddressInfoResp dto = new LightAddressInfoResp();
+          BeanCopy.copy(dto, addr, true);
+          dtoList.add(dto);
+        }
+        
+        return dtoList;
     }
 }

@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.ewing.busi.customer.dto.LightAddressInfoResp;
 import com.ewing.busi.order.constants.OrderStatus;
+import com.ewing.busi.order.constants.PayWay;
 import com.ewing.busi.order.model.OrderCart;
 import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
@@ -126,5 +127,18 @@ public class OrderHelper {
     addr.setPhone(order.getPhone());
     
     return addr;
+  }
+
+  public static com.ewing.busi.resource.helper.PayWayHelper.Item toPayWay(OrderInfo order) {
+    if(null == order){
+      return null;
+    }
+    
+    PayWay payWay = PayWay.getByValue(order.getPayWay());
+    if(null == payWay){
+      return null;
+    }
+    
+    return new com.ewing.busi.resource.helper.PayWayHelper.Item(payWay.getValue(), payWay.getMsg());
   }
 }
