@@ -35,9 +35,6 @@ public class SubmitRefundReq {
    */
   private String money;
   
-  
-  
-
   public Integer getOrderDetailId() {
     return orderDetailId;
   }

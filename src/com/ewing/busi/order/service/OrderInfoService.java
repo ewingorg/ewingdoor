@@ -103,8 +103,6 @@ public class OrderInfoService {
         orderDetailService.findByOrderIdAndCusId(order.getId(), cusId);
     return new LightOrderInfoResp(order, detailDtoList);
   }
-  
-  public 
 
   /**
    * 确认订单
@@ -262,29 +260,32 @@ public class OrderInfoService {
 
   /**
    * 获取订单地址
+   * 
    * @author Joeson
    */
   public LightAddressInfoResp getOrderAddress(Integer orderId, Integer cusId) {
     Validate.notNull(orderId, "orderId不能为空");
-    
+
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
     Validate.notNull(order, String.format("找不到order[orderId=%d]", orderId));
-    
+
     return OrderHelper.toAddress(order);
   }
 
   /**
    * 获取支付方式
+   * 
    * @param orderId
    * @param cusId
    * @author Joeson
    */
   public com.ewing.busi.resource.helper.PayWayHelper.Item getPayWay(Integer orderId, Integer cusId) {
     Validate.notNull(orderId, "orderId不能为空");
-    
+
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
     Validate.notNull(order, String.format("找不到order[orderId=%d]", orderId));
-    
+
     return OrderHelper.toPayWay(order);
   }
+
 }

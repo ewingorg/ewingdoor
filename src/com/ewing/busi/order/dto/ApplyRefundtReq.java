@@ -8,28 +8,21 @@ import java.io.Serializable;
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月6日
  */
-public class ApplyRefundtReq implements Serializable {
-
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
+public class ApplyRefundtReq{
 
     /**
      * 添加的资源id
      */
-    private Integer orderId;
+    private Integer orderDetailid;
 
-    public ApplyRefundtReq(Integer orderId) {
-      super();
-      this.orderId = orderId;
+    public Integer getOrderDetailid() {
+      return orderDetailid;
     }
 
-    public Integer getOrderId() {
-      return orderId;
+    public void setOrderDetailid(Integer orderDetailid) {
+      this.orderDetailid = orderDetailid;
     }
 
-    public void setOrderId(Integer orderId) {
-      this.orderId = orderId;
-    }
+    
+   
 }

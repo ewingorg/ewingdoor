@@ -30,4 +30,11 @@ public class OrderDetailDao {
         return baseDao.noMappedObjectQuery(sql.toString(), OrderInfoDetailResp.class);
     }
 
+    public OrderDetail findByIdAndCusId(Integer id, Integer cusId) {
+      StringBuilder query = new StringBuilder();
+      query.append("id = ").append(id);
+      query.append(" and customer_id = ").append(cusId);
+      return baseDao.findOne(query.toString(), OrderDetail.class);
+    }
+
 }

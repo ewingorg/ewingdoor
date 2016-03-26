@@ -11,6 +11,8 @@ import com.ewing.busi.order.dto.LightOrderInfoResp;
 import com.ewing.busi.order.dto.QueryRefundReq;
 import com.ewing.busi.order.dto.SubmitRefundExpressReq;
 import com.ewing.busi.order.dto.SubmitRefundReq;
+import com.ewing.busi.order.model.OrderDetail;
+import com.ewing.busi.order.service.OrderDetailService;
 import com.ewing.busi.order.service.OrderInfoService;
 import com.ewing.busi.order.service.OrderRefundService;
 import com.ewing.busi.resource.helper.PayWayHelper;
@@ -32,6 +34,8 @@ public class OrderRefundAction extends BaseAction {
   private OrderRefundService orderRefundService;
   @Resource
   private OrderInfoService orderInfoService;
+  @Resource
+  private OrderDetailService orderDetailService;
   
   /**
    * 客户申请退款，进入退款流程
@@ -42,13 +46,10 @@ public class OrderRefundAction extends BaseAction {
     try {
       ApplyRefundtReq req = getParamJson(ApplyRefundtReq.class);
       checkRequired(req, "入参不能为空");
-      checkRequired(req.getOrderId(), "orderId不能为空");
 
-      LightOrderInfoResp resp = orderInfoService.queryByCusId(getLoginCusId(), req.getOrderId());
+      OrderDetail detail = orderDetailService.findByIdAndCusId(req.getOrderDetailid(), getLoginCusId());
       Map<String, Object> map = Maps.newHashMap();
-      map.put("order", resp);
-      map.put("payWays", PayWayHelper.list());
-      map.put("shopName", SystemPropertyUtils.SHOP_NAME);
+      map.put("refundMondy", detail.getTotalPrice());
       outSucResult(map);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);

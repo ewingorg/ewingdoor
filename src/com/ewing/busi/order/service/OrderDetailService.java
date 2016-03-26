@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.base.service.BaseService;
 import com.ewing.busi.order.dao.OrderDetailDao;
 import com.ewing.busi.order.dto.OrderInfoDetailResp;
+import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.utils.FileUrlUtil;
 
 @Repository("orderDetailService")
@@ -29,6 +30,14 @@ public class OrderDetailService extends BaseService {
           resp.setIcon(FileUrlUtil.convertResourceUrl(resp.getIcon()));
         }
         return list;
+    }
+    
+    public OrderDetail findByIdAndCusId(Integer id, Integer cusId){
+      if(null == id){
+        return null;
+      }
+      
+      return orderDetailDao.findByIdAndCusId(id, cusId);
     }
     
 }
