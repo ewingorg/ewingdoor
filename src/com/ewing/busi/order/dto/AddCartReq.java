@@ -1,9 +1,6 @@
 package com.ewing.busi.order.dto;
 
 import java.io.Serializable;
-import java.util.List;
-
-import com.google.common.collect.Lists;
 
 /**
  * 提交购物车请求参数

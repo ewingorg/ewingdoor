@@ -16,7 +16,7 @@
             <column name="order_detail_id" not-null="true">
             </column>
         </property>
-        <property name="type" type="char">
+        <property name="type" type="string">
             <column name="type" length="1" not-null="true">
             </column>
         </property>
@@ -36,16 +36,24 @@
             <column name="reason_type" not-null="true">
             </column>
         </property>
-        <property name="reason" type="int">
+        <property name="reason" type="string">
             <column name="reason" not-null="true">
             </column>
         </property>
-        <property name="cargoNumber" type="java.lang.Integer">
+        <property name="cargoCom" type="string">
+            <column name="cargo_com">
+            </column>
+        </property>
+        <property name="cargoNumber" type="string">
             <column name="cargo_number">
             </column>
         </property>
         <property name="refundMoney" type="float">
             <column name="refund_money" precision="12" scale="0" not-null="true">
+            </column>
+        </property>
+        <property name="provePicUrl" type="string">
+            <column name="prove_pic_url">
             </column>
         </property>
         <property name="status" type="string">

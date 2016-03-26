@@ -1,11 +1,8 @@
 package com.ewing.busi.order.dto;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.ewing.busi.order.constants.OrderStatus;

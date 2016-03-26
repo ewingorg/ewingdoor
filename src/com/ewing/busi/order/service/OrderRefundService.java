@@ -1,5 +1,6 @@
 package com.ewing.busi.order.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import com.ewing.busi.customer.dto.AddressDetailResp;
 import com.ewing.busi.customer.service.CustomerAddressService;
 import com.ewing.busi.order.constants.OrderStatus;
+import com.ewing.busi.order.constants.RefundStatus;
 import com.ewing.busi.order.dao.OrderInfoDao;
 import com.ewing.busi.order.dto.AddOrdeReq;
 import com.ewing.busi.order.dto.CommitOrdeReq;
@@ -21,10 +23,12 @@ import com.ewing.busi.order.dto.ConfirmOrderReq;
 import com.ewing.busi.order.dto.ConfirmOrderReq.Item;
 import com.ewing.busi.order.dto.LightOrderInfoResp;
 import com.ewing.busi.order.dto.OrderInfoDetailResp;
+import com.ewing.busi.order.dto.SubmitRefundExpressReq;
 import com.ewing.busi.order.dto.SubmitRefundReq;
 import com.ewing.busi.order.helper.OrderHelper;
 import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
+import com.ewing.busi.order.model.OrderRefund;
 import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.model.WebResource;
 import com.ewing.busi.resource.model.WebResourcePrice;
@@ -233,7 +237,56 @@ public class OrderRefundService {
     return true;
   }
 
-  public LightOrderInfoResp submitRefund(Integer loginCusId, SubmitRefundReq req) {
+  /***
+   * 提交退货申请
+   * @param cusId
+   * @param req
+   * @author Joeson
+   */
+  public LightOrderInfoResp submitRefund(Integer cusId, SubmitRefundReq req) {
+    Validate.notNull(req, "入参不能为空");
+    
+    OrderDetail detail = baseDao.findOne(req.getOrderDetailId(), OrderDetail.class);
+    Validate.notNull(detail,"找不到对应的orderdetail");
+        
+    OrderRefund refund = new OrderRefund();
+    refund.setOrderId(detail.getOrderId());
+    refund.setOrderDetailId(req.getOrderDetailId());
+    refund.setType(req.getRefundType());
+    refund.setCustomerId(cusId);
+    refund.setUserId(detail.getUserId());
+    refund.setResourceId(detail.getResourceId());
+    refund.setReasonType(req.getReasonType());
+    refund.setReason(req.getReason());
+    refund.setRefundMoney(detail.getTotalPrice());
+    refund.setProvePicUrl(req.getPicUrl());
+    refund.setStatus(RefundStatus.WAIT_CONFIRM.getValue());
+    refund.setIseff(IsEff.EFFECTIVE.getValue());
+    refund.setCreateTime(new Date());
+    baseDao.save(refund);
+    
     return null;
   }
+
+  /**
+   * 提交退款快递(快递公司，快递号)
+   * @param cusId
+   * @param req
+   * @author Joeson
+   */
+  public boolean submitRefundExpress(Integer cusId, SubmitRefundExpressReq req) {
+    Validate.notNull(req, "入参不能为空");
+    
+    OrderRefund refund = baseDao.findOne(req.getRefundId(), OrderRefund.class);
+    Validate.notNull(refund, String.format("退货记录找不到[refundId=%d]", req.getRefundId()));
+    
+    refund.setCargoNumber(req.getCargoNum());
+    refund.setCargoCom(req.getCargoCom());
+    refund.setStatus(RefundStatus.WAIT_RECEIVED.getValue()); //更新退货流程为等待收货
+    baseDao.update(refund);
+    
+    return true;
+  }
+  
+  
 }

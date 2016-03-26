@@ -12,14 +12,16 @@ public class OrderRefund implements java.io.Serializable {
     private Integer id;
     private Integer orderId;
     private Integer orderDetailId;
-    private char type;
+    private String type;
     private Integer customerId;
     private Integer userId;
     private Integer resourceId;
     private Integer reasonType;
-    private Integer reason;
-    private Integer cargoNumber;
+    private String reason;
+    private String cargoCom;
+    private String cargoNumber;
     private float refundMoney;
+    private String provePicUrl;
     private String status;
     private String iseff;
     private Date createTime;
@@ -28,8 +30,8 @@ public class OrderRefund implements java.io.Serializable {
     public OrderRefund() {
     }
 
-    public OrderRefund(Integer orderId, Integer orderDetailId, char type, Integer customerId, Integer userId,
-            Integer resourceId, Integer reasonType, Integer reason, float refundMoney, String status, String iseff,
+    public OrderRefund(Integer orderId, Integer orderDetailId, String type, Integer customerId, Integer userId,
+            Integer resourceId, Integer reasonType, String reason, float refundMoney, String provePicUrl, String status, String iseff,
             Date createTime, Date lastUpdate) {
         this.orderId = orderId;
         this.orderDetailId = orderDetailId;
@@ -40,15 +42,16 @@ public class OrderRefund implements java.io.Serializable {
         this.reasonType = reasonType;
         this.reason = reason;
         this.refundMoney = refundMoney;
+        this.provePicUrl = provePicUrl;
         this.status = status;
         this.iseff = iseff;
         this.createTime = createTime;
         this.lastUpdate = lastUpdate;
     }
 
-    public OrderRefund(Integer orderId, Integer orderDetailId, char type, Integer customerId, Integer userId,
-            Integer resourceId, Integer reasonType, Integer reason, Integer cargoNumber, float refundMoney,
-            String status, String iseff, Date createTime, Date lastUpdate) {
+    public OrderRefund(Integer orderId, Integer orderDetailId, String type, Integer customerId, Integer userId,
+            Integer resourceId, Integer reasonType, String reason, String cargoCom, String cargoNumber, float refundMoney,
+            String provePicUrl, String status, String iseff, Date createTime, Date lastUpdate) {
         this.orderId = orderId;
         this.orderDetailId = orderDetailId;
         this.type = type;
@@ -57,12 +60,22 @@ public class OrderRefund implements java.io.Serializable {
         this.resourceId = resourceId;
         this.reasonType = reasonType;
         this.reason = reason;
+        this.cargoCom = cargoCom;
         this.cargoNumber = cargoNumber;
         this.refundMoney = refundMoney;
+        this.provePicUrl = provePicUrl;
         this.status = status;
         this.iseff = iseff;
         this.createTime = createTime;
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getProvePicUrl() {
+      return provePicUrl;
+    }
+
+    public void setProvePicUrl(String provePicUrl) {
+      this.provePicUrl = provePicUrl;
     }
 
     public Integer getId() {
@@ -89,11 +102,11 @@ public class OrderRefund implements java.io.Serializable {
         this.orderDetailId = orderDetailId;
     }
 
-    public char getType() {
+    public String getType() {
         return this.type;
     }
 
-    public void setType(char type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -129,19 +142,27 @@ public class OrderRefund implements java.io.Serializable {
         this.reasonType = reasonType;
     }
 
-    public Integer getReason() {
+    public String getReason() {
         return this.reason;
     }
 
-    public void setReason(Integer reason) {
+    public void setReason(String reason) {
         this.reason = reason;
     }
+    
+    public String getCargoCom() {
+      return cargoCom;
+    }
 
-    public Integer getCargoNumber() {
+    public void setCargoCom(String cargoCom) {
+      this.cargoCom = cargoCom;
+    }
+
+    public String getCargoNumber() {
         return this.cargoNumber;
     }
 
-    public void setCargoNumber(Integer cargoNumber) {
+    public void setCargoNumber(String cargoNumber) {
         this.cargoNumber = cargoNumber;
     }
 

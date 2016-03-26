@@ -10,58 +10,55 @@ import com.google.common.collect.Lists;
  * 
  * @author Joeson Chan<chenxuegui1234@163.com>
  * @since 2016年2月6日
- *
+ * 
  */
 public class SubmitCartReq implements Serializable {
 
-    /**
-     * 
-     */
-    private static final long serialVersionUID = 1L;
-    
-    public SubmitCartReq(){
-        this.list = Lists.newArrayList();
-    }
-    
-    private List<Item> list;
-    
-    public class Item{
-        private Integer id;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
-        private Integer itemCount;
-        
-        public Item(){
-            
-        }
+  public SubmitCartReq() {
+    this.list = Lists.newArrayList();
+  }
 
-        public Integer getId() {
-            return id;
-        }
+  private List<Item> list;
 
-        public void setId(Integer id) {
-            this.id = id;
-        }
+  public class Item {
+    private Integer id;
 
-        public Integer getItemCount() {
-            return itemCount;
-        }
+    private Integer itemCount;
 
-        public void setItemCount(Integer itemCount) {
-            this.itemCount = itemCount;
-        }
+    public Item() {
+
     }
 
-    public List<Item> getList() {
-        return list;
+    public Integer getId() {
+      return id;
     }
 
-    public void setList(List<Item> list) {
-        this.list = list;
+    public void setId(Integer id) {
+      this.id = id;
     }
-    
-    
-    
-    
-    
+
+    public Integer getItemCount() {
+      return itemCount;
+    }
+
+    public void setItemCount(Integer itemCount) {
+      this.itemCount = itemCount;
+    }
+  }
+
+  public List<Item> getList() {
+    return list;
+  }
+
+  public void setList(List<Item> list) {
+    this.list = list;
+  }
+
+
 
 }

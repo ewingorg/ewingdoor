@@ -1,7 +1,6 @@
 package com.ewing.busi.order.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * 订单详情页请求参数

@@ -7,39 +7,36 @@ package com.ewing.busi.order.dto;
  * @since 2016年3月23日
  */
 public class SubmitRefundReq {
-
-  /**
-   * 资源id
-   */
-  private Integer resourceId;
-
-  /**
-   * order_detail id
-   */
+  
   private Integer orderDetailId;
-
+  
   /**
-   * 退款类型 0:退货退款 1:仅退款
+   * 退款类型
    */
-  private Integer type;
-
+  private String refundType;
+  
   /**
-   * 退货原因
+   * 原因类型
    */
   private Integer reasonType;
-
+  
   /**
-   * 退货说明
+   * 原因
    */
   private String reason;
-
-  public Integer getResourceId() {
-    return resourceId;
-  }
-
-  public void setResourceId(Integer resourceId) {
-    this.resourceId = resourceId;
-  }
+  
+  /**
+   * 证明图片
+   */
+  private String picUrl;
+  
+  /**
+   * 金额
+   */
+  private String money;
+  
+  
+  
 
   public Integer getOrderDetailId() {
     return orderDetailId;
@@ -49,12 +46,12 @@ public class SubmitRefundReq {
     this.orderDetailId = orderDetailId;
   }
 
-  public Integer getType() {
-    return type;
+  public String getRefundType() {
+    return refundType;
   }
 
-  public void setType(Integer type) {
-    this.type = type;
+  public void setRefundType(String refundType) {
+    this.refundType = refundType;
   }
 
   public Integer getReasonType() {
@@ -72,4 +69,21 @@ public class SubmitRefundReq {
   public void setReason(String reason) {
     this.reason = reason;
   }
+
+  public String getPicUrl() {
+    return picUrl;
+  }
+
+  public void setPicUrl(String picUrl) {
+    this.picUrl = picUrl;
+  }
+
+  public String getMoney() {
+    return money;
+  }
+
+  public void setMoney(String money) {
+    this.money = money;
+  }
+  
 }

@@ -4,7 +4,6 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 
-import com.ewing.busi.customer.dto.LightAddressInfoReq;
 import com.ewing.busi.customer.model.Customer;
 import com.ewing.busi.customer.service.CustomerService;
 import com.ewing.common.utils.SystemPropertyUtils;
