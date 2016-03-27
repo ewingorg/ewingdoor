@@ -65,7 +65,7 @@
             </column>
         </property>
         <property name="phone" type="string">
-            <column name="phone" length="50" not-null="true">
+            <column name="phone" length="50">
             </column>
         </property>
         <property name="cargoName" type="string">

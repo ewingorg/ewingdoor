@@ -8,6 +8,7 @@ import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Repository;
 
 import com.ewing.busi.customer.service.CustomerAddressService;
+import com.ewing.busi.order.constants.OrderStatus;
 import com.ewing.busi.order.constants.RefundStatus;
 import com.ewing.busi.order.dao.OrderInfoDao;
 import com.ewing.busi.order.dto.LightOrderInfoResp;
@@ -25,13 +26,10 @@ public class OrderRefundService {
 
   @Resource
   private BaseDao baseDao;
-
   @Resource
   private OrderInfoDao orderInfoDao;
-
   @Resource
   private OrderDetailService orderDetailService;
-
   @Resource
   private WebResourceService webResourceService;
   @Resource
@@ -45,10 +43,10 @@ public class OrderRefundService {
    * @param req
    * @author Joeson
    */
-  public LightOrderInfoResp submitRefund(Integer cusId, SubmitRefundReq req) {
+  public Integer submitRefund(Integer cusId, SubmitRefundReq req) {
     Validate.notNull(req, "入参不能为空");
     
-    OrderDetail detail = baseDao.findOne(req.getOrderDetailId(), OrderDetail.class);
+    OrderDetail detail = orderDetailService.findByIdAndCusId(req.getOrderDetailId(),  cusId);
     Validate.notNull(detail,"找不到对应的orderdetail");
         
     OrderRefund refund = new OrderRefund();
@@ -67,7 +65,9 @@ public class OrderRefundService {
     refund.setCreateTime(new Date());
     baseDao.save(refund);
     
-    return null;
+    detail.setStatus(OrderStatus.REFUND.getValue());
+    baseDao.update(detail);
+    return detail.getOrderId();
   }
 
   /**

@@ -115,6 +115,7 @@ public class OrderInfoService {
 
     Integer orderId = null;
     float totalPrice = 0f;
+    float catgoPrice = 0f;
     for (Item item : req.getList()) {
       OrderDetail detail = baseDao.findOne(item.getDetailId(), OrderDetail.class);
       detail.setItemCount(item.getItemCount());
@@ -124,10 +125,14 @@ public class OrderInfoService {
 
       orderId = detail.getOrderId();
       baseDao.update(detail);
+
+      // 运费，去所有订单项中最大的一个
+      catgoPrice = catgoPrice < detail.getCargoPrice() ? detail.getCargoPrice() : catgoPrice;
     }
 
     OrderInfo order = baseDao.findOne(orderId, OrderInfo.class);
     order.setTotalPrice(totalPrice);
+    order.setCargoPrice(catgoPrice);
     order.setStatus(OrderStatus.WAIT_PAY.getValue());
     baseDao.update(order);
   }
@@ -161,9 +166,7 @@ public class OrderInfoService {
   }
 
   /**
-   * 添加到order，场景：立即订购
-   * 
-   * 如果priceId为空，则取web_resource中的price
+   * 添加到order，场景：立即订购 如果priceId为空，则取web_resource中的price
    * 
    * @param cusId 客户id
    * @param req 请求参数
@@ -180,9 +183,8 @@ public class OrderInfoService {
     Integer count = req.getCount();
 
     WebResource resource = baseDao.findOne(resourceId, WebResource.class);
-    if (null == resource) {
-      throw new Exception(String.format("没有找到对应的资源[id=%d]", resourceId));
-    }
+    Validate.notNull(resource, String.format("没有找到对应的资源[id=%d]", resourceId));
+
     WebResourcePrice price =
         null == priceId ? null : baseDao.findOne(priceId, WebResourcePrice.class);
 
@@ -195,7 +197,6 @@ public class OrderInfoService {
     orderInfo.setCargoPrice(0f);
     orderInfo.setTotalPrice(0f);
     orderInfo.setStatus(OrderStatus.INIT.getValue());
-    orderInfo.setPhone("");
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
 
@@ -208,7 +209,8 @@ public class OrderInfoService {
   }
 
   /**
-   * 提交订单，将订单状态改为待支付状态待支付状态
+   * 提交订单，将订单状态改为待支付状态待支付状态 <br/>
+   * 这一步必须保证地址不能为空
    * 
    * @param cusId
    * @param req
@@ -221,6 +223,7 @@ public class OrderInfoService {
     Validate.notNull(req.getPayWayId(), "payway不能为空");
 
     AddressDetailResp address = customerAddressService.findById(req.getAddrId(), cusId);
+    Validate.notNull(address, String.format("地址为空[addrId=%d]", req.getAddrId()));
     List<com.ewing.busi.order.dto.CommitOrdeReq.Item> list = req.getList();
     Map<Integer, Integer> itemMap = Maps.newHashMap();// <key,value> ==> <detailId,itemCount>
     List<Integer> detailIdList = Lists.newArrayList();
@@ -246,11 +249,11 @@ public class OrderInfoService {
     for (OrderInfo order : orderList) {
       order.setStatus(OrderStatus.WAIT_PAY.getValue());
       order.setPayWay(req.getPayWayId());
-      order.setPhone(null != address ? address.getPhone() : StringUtils.EMPTY);
-      order.setProvince(null != address ? address.getProvince() : StringUtils.EMPTY);
-      order.setCity(null != address ? address.getCity() : StringUtils.EMPTY);
-      order.setRegion(null != address ? address.getRegion() : StringUtils.EMPTY);
-      order.setAddress(null != address ? address.getAddress() : StringUtils.EMPTY);
+      order.setPhone(address.getPhone());
+      order.setProvince(address.getProvince());
+      order.setCity(address.getCity());
+      order.setRegion(address.getReceiver());
+      order.setAddress(address.getAddress());
 
       baseDao.update(order);
     }
@@ -287,5 +290,4 @@ public class OrderInfoService {
 
     return OrderHelper.toPayWay(order);
   }
-
 }

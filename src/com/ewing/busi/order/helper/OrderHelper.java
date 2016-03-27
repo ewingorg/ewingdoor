@@ -87,15 +87,7 @@ public class OrderHelper {
     detail.setStatus(OrderStatus.INIT.getValue());
     detail.setIseff(IsEff.EFFECTIVE.getValue());
 
-    // @TODO设置物流信息
-    // WebResource resource = webResourceService.findById(detail.getResourceId(),
-    // WebResource.class);
-    // if(null != resource){
-    // detail.setCargoPrice(resource.get);
-    // }
-
     return detail;
-
   }
 
   /**
@@ -108,8 +100,7 @@ public class OrderHelper {
       return 0f;
     }
 
-    float resourcePrice = detail.getUnitPrice() * detail.getItemCount();
-    return resourcePrice + detail.getCargoPrice();
+    return detail.getUnitPrice() * detail.getItemCount();
   }
   
   public static LightAddressInfoResp toAddress(OrderInfo order){

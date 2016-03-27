@@ -48,6 +48,13 @@
 		<action name="commitOrder" method="commitOrder" class="com.ewing.busi.order.action.OrderInfoAction" />
 	</package>
 	
+	<!-- 退货 -->
+	<package name="refund" extends="struts-default"> 
+		<action name="apply" method="applyRefundOrder" class="com.ewing.busi.order.action.OrderRefundAction" />
+		<action name="submit" method="submitRefundOrder" class="com.ewing.busi.order.action.OrderRefundAction" />
+	</package>
+	
+	
 	<!-- 收藏 -->
 	<package name="collect" extends="struts-default"> 
 		<action name="queryCollectIndex" method="queryIndex" class="com.ewing.busi.collect.action.CustomerCollectAction" />

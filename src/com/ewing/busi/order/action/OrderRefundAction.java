@@ -39,6 +39,7 @@ public class OrderRefundAction extends BaseAction {
   
   /**
    * 客户申请退款，进入退款流程
+   * @TODO 退货原因选项
    * 
    * @author Joeson
    */
@@ -49,7 +50,7 @@ public class OrderRefundAction extends BaseAction {
 
       OrderDetail detail = orderDetailService.findByIdAndCusId(req.getOrderDetailid(), getLoginCusId());
       Map<String, Object> map = Maps.newHashMap();
-      map.put("refundMondy", detail.getTotalPrice());
+      map.put("refundMoney", detail.getTotalPrice());
       outSucResult(map);
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
@@ -67,12 +68,12 @@ public class OrderRefundAction extends BaseAction {
       SubmitRefundReq req = getParamJson(SubmitRefundReq.class);
       checkRequired(req, "入参不能为空");
 
-      LightOrderInfoResp resp = orderRefundService.submitRefund(getLoginCusId(), req);
-      Map<String, Object> map = Maps.newHashMap();
-      map.put("order", resp);
-      map.put("payWays", PayWayHelper.list());
-      map.put("shopName", SystemPropertyUtils.SHOP_NAME);
-      outSucResult(map);
+      Integer orderId = orderRefundService.submitRefund(getLoginCusId(), req);
+      if(null != orderId){
+        outSucResult(orderId);
+      }else{
+        outFailResult("提交失败");
+      }
     } catch (Exception e) {
       logger.error(e.getMessage(), e);
       outFailResult("内部异常");
