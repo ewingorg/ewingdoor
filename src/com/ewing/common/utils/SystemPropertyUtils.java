@@ -30,9 +30,18 @@ public class SystemPropertyUtils {
     
     /** 商店站点 **/ 
     public final static String SHOP_DOMAIN= PropertyUtils.getProperty("shop.domain");
+
+
+    public static final String COOKIE_DOMAIN = PropertyUtils.getProperty("shop.cookie.domain");
+    
+    public static final String CROSS_DOMAIN = PropertyUtils.getProperty("cross.domain");
+    
+    public static void main(String[] args) {
+		System.out.println(PropertyUtils.getProperty("shop.cookie.domain"));
+	}
     
     /** 是否需要验证登陆状态 **/
-    public static boolean isAuth(){
+    public static boolean needAuth(){
       return CUSTOMER_LOGIN_VALIDATE;
     }
     

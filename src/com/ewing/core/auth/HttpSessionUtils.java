@@ -36,6 +36,8 @@ public final class HttpSessionUtils {
   public static final String USER_DETAILS_CACHE_KEY = "userdetailscache_";
 
   public static final String REDICT_URL = "redirect_url";
+  
+  public static final String USER_COOKIE = "_u_c";
 
   /**
    * 标识用户是否已经登陆
@@ -52,7 +54,7 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static PreSessionUserDetails getPreSessionUserDetails() {
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
     return session == null ? null : (PreSessionUserDetails) session
         .getAttribute(USER_SESSION_ID_KEY);
   }
@@ -107,7 +109,7 @@ public final class HttpSessionUtils {
       throw new IllegalStateException("userInfo 为空");
     }
 
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
     // PreSessionUserDetails保存到Session中
     PreSessionUserDetails preSessionUserDetails = new PreSessionUserDetails();
     preSessionUserDetails.setCusId(cusId);
@@ -134,7 +136,7 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static void setRedirectUrl(String url) {
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
 
     if (null == session) {
       throw new IllegalStateException("current session is invalid");
@@ -149,11 +151,13 @@ public final class HttpSessionUtils {
    * @param remove 是否进行删除
    */
   public static String getRedirectUrl(boolean remove) {
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
 
     if (null == session) {
-      throw new IllegalStateException("current session is invalid");
+      logger.error("current session is invalid");
+      return StringUtils.EMPTY;
     }
+    
     // 获取重定向地址
     String redirectUrl = (String) session.getAttribute(REDICT_URL);
     if(remove){
@@ -181,13 +185,13 @@ public final class HttpSessionUtils {
     return StringUtils.isNotEmpty(getRedirectUrl(false));
   }
 
-  public static HttpSession getSession() {
+  public static HttpSession getSession(boolean create) {
     HttpServletRequest request = (HttpServletRequest) RequestHolder.getRequest();
     if (request == null) {
       throw new IllegalStateException("current request dosnot exists requestholder");
     }
 
-    return request.getSession();
+    return request.getSession(create);
   }
 
   /**

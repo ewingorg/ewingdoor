@@ -1,7 +1,14 @@
 package com.ewing.core.auth;
 
-public class WXSessionUserDetails implements SessionUserDetails {
+import java.io.Serializable;
+
+public class WXSessionUserDetails implements SessionUserDetails,Serializable {
   
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+
   /**
    * 平台客户id customer id
    */
