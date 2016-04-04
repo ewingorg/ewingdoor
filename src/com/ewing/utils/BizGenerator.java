@@ -22,4 +22,9 @@ public class BizGenerator {
         String d = (String.valueOf(Math.random())).substring(2, 10);
         return a + d;
     }
+    
+    public static String generateUUID(){    
+        String uuid = UUID.randomUUID().toString().trim().replaceAll("-", "");    
+        return uuid;    
+    }
 }

@@ -99,7 +99,7 @@ public class WxAuthorizeService {
 
     // 设置登陆session
     try {
-      HttpSessionUtils.setWXSessionUserDetails(userInfo, thirdAccount.getCustomerId());
+      HttpSessionUtils.setWXSessionUserDetails(userInfo, thirdAccount.getCustomerId(), req.getState());
     } catch (RedisException e) {
       e.printStackTrace();
     }

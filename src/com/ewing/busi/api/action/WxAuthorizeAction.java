@@ -63,23 +63,21 @@ public class WxAuthorizeAction extends BaseAction {
     WxWebAuthorizeReq req = null;
     try {
       String code = request.getParameter("code");
-      String state = request.getParameter("state");
-      req = new WxWebAuthorizeReq(code, state);
+      String cookie = request.getParameter("state");
+      logger.info("cookie " + cookie);
+      req = new WxWebAuthorizeReq(code, cookie);
       logger.info(JsonUtils.toJson(req));
       
       wxAuthorizeService.getWebAuthCode(req);
       
       //删除缓存中的登陆信息
-      String cookie = CookieUtils.getCookieValue(request, HttpSessionUtils.USER_COOKIE);
       if(StringUtils.isNotEmpty(cookie)){
-        String random = RedisManage.getInstance().get(cookie);
-        RedisManage.getInstance().del(random);
+        RedisManage.getInstance().del(cookie);
       }else{
         logger.warn("cookie is null");
       }
       
       String redirectUrl = request.getParameter("curUrl");
-      logger.info("cookie " + cookie);
       logger.info("redirectUrl : " + redirectUrl);
       //进行重定向
       response.sendRedirect(redirectUrl);

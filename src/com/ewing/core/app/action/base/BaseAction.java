@@ -460,7 +460,7 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
    * @param message
    */
   public <T> void outSucResult(T data) {
-    outResult(new ResponseData(true, request.getCookies(), data, ResponseType.NORMAL));
+    outResult(ResponseData.initResponseData(true, request.getCookies(), data, ResponseType.NORMAL));
   }
 
 

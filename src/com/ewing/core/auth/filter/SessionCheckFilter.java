@@ -96,62 +96,49 @@ public class SessionCheckFilter implements Filter {
 		String curClientUrl = req.getParameter("curUrl");
 		String server = "http://" + req.getServerName()
 				+ (req.getServerPort() != 80 ? ":" + req.getServerPort() : "");
-		String random = req.getParameter("cookie");
-		String cookie = CookieUtils.getCookieValue(req,
-				HttpSessionUtils.USER_COOKIE);
+		String cookie = req.getParameter("cookie");
 
 		logger.info("uri " + uri);
 		logger.info("cookie " + cookie);
-		logger.info("random " + random);
-		// 进行前端的一个重定向
-					AjaxJsonpUtils.outJson(req, resp, JsonUtils.toJson(new ResponseData(true, new Cookie(
-							365 * 24 * 60, SystemPropertyUtils.COOKIE_DOMAIN,
-							HttpSessionUtils.USER_COOKIE, BizGenerator.generateBizNum()), "",
-							ResponseType.NORMAL)));
-					return;
-//		if (!SystemPropertyUtils.needAuth() || ignoreCheck(requestPath) || !uri.contains("templateKey.action")) {// 不需要登录验证或者路径不需要检查，直接跳过登陆拦截
-//			chain.doFilter(req, resp);
-//			return;
-//		}
-//
-//		// 如果没有PreSessionUserDetails，说明没有登录过，或者登录过但是用户清空了浏览器缓存，需要第三方登陆验证
-//		if (null == req.getSession(false)
-//				|| null == HttpSessionUtils.getPreSessionUserDetails()) {
-//			
-//			cookie = BizGenerator.generateBizNum();
-//			// 这里始终避免不了同步问题，如果通个客户端两个请求同时并发过来时候，始终还是会有问题
-//			try {
-//				if (null == random
-//						|| null != RedisManage.getInstance().get(random)) {
-//					return;
-//				}
-//
-//				RedisManage.getInstance().set(random, 1);
-//				RedisManage.getInstance().set(cookie, random);
-//				CookieUtils.setCookie(resp, HttpSessionUtils.USER_COOKIE,
-//						cookie);
-//			} catch (RedisException e) {
-//				logger.error(e.getMessage(), e);
-//			}
-//
-//			// 重定向到第三方登陆(暂时只有微信，后续可能会接入其他登陆)，登陆之后设置PreSessionUserDetails和SessionUserDetails
-//			WxPropertyManager manager = WxPropertyManager.getInstance();
-//			HttpSessionUtils.setRedirectUrl(curClientUrl);
-//			String url = useApi.getWebAuthorizationCode(
-//					manager.getAppId(),
-//					URLEncoder.encode(server + context + GET_WEB_AUTH_CODE
-//							+ "?curUrl=" + curClientUrl),
-//					UserAPI.SCOPE_SNSAPI_USERINFO, "123");
-//
-//			// 进行前端的一个重定向
-//			AjaxJsonpUtils.outJson(req, resp, JsonUtils.toJson(new ResponseData(true, new Cookie(
-//					365 * 24 * 60, SystemPropertyUtils.COOKIE_DOMAIN,
-//					HttpSessionUtils.USER_COOKIE, cookie), url,
-//					ResponseType.REDIRECT)));
-//			return;
-//		}
-//
-//		chain.doFilter(request, response);
+
+		// 已经登陆过，无需重新登陆
+		try {
+			if (StringUtils.isNotEmpty(cookie) && HttpSessionUtils.isLogined(cookie)){
+				chain.doFilter(req, resp);
+				return;
+			}
+
+			cookie = StringUtils.isEmpty(cookie) ? BizGenerator.generateUUID()
+					: cookie;
+			// 进行前端的一个重定向
+			if (!SystemPropertyUtils.needAuth() || ignoreCheck(requestPath)
+					|| !uri.contains("templateKey.action")
+					|| null != RedisManage.getInstance().get(cookie)) {// 不需要登录验证或者路径不需要检查或者正在登陆，直接跳过登陆拦截
+				chain.doFilter(req, resp);
+				return;
+			}
+
+			// 这里始终避免不了同步问题，如果通个客户端两个请求同时并发过来时候，始终还是会有问题
+			RedisManage.getInstance().set(cookie, 1);//正在登陆 redis 对饮cookie 为1
+		} catch (RedisException e) {
+			logger.error(e.getMessage(), e);
+		}
+
+		// 重定向到第三方登陆(暂时只有微信，后续可能会接入其他登陆)，登陆之后设置PreSessionUserDetails和SessionUserDetails
+		WxPropertyManager manager = WxPropertyManager.getInstance();
+		HttpSessionUtils.setRedirectUrl(curClientUrl);
+		String url = useApi.getWebAuthorizationCode(
+				manager.getAppId(),
+				URLEncoder.encode(server + context + GET_WEB_AUTH_CODE
+						+ "?curUrl=" + curClientUrl),
+				UserAPI.SCOPE_SNSAPI_USERINFO, cookie);
+
+		// 进行前端的一个重定向 @TODO这里传过去的cookie需要加密以下
+		AjaxJsonpUtils.outJson(req, resp, JsonUtils.toJson(new ResponseData(
+				true, new Cookie(365 * 24 * 60, "/",
+						HttpSessionUtils.USER_COOKIE, cookie), url,
+				ResponseType.REDIRECT)));
+		return;
 	}
 
 	/**

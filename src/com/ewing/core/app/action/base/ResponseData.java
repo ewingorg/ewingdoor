@@ -13,7 +13,31 @@ import com.google.common.collect.Lists;
  * @create:2012-2-23
  * @description: action中向页面返回的封装信息.
  */
-public class ResponseData {
+public class ResponseData{
+	public static ResponseData initResponseData(Boolean success, javax.servlet.http.Cookie[] cookies, Object data,
+			Integer respType) {
+		if(ArrayUtils.isEmpty(cookies)){
+			return new ResponseData(success, ListUtils.EMPTY_LIST, data, respType);
+		}
+		
+		List<Cookie> cookieList = Lists.newArrayList();
+		for(javax.servlet.http.Cookie c : cookies){ 
+			cookieList.add(new Cookie(c.getMaxAge(), c.getPath(), c.getName(), c.getValue()));
+		}
+		
+		return new ResponseData(success, cookieList, data, respType);
+	}
+	
+	public ResponseData(Boolean success, Cookie cookie, Object result, Integer respType) {
+		super();
+		this.success = success;
+		this.result = result;
+		this.respType = respType;
+		this.cookies = Lists.newArrayList();
+		cookies.add(cookie);
+	}
+	
+	
 	private Boolean success;
 	private String retinfo;
 	private String retCode;
@@ -77,14 +101,6 @@ public class ResponseData {
 		}
 	}
 	
-	public ResponseData(Boolean success, Cookie cookie, Object result, Integer respType) {
-		super();
-		this.success = success;
-		this.result = result;
-		this.respType = respType;
-		this.cookies = Lists.newArrayList();
-		cookies.add(cookie);
-	}
 
 	/**
 	 * 当respType为redirect，result 为 重定向的url
@@ -101,25 +117,6 @@ public class ResponseData {
 		this.cookies = cookies;
 	}
 	
-	public ResponseData(Boolean success, javax.servlet.http.Cookie[] cookies, Object data,
-			Integer respType) {
-		if(ArrayUtils.isEmpty(cookies)){
-			ResponseData(success, ListUtils.EMPTY_LIST, result, respType);
-		}
-		
-		List<Cookie> cookieList = Lists.newArrayList();
-		for(javax.servlet.http.Cookie c : cookies){
-			cookieList.add(new Cookie(c.getMaxAge(), c.getPath(), c.getName(), c.getValue()));
-		}
-		
-		ResponseData(success, cookieList, result, respType);
-	}
-
-	private void ResponseData(Boolean success2, List emptyList, Object result2,
-			Integer respType2) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public List<Cookie> getCookies() {
 		return cookies;

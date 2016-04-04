@@ -45,7 +45,21 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static boolean isLogined() {
-    return null != getPreSessionUserDetails();
+    return isLogined(RequestHolder.getRequest().getParameter("cookie"));
+  }
+  
+  /**
+   * 标识用户是否已经登陆
+   * 
+   * @author Joeson
+   */
+  public static boolean isLogined(String cookie) {
+    try {
+		return null != getSessionUserDetails(cookie);
+	} catch (RedisException e) {
+		logger.error(e.getMessage(), e);
+		return false;
+	}
   }
 
   /**
@@ -65,11 +79,16 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static Integer getCusId() {
-    PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
-    if (null == preSessionUserDetails) {
+    WXSessionUserDetails userDetails = null;
+	try {
+		userDetails = (WXSessionUserDetails) getSessionUserDetails(RequestHolder.getRequest().getParameter("cookie"));
+	} catch (RedisException e) {
+		logger.error(e.getMessage(), e);
+	}
+    if (null == userDetails) {
       return 0;
     } else {
-      return preSessionUserDetails.getCusId();
+      return userDetails.getCusId();
     }
   }
 
@@ -80,7 +99,7 @@ public final class HttpSessionUtils {
    * 
    * @throws RedisException
    */
-  public static SessionUserDetails getSessionUserDetails() throws RedisException {
+  public static SessionUserDetails getSessionUserDetails(String cookie) throws RedisException {
     PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
     if (null == preSessionUserDetails) {
       return null;
@@ -88,7 +107,7 @@ public final class HttpSessionUtils {
       // 从缓存中获取UserDetails
       try {
         return RedisManage.getInstance().get(
-            USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId());
+            USER_DETAILS_CACHE_KEY + cookie);
       } catch (RedisException e) {
         logger.error(e.getMessage(), e);
         throw e;
@@ -101,21 +120,22 @@ public final class HttpSessionUtils {
    * 
    * @param userInfo
    * @author Joeson
+ * @param state 
    * @throws RedisException
    */
-  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId)
+  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId, String state)
       throws RedisException {
     if (null == userInfo) {
       throw new IllegalStateException("userInfo 为空");
     }
 
-    HttpSession session = getSession(true);
+    /*HttpSession session = getSession(true);
     // PreSessionUserDetails保存到Session中
     PreSessionUserDetails preSessionUserDetails = new PreSessionUserDetails();
     preSessionUserDetails.setCusId(cusId);
     preSessionUserDetails.setOpenId(userInfo.getOpenId());
     preSessionUserDetails.setUserSessionId(generateSessionId());
-    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);
+    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);*/
 
     // 详细的SessionUserDetails信息，保存到redis缓存中
     WXSessionUserDetails userDetails = new WXSessionUserDetails();
@@ -123,7 +143,7 @@ public final class HttpSessionUtils {
 
     try {
       RedisManage.getInstance().set(
-          USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId(), userDetails);
+          USER_DETAILS_CACHE_KEY + state, userDetails);
     } catch (RedisException e) {
       logger.error(e.getMessage(), e);
       throw e;
