@@ -2,13 +2,16 @@ package com.ewing.busi.api.action;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.ewing.busi.api.dto.WxAuthServerReq;
 import com.ewing.busi.api.dto.WxWebAuthorizeReq;
 import com.ewing.busi.api.service.WxAuthorizeService;
 import com.ewing.core.app.action.base.BaseAction;
+import com.ewing.core.auth.CookieUtils;
 import com.ewing.core.auth.HttpSessionUtils;
+import com.ewing.core.redis.RedisManage;
 import com.ewing.utils.JsonUtils;
 
 /**
@@ -60,18 +63,26 @@ public class WxAuthorizeAction extends BaseAction {
     WxWebAuthorizeReq req = null;
     try {
       String code = request.getParameter("code");
-      String state = request.getParameter("state");
-      req = new WxWebAuthorizeReq(code, state);
+      String cookie = request.getParameter("state");
+      logger.info("cookie " + cookie);
+      req = new WxWebAuthorizeReq(code, cookie);
       logger.info(JsonUtils.toJson(req));
       
       wxAuthorizeService.getWebAuthCode(req);
       
-      String redirectUrl = HttpSessionUtils.getRedirectUrl(true);
+      //删除缓存中的登陆信息
+      if(StringUtils.isNotEmpty(cookie)){
+        RedisManage.getInstance().del(cookie);
+      }else{
+        logger.warn("cookie is null");
+      }
+      
+      String redirectUrl = request.getParameter("curUrl");
       logger.info("redirectUrl : " + redirectUrl);
       //进行重定向
       response.sendRedirect(redirectUrl);
     } catch (Exception e) {
-      HttpSessionUtils.getRedirectUrl(true);
+      HttpSessionUtils.getRedirectUrl(true);//q
       logger.error(e.getMessage(), e);
     }
   }

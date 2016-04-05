@@ -3,6 +3,7 @@ package com.ewing.core.app.action.base;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,7 @@ import com.ewing.utils.JsonUtils;
 import com.ewing.utils.StringUtil;
 import com.google.gson.Gson;
 import com.opensymphony.xwork2.ActionSupport;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Collections;
 
 /**
  * @author tanson lin
@@ -458,30 +460,9 @@ public class BaseAction extends ActionSupport implements ServletRequestAware, Se
    * @param message
    */
   public <T> void outSucResult(T data) {
-    outResult(new ResponseData(true, data, ResponseType.NORMAL));
+    outResult(ResponseData.initResponseData(true, request.getCookies(), data, ResponseType.NORMAL));
   }
 
-  // /**
-  // * 返回組裝的JSON信息到页面
-  // *
-  // * @param responseData
-  // */
-  // public void outResult(ResponseData responseData) {
-  // if (responseData == null)
-  // throw new IllegalArgumentException("responseData should not be null");
-  // try {
-  // String json = gson.toJson(responseData);
-  // if (AjaxJsonpUtils.isJsonpRequest(request)) {
-  // AjaxJsonpUtils.outJson(request, response, json);
-  // } else {
-  // response.setContentType("text/json");
-  // logger.debug(json);
-  // response.getWriter().write(json);
-  // }
-  // } catch (IOException e) {
-  // logger.error(e.getMessage(), e);
-  // }
-  // }
 
   public void forward(String page) {
     forward(page, null);

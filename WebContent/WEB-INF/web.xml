@@ -70,7 +70,7 @@
 	
 	<filter-mapping>
 		<filter-name>sessionCheckFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>*.action</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
 		<filter-name>CharacterEncoding</filter-name>

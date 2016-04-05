@@ -36,6 +36,8 @@ public final class HttpSessionUtils {
   public static final String USER_DETAILS_CACHE_KEY = "userdetailscache_";
 
   public static final String REDICT_URL = "redirect_url";
+  
+  public static final String USER_COOKIE = "_u_c";
 
   /**
    * 标识用户是否已经登陆
@@ -43,7 +45,21 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static boolean isLogined() {
-    return null != getPreSessionUserDetails();
+    return isLogined(RequestHolder.getRequest().getParameter("cookie"));
+  }
+  
+  /**
+   * 标识用户是否已经登陆
+   * 
+   * @author Joeson
+   */
+  public static boolean isLogined(String cookie) {
+    try {
+		return null != getSessionUserDetails(cookie);
+	} catch (RedisException e) {
+		logger.error(e.getMessage(), e);
+		return false;
+	}
   }
 
   /**
@@ -52,7 +68,7 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static PreSessionUserDetails getPreSessionUserDetails() {
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
     return session == null ? null : (PreSessionUserDetails) session
         .getAttribute(USER_SESSION_ID_KEY);
   }
@@ -63,11 +79,16 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static Integer getCusId() {
-    PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
-    if (null == preSessionUserDetails) {
+    WXSessionUserDetails userDetails = null;
+	try {
+		userDetails = (WXSessionUserDetails) getSessionUserDetails(RequestHolder.getRequest().getParameter("cookie"));
+	} catch (RedisException e) {
+		logger.error(e.getMessage(), e);
+	}
+    if (null == userDetails) {
       return 0;
     } else {
-      return preSessionUserDetails.getCusId();
+      return userDetails.getCusId();
     }
   }
 
@@ -78,7 +99,7 @@ public final class HttpSessionUtils {
    * 
    * @throws RedisException
    */
-  public static SessionUserDetails getSessionUserDetails() throws RedisException {
+  public static SessionUserDetails getSessionUserDetails(String cookie) throws RedisException {
     PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
     if (null == preSessionUserDetails) {
       return null;
@@ -86,7 +107,7 @@ public final class HttpSessionUtils {
       // 从缓存中获取UserDetails
       try {
         return RedisManage.getInstance().get(
-            USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId());
+            USER_DETAILS_CACHE_KEY + cookie);
       } catch (RedisException e) {
         logger.error(e.getMessage(), e);
         throw e;
@@ -99,21 +120,22 @@ public final class HttpSessionUtils {
    * 
    * @param userInfo
    * @author Joeson
+ * @param state 
    * @throws RedisException
    */
-  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId)
+  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId, String state)
       throws RedisException {
     if (null == userInfo) {
       throw new IllegalStateException("userInfo 为空");
     }
 
-    HttpSession session = getSession();
+    /*HttpSession session = getSession(true);
     // PreSessionUserDetails保存到Session中
     PreSessionUserDetails preSessionUserDetails = new PreSessionUserDetails();
     preSessionUserDetails.setCusId(cusId);
     preSessionUserDetails.setOpenId(userInfo.getOpenId());
     preSessionUserDetails.setUserSessionId(generateSessionId());
-    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);
+    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);*/
 
     // 详细的SessionUserDetails信息，保存到redis缓存中
     WXSessionUserDetails userDetails = new WXSessionUserDetails();
@@ -121,7 +143,7 @@ public final class HttpSessionUtils {
 
     try {
       RedisManage.getInstance().set(
-          USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId(), userDetails);
+          USER_DETAILS_CACHE_KEY + state, userDetails);
     } catch (RedisException e) {
       logger.error(e.getMessage(), e);
       throw e;
@@ -134,7 +156,7 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static void setRedirectUrl(String url) {
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
 
     if (null == session) {
       throw new IllegalStateException("current session is invalid");
@@ -149,11 +171,13 @@ public final class HttpSessionUtils {
    * @param remove 是否进行删除
    */
   public static String getRedirectUrl(boolean remove) {
-    HttpSession session = getSession();
+    HttpSession session = getSession(true);
 
     if (null == session) {
-      throw new IllegalStateException("current session is invalid");
+      logger.error("current session is invalid");
+      return StringUtils.EMPTY;
     }
+    
     // 获取重定向地址
     String redirectUrl = (String) session.getAttribute(REDICT_URL);
     if(remove){
@@ -181,13 +205,13 @@ public final class HttpSessionUtils {
     return StringUtils.isNotEmpty(getRedirectUrl(false));
   }
 
-  public static HttpSession getSession() {
+  public static HttpSession getSession(boolean create) {
     HttpServletRequest request = (HttpServletRequest) RequestHolder.getRequest();
     if (request == null) {
       throw new IllegalStateException("current request dosnot exists requestholder");
     }
 
-    return request.getSession();
+    return request.getSession(create);
   }
 
   /**

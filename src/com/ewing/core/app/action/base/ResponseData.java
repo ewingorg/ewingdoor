@@ -1,91 +1,188 @@
 package com.ewing.core.app.action.base;
 
+import java.util.List;
+
+import org.apache.commons.collections.ListUtils;
+import org.apache.commons.lang.ArrayUtils;
+
+import com.google.common.collect.Lists;
+
 /**
  * @author tanson lin
  * 
  * @create:2012-2-23
  * @description: action中向页面返回的封装信息.
  */
-public class ResponseData {
-  private Boolean success;
-  private String retinfo;
-  private String retCode;
-  private Integer totalProperty;
-  private String page;
-  private Object result;
-  private Integer respType;// 响应类型(由于使用前后端分离，有一些操作可能需要前端协助，比如redirect) 0 normal 1 forword 2 redirect
+public class ResponseData{
+	public static ResponseData initResponseData(Boolean success, javax.servlet.http.Cookie[] cookies, Object data,
+			Integer respType) {
+		if(ArrayUtils.isEmpty(cookies)){
+			return new ResponseData(success, ListUtils.EMPTY_LIST, data, respType);
+		}
+		
+		List<Cookie> cookieList = Lists.newArrayList();
+		for(javax.servlet.http.Cookie c : cookies){ 
+			cookieList.add(new Cookie(c.getMaxAge(), c.getPath(), c.getName(), c.getValue()));
+		}
+		
+		return new ResponseData(success, cookieList, data, respType);
+	}
+	
+	public ResponseData(Boolean success, Cookie cookie, Object result, Integer respType) {
+		super();
+		this.success = success;
+		this.result = result;
+		this.respType = respType;
+		this.cookies = Lists.newArrayList();
+		cookies.add(cookie);
+	}
+	
+	
+	private Boolean success;
+	private String retinfo;
+	private String retCode;
+	private Integer totalProperty;
+	private List<Cookie> cookies;
+	private String page;
+	private Object result;
+	private Integer respType;// 响应类型(由于使用前后端分离，有一些操作可能需要前端协助，比如redirect) 0
+								// normal 1 forword 2 redirect
+	
+	public static class Cookie{
+		/**
+		 * 秒
+		 */
+		private int maxValue;
+		
+		private String path;
+		
+		private String name;
+		
+		private String value;
+		
+		public Cookie(int maxValue, String path, String name, String value) {
+			super();
+			this.maxValue = maxValue;
+			this.path = path;
+			this.name = name;
+			this.value = value;
+		}
 
-  
-  /**
-   * 当respType为redirect，result 为 重定向的url
-   * @param success
-   * @param result
-   * @param respType
-   */
-  public ResponseData(Boolean success, Object result, Integer respType) {
-    super();
-    this.success = success;
-    this.result = result;
-    this.respType = respType;
-  }
+		public int getMaxValue() {
+			return maxValue;
+		}
 
-  public Integer getRespType() {
-    return respType;
-  }
+		public void setMaxValue(int maxValue) {
+			this.maxValue = maxValue;
+		}
 
-  public void setRespType(Integer respType) {
-    this.respType = respType;
-  }
+		public String getPath() {
+			return path;
+		}
 
-  public String getRetCode() {
-    return retCode;
-  }
+		public void setPath(String path) {
+			this.path = path;
+		}
 
-  public void setRetCode(String retCode) {
-    this.retCode = retCode;
-  }
+		public String getName() {
+			return name;
+		}
 
-  public ResponseData() {
+		public void setName(String name) {
+			this.name = name;
+		}
 
-  }
+		public String getValue() {
+			return value;
+		}
 
-  public String getRetinfo() {
-    return retinfo;
-  }
+		public void setValue(String value) {
+			this.value = value;
+		}
+	}
+	
 
-  public String getPage() {
-    return page;
-  }
+	/**
+	 * 当respType为redirect，result 为 重定向的url
+	 * 
+	 * @param success
+	 * @param result
+	 * @param respType
+	 */
+	public ResponseData(Boolean success, List<Cookie> cookies, Object result, Integer respType) {
+		super();
+		this.success = success;
+		this.result = result;
+		this.respType = respType;
+		this.cookies = cookies;
+	}
+	
 
-  public void setPage(String page) {
-    this.page = page;
-  }
+	public List<Cookie> getCookies() {
+		return cookies;
+	}
 
-  public Boolean getSuccess() {
-    return success;
-  }
+	public void setCookies(List<Cookie> cookies) {
+		this.cookies = cookies;
+	}
 
-  public Integer getTotalProperty() {
-    return totalProperty;
-  }
+	public Integer getRespType() {
+		return respType;
+	}
 
-  public Object getResult() {
-    return result;
-  }
+	public void setRespType(Integer respType) {
+		this.respType = respType;
+	}
 
-  public void setResult(Object result) {
-    this.result = result;
-  }
+	public String getRetCode() {
+		return retCode;
+	}
 
-  public void setRetinfo(String retinfo) {
-    this.retinfo = retinfo;
-  }
+	public void setRetCode(String retCode) {
+		this.retCode = retCode;
+	}
 
-  public void setSuccess(Boolean success) {
-    this.success = success;
-  }
+	public ResponseData() {
 
-  public void setTotalProperty(Integer totalProperty) {
-    this.totalProperty = totalProperty;
-  }
+	}
+
+	public String getRetinfo() {
+		return retinfo;
+	}
+
+	public String getPage() {
+		return page;
+	}
+
+	public void setPage(String page) {
+		this.page = page;
+	}
+
+	public Boolean getSuccess() {
+		return success;
+	}
+
+	public Integer getTotalProperty() {
+		return totalProperty;
+	}
+
+	public Object getResult() {
+		return result;
+	}
+
+	public void setResult(Object result) {
+		this.result = result;
+	}
+
+	public void setRetinfo(String retinfo) {
+		this.retinfo = retinfo;
+	}
+
+	public void setSuccess(Boolean success) {
+		this.success = success;
+	}
+
+	public void setTotalProperty(Integer totalProperty) {
+		this.totalProperty = totalProperty;
+	}
 }
