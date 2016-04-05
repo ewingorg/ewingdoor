@@ -45,21 +45,7 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static boolean isLogined() {
-    return isLogined(RequestHolder.getRequest().getParameter("cookie"));
-  }
-  
-  /**
-   * 标识用户是否已经登陆
-   * 
-   * @author Joeson
-   */
-  public static boolean isLogined(String cookie) {
-    try {
-		return null != getSessionUserDetails(cookie);
-	} catch (RedisException e) {
-		logger.error(e.getMessage(), e);
-		return false;
-	}
+		return null != getPreSessionUserDetails();
   }
 
   /**
@@ -79,19 +65,10 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   public static Integer getCusId() {
-    WXSessionUserDetails userDetails = null;
-	try {
-		userDetails = (WXSessionUserDetails) getSessionUserDetails(RequestHolder.getRequest().getParameter("cookie"));
-	} catch (RedisException e) {
-		logger.error(e.getMessage(), e);
-	}
-    if (null == userDetails) {
-      return 0;
-    } else {
-      return userDetails.getCusId();
-    }
+    PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
+    return null != preSessionUserDetails ? 0 : preSessionUserDetails.getCusId();
   }
-
+  
   /**
    * 需要根据PreSessionUserDetails到缓存中获取
    * 
@@ -99,7 +76,7 @@ public final class HttpSessionUtils {
    * 
    * @throws RedisException
    */
-  public static SessionUserDetails getSessionUserDetails(String cookie) throws RedisException {
+  public static SessionUserDetails getSessionUserDetails() throws RedisException {
     PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
     if (null == preSessionUserDetails) {
       return null;
@@ -107,7 +84,7 @@ public final class HttpSessionUtils {
       // 从缓存中获取UserDetails
       try {
         return RedisManage.getInstance().get(
-            USER_DETAILS_CACHE_KEY + cookie);
+            USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId());
       } catch (RedisException e) {
         logger.error(e.getMessage(), e);
         throw e;
@@ -123,19 +100,19 @@ public final class HttpSessionUtils {
  * @param state 
    * @throws RedisException
    */
-  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId, String state)
+  public static void setWXSessionUserDetails(WebAuthorizationUserInfo userInfo, Integer cusId)
       throws RedisException {
     if (null == userInfo) {
       throw new IllegalStateException("userInfo 为空");
     }
 
-    /*HttpSession session = getSession(true);
+    HttpSession session = getSession(true);
     // PreSessionUserDetails保存到Session中
     PreSessionUserDetails preSessionUserDetails = new PreSessionUserDetails();
     preSessionUserDetails.setCusId(cusId);
     preSessionUserDetails.setOpenId(userInfo.getOpenId());
     preSessionUserDetails.setUserSessionId(generateSessionId());
-    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);*/
+    session.setAttribute(USER_SESSION_ID_KEY, preSessionUserDetails);
 
     // 详细的SessionUserDetails信息，保存到redis缓存中
     WXSessionUserDetails userDetails = new WXSessionUserDetails();
@@ -143,7 +120,7 @@ public final class HttpSessionUtils {
 
     try {
       RedisManage.getInstance().set(
-          USER_DETAILS_CACHE_KEY + state, userDetails);
+          USER_DETAILS_CACHE_KEY + preSessionUserDetails.getUserSessionId(), userDetails);
     } catch (RedisException e) {
       logger.error(e.getMessage(), e);
       throw e;
@@ -201,8 +178,13 @@ public final class HttpSessionUtils {
    * 如果重定向地址不为空，说明当前用户正在微信验证中（重定向地址是微信验证成功后作为重定向地址，验证成功之后会做清除处理）
    * @author Joeson
    */
-  public static boolean isAuthorzing(){
-    return StringUtils.isNotEmpty(getRedirectUrl(false));
+  public static boolean isAuthorzing(String cookie){
+    try {
+      return null != RedisManage.getInstance().get(cookie);
+    } catch (RedisException e) {
+      logger.error(e.getMessage(), e);
+      return false;
+    }
   }
 
   public static HttpSession getSession(boolean create) {
@@ -220,6 +202,6 @@ public final class HttpSessionUtils {
    * @author Joeson
    */
   private static String generateSessionId() {
-    return "sessionkey_" + BizGenerator.generateBizNum();
+    return BizGenerator.generateUUID();
   }
 }

@@ -19,12 +19,11 @@ public class CookieUtils {
 
   private static final int COOKIE_MAX_AGE = Integer.MAX_VALUE;
   
-  public static void removeCookie(HttpServletRequest request,
-      HttpServletResponse response, String name) {
+  public static void removeCookie(HttpServletResponse response, String name) {
     if (null == name) {
       return;
     }
-    Cookie cookie = getCookie(request, name);
+    Cookie cookie = getCookie(name);
     if(null != cookie){
       cookie.setPath(SystemPropertyUtils.COOKIE_DOMAIN);
       cookie.setValue("");
@@ -33,8 +32,8 @@ public class CookieUtils {
     }
   }
   
-  public static String getCookieValue(HttpServletRequest request, String name) {
-    Cookie cookie = getCookie(request, name);
+  public static String getCookieValue(String name) {
+    Cookie cookie = getCookie(name);
     return null != cookie ? cookie.getValue() : StringUtils.EMPTY;
   }
 
@@ -45,8 +44,8 @@ public class CookieUtils {
    * @param name
    * @return
    */
-  public static Cookie getCookie(HttpServletRequest request, String name) {
-    Cookie[] cookies = request.getCookies();
+  public static Cookie getCookie(String name) {
+    Cookie[] cookies = RequestHolder.getRequest().getCookies();
     if (null == cookies || null == name || name.length() == 0) {
       return null;
     }

@@ -53,10 +53,11 @@ public class WxAuthorizeService {
    * 获取用户微信网页获取用户信息的第一步骤的code
    * 
    * @author Joeson
+   * @throws RedisException 
    */
-  public void getWebAuthCode(WxWebAuthorizeReq req) {
+  public boolean getWebAuthCode(WxWebAuthorizeReq req) throws RedisException {
     if (null == req) {
-      return;
+      return false;
     }
 
     WxPropertyManager manager = WxPropertyManager.getInstance();
@@ -99,10 +100,12 @@ public class WxAuthorizeService {
 
     // 设置登陆session
     try {
-      HttpSessionUtils.setWXSessionUserDetails(userInfo, thirdAccount.getCustomerId(), req.getState());
+      HttpSessionUtils.setWXSessionUserDetails(userInfo, thirdAccount.getCustomerId());
     } catch (RedisException e) {
-      e.printStackTrace();
+      throw e;
     }
+    
+    return true;
   }
 
   /**
