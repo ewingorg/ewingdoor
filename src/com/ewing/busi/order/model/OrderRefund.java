@@ -10,6 +10,7 @@ import java.util.Date;
 public class OrderRefund implements java.io.Serializable {
 
     private Integer id;
+    private String bizId;
     private Integer orderId;
     private Integer orderDetailId;
     private String type;
@@ -30,10 +31,11 @@ public class OrderRefund implements java.io.Serializable {
     public OrderRefund() {
     }
 
-    public OrderRefund(Integer orderId, Integer orderDetailId, String type, Integer customerId, Integer userId,
+    public OrderRefund(Integer orderId, String bizId, Integer orderDetailId, String type, Integer customerId, Integer userId,
             Integer resourceId, Integer reasonType, String reason, float refundMoney, String provePicUrl, String status, String iseff,
             Date createTime, Date lastUpdate) {
         this.orderId = orderId;
+        this.bizId = bizId;
         this.orderDetailId = orderDetailId;
         this.type = type;
         this.customerId = customerId;
@@ -49,10 +51,11 @@ public class OrderRefund implements java.io.Serializable {
         this.lastUpdate = lastUpdate;
     }
 
-    public OrderRefund(Integer orderId, Integer orderDetailId, String type, Integer customerId, Integer userId,
+    public OrderRefund(Integer orderId, String bizId, Integer orderDetailId, String type, Integer customerId, Integer userId,
             Integer resourceId, Integer reasonType, String reason, String cargoCom, String cargoNumber, float refundMoney,
             String provePicUrl, String status, String iseff, Date createTime, Date lastUpdate) {
         this.orderId = orderId;
+        this.bizId = bizId;
         this.orderDetailId = orderDetailId;
         this.type = type;
         this.customerId = customerId;
@@ -68,6 +71,14 @@ public class OrderRefund implements java.io.Serializable {
         this.iseff = iseff;
         this.createTime = createTime;
         this.lastUpdate = lastUpdate;
+    }
+    
+    public String getBizId() {
+      return bizId;
+    }
+
+    public void setBizId(String bizId) {
+      this.bizId = bizId;
     }
 
     public String getProvePicUrl() {

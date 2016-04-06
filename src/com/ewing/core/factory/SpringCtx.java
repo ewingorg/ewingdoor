@@ -24,7 +24,6 @@ public class SpringCtx {
 	 * @return Spring Context
 	 */
 	public static ClassPathXmlApplicationContext getCtx() {
-
 		return ctx;
 	}
 

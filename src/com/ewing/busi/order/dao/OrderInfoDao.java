@@ -9,7 +9,6 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Repository;
 
-import com.ewing.busi.order.model.OrderDetail;
 import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;

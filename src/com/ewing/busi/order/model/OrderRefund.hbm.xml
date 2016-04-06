@@ -8,6 +8,10 @@
             <column name="id" />
             <generator class="identity" />
         </id>
+        <property name="bizId" type="string">
+            <column name="biz_id">
+            </column>
+        </property>
         <property name="orderId" type="int">
             <column name="order_id" not-null="true">
             </column>

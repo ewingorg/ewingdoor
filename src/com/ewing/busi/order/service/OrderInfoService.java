@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.stereotype.Repository;
 
@@ -56,6 +55,8 @@ public class OrderInfoService {
   private WebResourceDao webResoueceDao;
   @Resource
   private CustomerAddressService customerAddressService;
+  @Resource
+  private OrderProcessHistoryService orderProcessHistoryService;
 
   /**
    * 根据客户id查询 购物车列表
@@ -135,6 +136,9 @@ public class OrderInfoService {
     order.setCargoPrice(catgoPrice);
     order.setStatus(OrderStatus.WAIT_PAY.getValue());
     baseDao.update(order);
+    
+    //记录流程记录
+    orderProcessHistoryService.addOrderHistory(order, OrderStatus.WAIT_PAY);
   }
 
   /**
@@ -161,6 +165,9 @@ public class OrderInfoService {
 
     order.setStatus(OrderStatus.CLOSED.getValue());
     baseDao.update(order);
+    
+    //记录流程记录
+    orderProcessHistoryService.addOrderHistory(order, OrderStatus.CLOSED);
 
     return;
   }
@@ -199,6 +206,9 @@ public class OrderInfoService {
     orderInfo.setStatus(OrderStatus.INIT.getValue());
     orderInfo.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(orderInfo);
+    
+    //记录流程记录
+    orderProcessHistoryService.addOrderHistory(orderInfo, OrderStatus.INIT);
 
     OrderDetail detail =
         OrderHelper.initOrderDetail(orderInfo.getId(), priceId, cusId, bizId, count, resource,
@@ -255,6 +265,8 @@ public class OrderInfoService {
       order.setRegion(address.getReceiver());
       order.setAddress(address.getAddress());
 
+      //记录流程记录
+      orderProcessHistoryService.addOrderHistory(order, OrderStatus.WAIT_PAY);
       baseDao.update(order);
     }
 
@@ -289,5 +301,9 @@ public class OrderInfoService {
     Validate.notNull(order, String.format("找不到order[orderId=%d]", orderId));
 
     return OrderHelper.toPayWay(order);
+  }
+
+  public OrderInfo findByIdAndCusId(int i, int j) {
+    return orderInfoDao.findByIdAndCusId(i, j);
   }
 }

@@ -20,7 +20,7 @@ public class BizGenerator {
     public static String generateBizNum() {
         String a = (String.valueOf(System.currentTimeMillis()));
         String d = (String.valueOf(Math.random())).substring(2, 10);
-        return a + d;
+        return "EWING-" + a + d;
     }
     
     public static String generateUUID(){    

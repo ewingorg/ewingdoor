@@ -20,6 +20,7 @@ import com.ewing.busi.resource.dao.WebResourceDao;
 import com.ewing.busi.resource.service.WebResourceService;
 import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
+import com.ewing.utils.BizGenerator;
 
 @Repository("orderRefundService")
 public class OrderRefundService {
@@ -36,6 +37,8 @@ public class OrderRefundService {
   private WebResourceDao webResoueceDao;
   @Resource
   private CustomerAddressService customerAddressService;
+  @Resource
+  private OrderProcessHistoryService orderProcessHistoryService;
   
   /***
    * 提交退货申请
@@ -51,6 +54,7 @@ public class OrderRefundService {
         
     OrderRefund refund = new OrderRefund();
     refund.setOrderId(detail.getOrderId());
+    refund.setBizId(BizGenerator.generateBizNum());
     refund.setOrderDetailId(req.getOrderDetailId());
     refund.setType(req.getRefundType());
     refund.setCustomerId(cusId);
@@ -67,6 +71,10 @@ public class OrderRefundService {
     
     detail.setStatus(OrderStatus.REFUND.getValue());
     baseDao.update(detail);
+    
+    //记录流程记录
+    orderProcessHistoryService.addRefundHistory(refund, RefundStatus.WAIT_CONFIRM);
+    
     return detail.getOrderId();
   }
 
@@ -86,6 +94,9 @@ public class OrderRefundService {
     refund.setCargoCom(req.getCargoCom());
     refund.setStatus(RefundStatus.WAIT_RECEIVED.getValue()); //更新退货流程为等待收货
     baseDao.update(refund);
+    
+    //记录流程记录
+    orderProcessHistoryService.addRefundHistory(refund, RefundStatus.WAIT_RECEIVED);
     
     return true;
   }
