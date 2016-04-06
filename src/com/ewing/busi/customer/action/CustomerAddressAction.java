@@ -42,7 +42,6 @@ public class CustomerAddressAction extends BaseAction{
             checkRequired(page, "page");
             checkRequired(pageSize, "pageSize");
             
-
             List<LightAddressInfoResp> list = customerAddressService.queryByCusId(getLoginCusId(), page, pageSize);
             outSucResult(list);
         } catch (Exception e) {
@@ -105,7 +104,7 @@ public class CustomerAddressAction extends BaseAction{
             Integer id = req.getId();
             checkRequired(id, "id");
 
-            customerAddressService.setDefaultAddress(id);
+            customerAddressService.setDefaultAddress(getLoginCusId(), id);
             outSucResult(StringUtil.EMPTY);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

@@ -121,15 +121,15 @@ public class CustomerAddressService {
      * @author Joeson
      * @throws DaoException
      */
-    public void setDefaultAddress(Integer id) throws DaoException {
+    public void setDefaultAddress(Integer cusId, Integer id) throws DaoException {
         Validate.notNull(id, "id不能为空");
 
         // 设置地址为默认
-        CustomerAddress address = baseModelService.findOne(id, CustomerAddress.class);
+        CustomerAddress address = customerAddressDao.findByIdAndCusId(id, cusId);
         Validate.notNull(address, String.format("找不到对应的地址信息[id=%d]", id));
 
         // 设置原来默认的地址为非默认
-        LightAddressInfoResp defAddress = findDefaultAddress(address.getCustomerId());
+        CustomerAddress defAddress = customerAddressDao.findDefaultAddress(address.getCustomerId());
         if (null != defAddress) {
             defAddress.setIsDefault(AddressDefault.UN_DEFAULT.getValue());
             baseModelService.update(defAddress);

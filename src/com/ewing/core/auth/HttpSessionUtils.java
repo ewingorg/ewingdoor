@@ -11,6 +11,7 @@ import com.ewing.core.redis.RedisException;
 import com.ewing.core.redis.RedisManage;
 import com.ewing.utils.BeanCopy;
 import com.ewing.utils.BizGenerator;
+import com.ewing.utils.JsonUtils;
 
 
 /**
@@ -66,7 +67,8 @@ public final class HttpSessionUtils {
    */
   public static Integer getCusId() {
     PreSessionUserDetails preSessionUserDetails = getPreSessionUserDetails();
-    return null != preSessionUserDetails ? 0 : preSessionUserDetails.getCusId();
+    logger.info(" presessionuserdetails : " + JsonUtils.toJson(preSessionUserDetails));
+    return null != preSessionUserDetails ? preSessionUserDetails.getCusId() : 0;
   }
   
   /**

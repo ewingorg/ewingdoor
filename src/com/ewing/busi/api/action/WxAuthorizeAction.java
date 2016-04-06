@@ -70,7 +70,6 @@ public class WxAuthorizeAction extends BaseAction {
       logger.info(JsonUtils.toJson(req));
 
       boolean result = wxAuthorizeService.getWebAuthCode(req);
-
       String redirectUrl = HttpSessionUtils.getRedirectUrl(true);
       RedisManage.getInstance().del(req.getState());
       

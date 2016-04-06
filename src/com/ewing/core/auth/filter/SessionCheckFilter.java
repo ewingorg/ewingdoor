@@ -52,11 +52,6 @@ public class SessionCheckFilter implements Filter {
   private static final String ignoreUriList = "ignoreUriList";
 
   /**
-   * 网页获取用户信息-第二步
-   */
-  private static final String GET_WEB_AUTH_CODE = "/apiwx/getAuthCode.action";
-
-  /**
    * 全部忽略
    */
   private static final String ignoreAll = "/**";
@@ -97,9 +92,9 @@ public class SessionCheckFilter implements Filter {
     String cookie = req.getParameter("cookie");
 
     logger.info("uri " + uri);
-    logger.info("cookie " + cookie);
 
-    // 已经登陆过，无需重新登陆
+
+    // 已经登陆过，无登陆，无需校验登陆状态
     if (HttpSessionUtils.isLogined() || !SystemPropertyUtils.needAuth() || ignoreCheck(requestPath)) {
       chain.doFilter(req, resp);
       return;
@@ -108,12 +103,11 @@ public class SessionCheckFilter implements Filter {
     try {
       // 如果当前客户正在进行微信验证，则对其他请求不做处理
       cookie = StringUtils.isEmpty(cookie) ? BizGenerator.generateUUID() : cookie;
-      if (HttpSessionUtils.isAuthorzing(CookieUtils.getCookieValue(cookie))) {
-        return;
-      }
+      logger.info("cookie " + cookie);
 
-      // 进行前端的一个重定向
-      if (!uri.contains("templateKey.action") || null != RedisManage.getInstance().get(cookie)) {// 不需要登录验证或者路径不需要检查或者正在登陆，直接跳过登陆拦截
+      // 如果正在登陆的情况、或者不是templatekey.action
+      if (!uri.contains("templateKey.action")
+          || HttpSessionUtils.isAuthorzing(CookieUtils.getCookieValue(cookie))) {
         return;
       }
 
@@ -132,14 +126,8 @@ public class SessionCheckFilter implements Filter {
             UserAPI.SCOPE_SNSAPI_BASE, cookie);
 
     // 进行前端的一个重定向 @TODO这里传过去的cookie需要加密以下
-    AjaxJsonpUtils.outJson(req, resp, JsonUtils.toJson(new ResponseData(true, /*
-                                                                               * new Cookie(365 * 24
-                                                                               * * 60, "/",
-                                                                               * HttpSessionUtils
-                                                                               * .USER_COOKIE,
-                                                                               * cookie)
-                                                                               */
-    Collections.EMPTY_LIST, url, ResponseType.REDIRECT)));
+    AjaxJsonpUtils.outJson(req, resp, JsonUtils.toJson(new ResponseData(true,
+        Collections.EMPTY_LIST, url, ResponseType.REDIRECT)));
     return;
   }
 
