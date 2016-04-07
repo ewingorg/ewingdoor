@@ -11,6 +11,7 @@ import com.ewing.busi.order.dao.OrderProcessHistoryDao;
 import com.ewing.busi.order.model.OrderInfo;
 import com.ewing.busi.order.model.OrderProcessHistory;
 import com.ewing.busi.order.model.OrderRefund;
+import com.ewing.common.constants.IsEff;
 import com.ewing.core.jdbc.BaseDao;
 
 @Repository("orderProcessHistoryService")
@@ -36,6 +37,7 @@ public class OrderProcessHistoryService {
     history.setUserId(orderInfo.getUserId());
     history.setStatus(status.getValue());
     history.setStatusString(status.getMsg());
+    history.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(history);
     
     return true;
@@ -54,6 +56,7 @@ public class OrderProcessHistoryService {
     history.setUserId(refund.getUserId());
     history.setStatus(status.getValue());
     history.setStatusString(status.getMsg());
+    history.setIseff(IsEff.EFFECTIVE.getValue());
     baseDao.save(history);
     
     return true;

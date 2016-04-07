@@ -91,7 +91,7 @@ public class OrderRefundService {
     Validate.notNull(refund, String.format("退货记录找不到[refundId=%d]", req.getRefundId()));
     
     refund.setCargoNumber(req.getCargoNum());
-    refund.setCargoCom(req.getCargoCom());
+    refund.setCargoName(req.getCargoCom());
     refund.setStatus(RefundStatus.WAIT_RECEIVED.getValue()); //更新退货流程为等待收货
     baseDao.update(refund);
     

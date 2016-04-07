@@ -36,6 +36,18 @@ public class SystemPropertyUtils {
     
     public static final String CROSS_DOMAIN = PropertyUtils.getProperty("cross.domain");
     
+    
+    /***************************短信服务接入******************/
+    public static final String SMS_SERVER_URL = PropertyUtils.getProperty("sms.server.url");
+    
+    public static final String SMS_SERVER_APPKEY = PropertyUtils.getProperty("sms.server.appkey");
+    
+    public static final String SMS_SERVER_SECRET = PropertyUtils.getProperty("sms.server.secret");
+
+    public static final String SMS_FREE_SIGN_NAME = PropertyUtils.getProperty("sms.free.sign.name");
+    
+    
+    
     public static void main(String[] args) {
 		System.out.println(PropertyUtils.getProperty("shop.cookie.domain"));
 	}

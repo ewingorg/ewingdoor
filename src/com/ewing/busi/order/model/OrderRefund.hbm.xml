@@ -44,8 +44,8 @@
             <column name="reason" not-null="true">
             </column>
         </property>
-        <property name="cargoCom" type="string">
-            <column name="cargo_com">
+        <property name="cargoName" type="string">
+            <column name="cargo_name">
             </column>
         </property>
         <property name="cargoNumber" type="string">

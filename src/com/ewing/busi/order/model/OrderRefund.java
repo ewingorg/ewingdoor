@@ -19,7 +19,7 @@ public class OrderRefund implements java.io.Serializable {
     private Integer resourceId;
     private Integer reasonType;
     private String reason;
-    private String cargoCom;
+    private String cargoName;
     private String cargoNumber;
     private float refundMoney;
     private String provePicUrl;
@@ -52,7 +52,7 @@ public class OrderRefund implements java.io.Serializable {
     }
 
     public OrderRefund(Integer orderId, String bizId, Integer orderDetailId, String type, Integer customerId, Integer userId,
-            Integer resourceId, Integer reasonType, String reason, String cargoCom, String cargoNumber, float refundMoney,
+            Integer resourceId, Integer reasonType, String reason, String cargoName, String cargoNumber, float refundMoney,
             String provePicUrl, String status, String iseff, Date createTime, Date lastUpdate) {
         this.orderId = orderId;
         this.bizId = bizId;
@@ -63,7 +63,7 @@ public class OrderRefund implements java.io.Serializable {
         this.resourceId = resourceId;
         this.reasonType = reasonType;
         this.reason = reason;
-        this.cargoCom = cargoCom;
+        this.cargoName = cargoName;
         this.cargoNumber = cargoNumber;
         this.refundMoney = refundMoney;
         this.provePicUrl = provePicUrl;
@@ -161,12 +161,12 @@ public class OrderRefund implements java.io.Serializable {
         this.reason = reason;
     }
     
-    public String getCargoCom() {
-      return cargoCom;
+    public String getCargoName() {
+      return cargoName;
     }
 
-    public void setCargoCom(String cargoCom) {
-      this.cargoCom = cargoCom;
+    public void setCargoName(String cargoName) {
+      this.cargoName = cargoName;
     }
 
     public String getCargoNumber() {

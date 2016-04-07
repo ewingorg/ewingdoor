@@ -247,7 +247,7 @@ public class OrderInfoService {
     for (OrderDetail detail : detailList) {
       orderInfoIdList.add(detail.getOrderId());
     }
-    List<OrderInfo> orderList = baseDao.findMuti(detailIdList, OrderInfo.class);
+    List<OrderInfo> orderList = baseDao.findMuti(orderInfoIdList, OrderInfo.class);
 
     // 更新操作
     for (OrderDetail detail : detailList) {

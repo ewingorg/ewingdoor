@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016-2-2 17:07:58 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.ewing.busi.order.model.OrderProcessHistory" table="order_process_history" catalog="ewing">
+    <class name="com.ewing.busi.pay.model.PayHistory" table="pay_history" catalog="ewing">
         <id name="id" type="java.lang.Integer">
             <column name="id" />
             <generator class="identity" />
@@ -12,12 +12,16 @@
             <column name="biz_id">
             </column>
         </property>
-        <property name="busiType" type="string">
+        <property name="busiType" type="int">
             <column name="busi_type">
             </column>
         </property>
         <property name="busiId" type="int">
             <column name="busi_id">
+            </column>
+        </property>
+        <property name="payWay" type="string">
+            <column name="pay_way">
             </column>
         </property>
         <property name="customerId" type="int">
@@ -32,16 +36,8 @@
             <column name="status">
             </column>
         </property>
-        <property name="statusString" type="string">
-            <column name="status_string">
-            </column>
-        </property>
         <property name="comment" type="string">
             <column name="comment">
-            </column>
-        </property>
-        <property name="iseff" type="string">
-            <column name="iseff">
             </column>
         </property>
         <property name="createTime" type="timestamp">

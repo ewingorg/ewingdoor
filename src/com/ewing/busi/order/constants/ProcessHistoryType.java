@@ -10,19 +10,19 @@ import org.apache.commons.lang.StringUtils;
  */
 public enum ProcessHistoryType {
 
-    ORDER(1, "订单"),
+    ORDER("1", "订单"),
 
-    REFUND(2, "退款");
+    REFUND("2", "退款");
 
-    private Integer value;
+    private String value;
     private String msg;
 
-    ProcessHistoryType(Integer value, String msg) {
+    ProcessHistoryType(String value, String msg) {
         this.value = value;
         this.msg = msg;
     }
 
-    public Integer getValue() {
+    public String getValue() {
         return value;
     }
 
@@ -30,8 +30,8 @@ public enum ProcessHistoryType {
         return msg;
     }
 
-    public static String getMsg(Integer value) {
-        if (null == value) {
+    public static String getMsg(String value) {
+        if (StringUtils.isEmpty(value)) {
             return StringUtils.EMPTY;
         }
 
